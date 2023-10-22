@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "citg_jb_stack"
+version = "0.0.1"
+description = "TU Delft CiTG Jupyter Book Software Stack"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  {name = "Caspar Jungbacker", email = "c.a.a.jungbacker@tudelft.nl"}
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+]
+dependencies = [
+  "pydata-sphinx-theme ~= 0.13.1",
+  "jupyter-book ~= 0.15",
+  "numpy",
+  "matplotlib",
+]
+
+[project.urls]
+"Homepage" = "https://gitlab.tudelft.nl/interactivetextbooks-citg/extensions/tud-citg-jb-stack"
