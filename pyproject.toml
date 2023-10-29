@@ -35,3 +35,6 @@ apa = "src.plugins.pybtex.labels.apa:APALabelStyle"
 
 [project.entry-points."pybtex.style.names"]
 firstlast = "src.plugins.pybtex.names:FirstLastStyle"
+
+[project.entry-points."sphinxcontrib.bibtex.style.referencing"]
+author_year_round = "src.plugins.sphinxcontrib_bibtex.style.referencing.author_year_apa:AuthorYearRoundReferenceStyle"
