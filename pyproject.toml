@@ -23,6 +23,9 @@ dependencies = [
   "pandas"
 ]
 
+[project.scripts]
+psor-books = "psor_books.cli.main:build"
+
 [tool.setuptools.packages]
 find = {}
 
