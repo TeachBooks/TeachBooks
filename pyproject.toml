@@ -3,7 +3,7 @@ requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "citg_jb_stack"
+name = "psor_books"
 version = "0.0.2"
 description = "TU Delft CiTG Jupyter Book Software Stack"
 readme = "README.md"
@@ -30,13 +30,13 @@ find = {}
 "Homepage" = "https://gitlab.tudelft.nl/interactivetextbooks-citg/extensions/tud-citg-jb-soack"
 
 [project.entry-points."pybtex.style.formatting"]
-apa = "src.plugins.pybtex.formatting.apa:APAStyle"
+apa = "psor_books.plugins.pybtex.formatting.apa:APAStyle"
 
 [project.entry-points."pybtex.style.labels"]
-apa = "src.plugins.pybtex.labels.apa:APALabelStyle"
+apa = "psor_books.plugins.pybtex.labels.apa:APALabelStyle"
 
 [project.entry-points."pybtex.style.names"]
-firstlast = "src.plugins.pybtex.names:FirstLastStyle"
+firstlast = "psor_books.plugins.pybtex.names:FirstLastStyle"
 
 [project.entry-points."sphinxcontrib.bibtex.style.referencing"]
-author_year_round = "src.plugins.sphinxcontrib_bibtex.style.referencing.author_year_apa:AuthorYearRoundReferenceStyle"
+author_year_round = "psor_books.plugins.sphinxcontrib_bibtex.style.referencing.author_year_apa:AuthorYearRoundReferenceStyle"
