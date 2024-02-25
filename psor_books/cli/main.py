@@ -5,8 +5,12 @@ from jupyter_book.cli.main import build as jupyter_book_build
 
 from psor_books.publish import make_publish
 
+@click.group()
+def main():
+    """PSOR-Books command line tools"""
+    pass
 
-@click.command()
+@main.command()
 @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
 @click.option(
     "--publish",

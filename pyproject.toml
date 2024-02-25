@@ -24,7 +24,7 @@ dependencies = [
 ]
 
 [project.scripts]
-psor-books = "psor_books.cli.main:build"
+psor-books = "psor_books.cli.main:main"
 
 [tool.setuptools.packages]
 find = {}
