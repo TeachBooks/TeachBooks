@@ -15,8 +15,7 @@ classifiers = [
   "Programming Language :: Python :: 3",
 ]
 dependencies = [
-  "pydata-sphinx-theme ~= 0.13.1",
-  "jupyter-book ~= 0.15",
+  "jupyter-book ~= 1.0",
   "numpy",
   "matplotlib",
   "scipy",
