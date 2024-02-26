@@ -26,14 +26,15 @@ def main():
 @click.pass_context
 def build(ctx, path_source, publish, process_only):
     """Pre-process book contents and run the Jupyter Book build command"""
+
+    strategy = "publish" if publish else "draft"
+    echo_info(f"running build with strategy '{strategy}'")
+
     path_src_folder = Path(path_source).absolute()
     if publish:
-        click.echo("Building publish book...")
         path_conf, path_toc = make_publish(path_src_folder)
     else:
-        click.echo("Building draft book...")
-        path_conf = None
-        path_toc = None
+        path_conf, path_toc = None, None
 
     # Use default arguments for jb build, as we normally do
     if not process_only:
@@ -43,3 +44,10 @@ def build(ctx, path_source, publish, process_only):
             config=path_conf,
             toc=path_toc
         )
+
+
+def echo_info(message: str) -> None:
+    """Wrapper for writing to stdout"""
+    prefix = click.style("PSOR-Books: ", fg="cyan", bold=True)
+    click.echo(prefix + message)
+    
