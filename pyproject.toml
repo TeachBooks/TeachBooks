@@ -3,8 +3,8 @@ requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "psor_books"
-version = "0.0.3"
+name = "teachbooks"
+version = "0.0.4"
 description = "TU Delft CiTG Jupyter Book Software Stack"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -23,22 +23,22 @@ dependencies = [
 ]
 
 [project.scripts]
-psor-books = "psor_books.cli.main:main"
+teachbooks = "teachbooks.cli.main:main"
 
 [tool.setuptools.packages]
 find = {}
 
 [project.urls]
-"Homepage" = "https://gitlab.tudelft.nl/interactivetextbooks-citg/extensions/tud-citg-jb-soack"
+"Homepage" = "https://gitlab.tudelft.nl/interactivetextbooks-citg/extensions/teachbooks-package"
 
 [project.entry-points."pybtex.style.formatting"]
-apa = "psor_books.plugins.pybtex.formatting.apa:APAStyle"
+apa = "teachbooks.plugins.pybtex.formatting.apa:APAStyle"
 
 [project.entry-points."pybtex.style.labels"]
-apa = "psor_books.plugins.pybtex.labels.apa:APALabelStyle"
+apa = "teachbooks.plugins.pybtex.labels.apa:APALabelStyle"
 
 [project.entry-points."pybtex.style.names"]
-firstlast = "psor_books.plugins.pybtex.names:FirstLastStyle"
+firstlast = "teachbooks.plugins.pybtex.names:FirstLastStyle"
 
 [project.entry-points."sphinxcontrib.bibtex.style.referencing"]
-author_year_round = "psor_books.plugins.sphinxcontrib_bibtex.style.referencing.author_year_apa:AuthorYearRoundReferenceStyle"
+author_year_round = "teachbooks.plugins.sphinxcontrib_bibtex.style.referencing.author_year_apa:AuthorYearRoundReferenceStyle"

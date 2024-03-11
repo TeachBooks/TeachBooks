@@ -3,11 +3,11 @@ import click
 from pathlib import Path
 from jupyter_book.cli.main import build as jupyter_book_build
 
-from psor_books.publish import make_publish
+from teachbooks.publish import make_publish
 
 @click.group()
 def main():
-    """PSOR-Books command line tools"""
+    """TeachBooks command line tools"""
     pass
 
 @main.command()
@@ -48,6 +48,6 @@ def build(ctx, path_source, publish, process_only):
 
 def echo_info(message: str) -> None:
     """Wrapper for writing to stdout"""
-    prefix = click.style("PSOR-Books: ", fg="cyan", bold=True)
+    prefix = click.style("TeachBooks: ", fg="cyan", bold=True)
     click.echo(prefix + message)
     
