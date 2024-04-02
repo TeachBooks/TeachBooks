@@ -1,5 +1,5 @@
-# TU Delft CiTG Jupyter Book stack
+# TeachBooks Package
 
-The CiTG Jupyter Book stack is a package to manage consistent build environments for all Jupyter Books in the Interactive Textbooks CiTG group. It does not contain any software (yet!), but it depends on some specific versions of the Jupyter Book software stack. 
+The TeachBooks package contains tools to make life easier when working with (interactive) Jupyter Books. It is essentially a wrapper around Jupyter Book.
 
 Work in progress...
