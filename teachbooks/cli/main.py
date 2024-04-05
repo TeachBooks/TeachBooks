@@ -1,9 +1,6 @@
 import click
 
 from pathlib import Path
-from jupyter_book.cli.main import build as jupyter_book_build
-
-from teachbooks.publish import make_publish
 
 @click.group()
 def main():
@@ -26,6 +23,9 @@ def main():
 @click.pass_context
 def build(ctx, path_source, publish, process_only):
     """Pre-process book contents and run the Jupyter Book build command"""
+
+    from teachbooks.publish import make_publish
+    from jupyter_book.cli.main import build as jupyter_book_build
 
     strategy = "publish" if publish else "draft"
     echo_info(f"running build with strategy '{strategy}'")
