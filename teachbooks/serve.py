@@ -1,4 +1,5 @@
 import pickle
+import sys
 
 import psutil
 
@@ -14,7 +15,8 @@ class Server:
     __pid: int = None
 
     def start(self) -> None:
-        proc = psutil.Popen(["python", "-u", "-m", "http.server"],
+        proc = psutil.Popen([sys.executable, "-u", "-m", "http.server"],
+                            cwd=self.dir,
                             stdout=DEVNULL) # Does this work on Windows?
 
         self.__pid = proc.pid
