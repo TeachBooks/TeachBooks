@@ -45,6 +45,29 @@ def build(ctx, path_source, publish, process_only):
             toc=path_toc
         )
 
+@main.group(invoke_without_command=True)
+@click.pass_context
+def serve(ctx):
+    """Start a web server to interact with the book locally"""
+    from teachbooks.serve import Server
+    
+    if ctx.invoked_subcommand is None:
+        # Hardcoded for now
+        dir = Path("./book/_build/html/")
+        workdir = Path("./book/.teachbooks/serve")
+        server = Server(dir=dir, workdir=workdir)
+
+        server.start()
+
+
+@serve.command()
+def stop():
+    """Stop the webserver"""
+    from teachbooks.serve import Server
+    server = Server.load()
+    server.stop()
+
+
 
 def echo_info(message: str) -> None:
     """Wrapper for writing to stdout"""
