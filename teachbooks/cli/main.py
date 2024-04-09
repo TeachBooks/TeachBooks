@@ -64,7 +64,7 @@ def serve(ctx):
 def stop():
     """Stop the webserver"""
     from teachbooks.serve import Server
-    server = Server.load()
+    server = Server.load(Path("./book/.teachbooks/serve"))
     server.stop()
 
 
