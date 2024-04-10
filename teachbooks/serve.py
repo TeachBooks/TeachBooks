@@ -60,7 +60,7 @@ class Server:
 
     @property
     def url(self) -> str:
-        return f"localhost:{self.port}" 
+        return f"http://localhost:{self.port}" 
 
 
     @staticmethod
