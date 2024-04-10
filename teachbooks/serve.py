@@ -21,8 +21,9 @@ class Server:
     __pid: int | None = None
 
     def __post_init__(self):
-        if not os.path.exists(self.workdir):
-            os.makedirs(self.workdir)
+
+        if not os.path.exists(self.workdir / "server"):
+            os.makedirs(self.workdir / "server")
 
     def start(self) -> None:
         proc = psutil.Popen([sys.executable, "-u", "-m", "http.server"],
@@ -45,12 +46,12 @@ class Server:
 
 
     def _save(self) -> None:
-        with open(self.workdir / "state.pickle", "wb") as f:
+        with open(self.workdir / "server" / "state.pickle", "wb") as f:
             pickle.dump(self, f)
 
 
     @staticmethod
     def load(workdir) -> Server_t:
-        with open(workdir / "state.pickle", "rb") as f:
+        with open(workdir / "server" / "state.pickle", "rb") as f:
             server = pickle.load(f)
         return server

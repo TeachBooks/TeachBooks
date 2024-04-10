@@ -54,7 +54,7 @@ def serve(ctx):
     if ctx.invoked_subcommand is None:
         # Hardcoded for now
         dir = Path("./book/_build/html/")
-        workdir = Path("./book/.teachbooks/serve")
+        workdir = Path("./book/.teachbooks")
         server = Server(dir=dir, workdir=workdir)
 
         server.start()
@@ -64,7 +64,7 @@ def serve(ctx):
 def stop():
     """Stop the webserver"""
     from teachbooks.serve import Server
-    server = Server.load(Path("./book/.teachbooks/serve"))
+    server = Server.load(Path("./book/.teachbooks"))
     server.stop()
 
 
