@@ -1,3 +1,4 @@
+# Keep top-level imports to a minimum to improve responsiveness
 import click
 
 from pathlib import Path
@@ -58,6 +59,7 @@ def serve(ctx):
         server = Server(dir=dir, workdir=workdir)
 
         server.start()
+        echo_info(f"server running on {server.url}")
 
 
 @serve.command()
@@ -68,9 +70,7 @@ def stop():
     server.stop()
 
 
-
 def echo_info(message: str) -> None:
     """Wrapper for writing to stdout"""
     prefix = click.style("TeachBooks: ", fg="cyan", bold=True)
     click.echo(prefix + message)
-    

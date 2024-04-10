@@ -1,6 +1,7 @@
 import pickle
 import sys
 import os
+import socket
 
 import psutil
 
@@ -16,17 +17,23 @@ Server_t = TypeVar("Server_t", bound="Server")
 
 @dataclass
 class Server:
-    dir: Path
-    workdir: Path
-    __pid: int | None = None
+    dir: Path | str
+    workdir: Path | str
+    port: int | None = None
+    _pid: int | None = None
 
     def __post_init__(self):
+        self.dir = Path(self.dir)
+        self.workdir = Path(self.workdir)
+
+        if self.port is None:
+            self.port = self._find_port()
 
         if not os.path.exists(self.workdir / "server"):
             os.makedirs(self.workdir / "server")
 
     def start(self) -> None:
-        proc = psutil.Popen([sys.executable, "-u", "-m", "http.server"],
+        proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", str(self.port)],
                             cwd=self.dir,
                             stderr=DEVNULL,
                             stdout=DEVNULL) # Does this work on Windows?
@@ -38,17 +45,31 @@ class Server:
             proc.terminate()
             raise RuntimeError("Error launching the server. Perhaps a server is already running?")
         else:
-            self.__pid = proc.pid
+            self._pid = proc.pid
             self._save()
 
 
-    def stop(self) -> None: psutil.Process(pid=self.__pid).terminate()        
+    def stop(self) -> None: 
+        psutil.Process(pid=self._pid).terminate()        
 
 
     def _save(self) -> None:
         with open(self.workdir / "server" / "state.pickle", "wb") as f:
             pickle.dump(self, f)
 
+
+    @property
+    def url(self) -> str:
+        return f"localhost:{self.port}" 
+
+
+    @staticmethod
+    def _find_port() -> int:
+        # https://stackoverflow.com/a/1365284
+        sock = socket.socket()
+        sock.bind(('', 0))
+        return sock.getsockname()[1]
+        
 
     @staticmethod
     def load(workdir) -> Server_t:
