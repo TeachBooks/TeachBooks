@@ -26,12 +26,14 @@ class Server:
     port: int | None = None
     _pid: int | None = None
 
+
     def __post_init__(self):
         self.dir = Path(self.dir)
         self.workdir = Path(self.workdir)
 
         if not os.path.exists(self.workdir / "server"):
             os.makedirs(self.workdir / "server")
+
 
     def start(self) -> None:
         # Check for an existing server and stop it
@@ -46,21 +48,21 @@ class Server:
         proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", str(self.port)],
                             cwd=self.dir,
                             stderr=DEVNULL,
-                            stdout=DEVNULL) # Does this work on Windows?
+                            stdout=DEVNULL)
 
         sleep(0.1)
 
         # Check if the subprocess is still running
         if proc.status() != "running":
             proc.terminate()
-            raise RuntimeError("Error launching the server. Perhaps a server is already running?")
+            raise RuntimeError("Error launching the server. Perhaps a server is already running on the selected port?")
         else:
             self._pid = proc.pid
             self._save()
 
 
     def stop(self) -> None: 
-        psutil.Process(pid=self._pid).terminate()        
+        psutil.Process(pid=self._pid).terminate() 
 
 
     def _save(self) -> None:
@@ -70,7 +72,7 @@ class Server:
 
     @property
     def url(self) -> str:
-        return f"http://localhost:{self.port}" 
+        return f"http://localhost:{self.port}"
 
 
     @staticmethod
@@ -79,7 +81,7 @@ class Server:
         sock = socket.socket()
         sock.bind(('', 0))
         return sock.getsockname()[1]
-        
+
 
     @staticmethod
     def load(workdir) -> Server_t:
