@@ -15,6 +15,10 @@ from typing import TypeVar, Type
 Server_t = TypeVar("Server_t", bound="Server")
 
 
+class ServerError(Exception):
+    pass
+
+
 @dataclass
 class Server:
     dir: Path | str
@@ -73,6 +77,9 @@ class Server:
 
     @staticmethod
     def load(workdir) -> Server_t:
-        with open(workdir / "server" / "state.pickle", "rb") as f:
-            server = pickle.load(f)
+        try:
+            with open(workdir / "server" / "state.pickle", "rb") as f:
+                server = pickle.load(f)
+        except FileNotFoundError as exc:
+            raise ServerError("Server information not found.") from exc
         return server
