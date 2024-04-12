@@ -34,6 +34,12 @@ class Server:
             os.makedirs(self.workdir / "server")
 
     def start(self) -> None:
+        # Check for an existing server and stop it
+        try:
+            self.load(self.workdir).stop()
+        except (ServerError, psutil.NoSuchProcess):
+            pass
+
         if self.port is None:
             self.port = self._find_port()
         
