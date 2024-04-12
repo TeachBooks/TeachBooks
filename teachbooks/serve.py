@@ -26,13 +26,13 @@ class Server:
         self.dir = Path(self.dir)
         self.workdir = Path(self.workdir)
 
-        if self.port is None:
-            self.port = self._find_port()
-
         if not os.path.exists(self.workdir / "server"):
             os.makedirs(self.workdir / "server")
 
     def start(self) -> None:
+        if self.port is None:
+            self.port = self._find_port()
+        
         proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", str(self.port)],
                             cwd=self.dir,
                             stderr=DEVNULL,
