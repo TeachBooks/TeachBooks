@@ -36,4 +36,4 @@ jobs:
           python -m pip install .[testing]
       - name: Run pytest
         run: |
-          python -m pytest -v -durations=0
+          python -m pytest -v
