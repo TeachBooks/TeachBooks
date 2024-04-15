@@ -16,6 +16,8 @@ classifiers = [
 ]
 dependencies = [
   "jupyter-book ~= 1.0",
+  "click",
+  "psutil",
   "numpy",
   "matplotlib",
   "scipy",
@@ -24,6 +26,11 @@ dependencies = [
 
 [project.scripts]
 teachbooks = "teachbooks.cli.main:main"
+
+[project.optional-dependencies]
+testing = [
+  "pytest"
+]
 
 [tool.setuptools.packages]
 find = {}
