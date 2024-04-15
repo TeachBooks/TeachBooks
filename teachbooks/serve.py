@@ -2,6 +2,7 @@ import pickle
 import sys
 import os
 import socket
+import platform
 
 import psutil
 
@@ -11,6 +12,12 @@ from dataclasses import dataclass
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from time import sleep
 from typing import TypeVar, Type
+
+STATUS = {
+    "Linux": "sleeping",
+    "Darwin": "running",
+    "Windows": "running"
+}
 
 Server_t = TypeVar("Server_t", bound="Server")
 
@@ -46,7 +53,7 @@ class Server:
         sleep(0.1)
 
         # Check if the subprocess is still running
-        if proc.status() != "running":
+        if proc.status() != STATUS[platform.system()]:
             proc.terminate()
             raise RuntimeError("Error launching the server. Perhaps a server is already running on the selected port?")
         else:
