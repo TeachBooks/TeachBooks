@@ -61,8 +61,16 @@ class Server:
             self._save()
 
 
-    def stop(self) -> None: 
-        psutil.Process(pid=self._pid).terminate() 
+    def stop(self) -> None:
+        try:
+            psutil.Process(pid=self._pid).terminate()
+        except psutil.NoSuchProcess:
+            pass
+
+        if os.path.exists(self.workdir / "server" / "state.pickle"):
+            os.remove(self.workdir / "server" / "state.pickle")
+
+        self._pid = None
 
 
     def _save(self) -> None:
