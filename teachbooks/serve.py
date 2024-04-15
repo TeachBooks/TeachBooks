@@ -41,7 +41,6 @@ class Server:
         
         proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", '0'],
                             cwd=self.dir,
-                            stderr=DEVNULL,
                             stdout=DEVNULL)
 
         sleep(0.1)
