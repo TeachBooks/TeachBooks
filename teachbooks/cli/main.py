@@ -56,7 +56,7 @@ def serve(ctx):
         # Hardcoded for now
         dir = Path("./book/_build/html/")
         workdir = Path("./book/.teachbooks")
-        server = Server(dir=dir, workdir=workdir)
+        server = Server(servedir=dir, workdir=workdir)
 
         server.start()
         echo_info(f"server running on {server.url}")

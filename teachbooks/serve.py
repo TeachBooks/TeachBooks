@@ -3,15 +3,12 @@ import sys
 import os
 import socket
 import platform
-
-import psutil
-
 from subprocess import DEVNULL
 from pathlib import Path
-from dataclasses import dataclass
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from typing import TypeVar
 from time import sleep
-from typing import TypeVar, Type
+
+import psutil
 
 STATUS = {
     "Linux": "sleeping",
@@ -26,20 +23,19 @@ class ServerError(Exception):
     pass
 
 
-@dataclass
 class Server:
-    dir: Path | str
-    workdir: Path | str
-    port: int | None = None
-    _pid: int | None = None
+    statefile = "state.pickle"
 
+    def __init__(self, servedir: Path | str, workdir: Path | str, port: int | None = None) -> None:
+        self.servedir = Path(servedir)
+        self.workdir = Path(workdir)
+        self.port = port
 
-    def __post_init__(self):
-        self.dir = Path(self.dir)
-        self.workdir = Path(self.workdir)
+        self._pid = None
+        self._statepath = self.workdir / self.statefile
 
-        if not os.path.exists(self.workdir / "server"):
-            os.makedirs(self.workdir / "server")
+        if not os.path.exists(self.workdir):
+            os.makedirs(self.workdir)
 
 
     def start(self) -> None:
@@ -47,7 +43,8 @@ class Server:
             self.port = self._find_port()
         
         proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", str(self.port)],
-                            cwd=self.dir,
+                            cwd=self.servedir,
+                            stderr=DEVNULL,
                             stdout=DEVNULL)
 
         sleep(0.1)
@@ -67,14 +64,14 @@ class Server:
         except psutil.NoSuchProcess:
             pass
 
-        if os.path.exists(self.workdir / "server" / "state.pickle"):
-            os.remove(self.workdir / "server" / "state.pickle")
+        if os.path.exists(self._statepath):
+            os.remove(self._statepath)
 
         self._pid = None
 
 
     def _save(self) -> None:
-        with open(self.workdir / "server" / "state.pickle", "wb") as f:
+        with open(self._statepath, "wb") as f:
             pickle.dump(self, f)
 
 
@@ -91,10 +88,10 @@ class Server:
         return sock.getsockname()[1]
 
 
-    @staticmethod
-    def load(workdir) -> Server_t:
+    @classmethod
+    def load(cls, workdir) -> Server_t:
         try:
-            with open(workdir / "server" / "state.pickle", "rb") as f:
+            with open(workdir / cls.statefile, "rb") as f:
                 server = pickle.load(f)
         except FileNotFoundError as exc:
             raise ServerError("Server information not found.") from exc
