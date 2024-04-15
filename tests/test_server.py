@@ -11,7 +11,7 @@ WORK_DIR = Path("./.teachbooks")
 
 @pytest.fixture
 def server():
-    server = Server(dir=SERVE_DIR, workdir=WORK_DIR, port=8000)
+    server = Server(dir=SERVE_DIR, workdir=WORK_DIR)
     return server
 
 @pytest.fixture
@@ -36,7 +36,7 @@ def test_start(running_server):
     server = running_server
     assert server.port is not None
     assert server._pid is not None
-    assert server.url == "http://localhost:8000"
+    assert server.url == f"http://localhost:{server.port}"
 
     
 def test_save_and_load(running_server):
