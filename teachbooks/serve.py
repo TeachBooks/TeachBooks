@@ -44,7 +44,7 @@ class Server:
                             stdout=DEVNULL)
 
         sleep(0.1)
-        print(proc.status())
+
         # Check if the subprocess is still running
         if proc.status() != "running":
             proc.terminate()
