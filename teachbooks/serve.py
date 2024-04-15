@@ -39,7 +39,7 @@ class Server:
         if self.port is None:
             self.port = self._find_port()
         
-        proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", '0'],
+        proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", str(self.port)],
                             cwd=self.dir,
                             stdout=DEVNULL)
 
