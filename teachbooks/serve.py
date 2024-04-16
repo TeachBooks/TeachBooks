@@ -20,13 +20,27 @@ Server_t = TypeVar("Server_t", bound="Server")
 
 
 class ServerError(Exception):
+    """Server exception class"""
     pass
 
 
 class Server:
+    """Class for managing a Python webserver in the background."""
     statefile = "state.pickle"
 
     def __init__(self, servedir: Path | str, workdir: Path | str, port: int | None = None) -> None:
+        """Construct Server object
+
+        Parameters
+        ----------
+        servedir : Path | str
+            Directory to serve.
+        workdir : Path | str
+            Directory for temporary files.
+        port : int | None, optional
+            Port for server, by default None. If left empty, a free port will be
+            chosen automatically.
+        """
         self.servedir = Path(servedir)
         self.workdir = Path(workdir)
         self.port = port
@@ -39,6 +53,13 @@ class Server:
 
 
     def start(self) -> None:
+        """Start server.
+
+        Raises
+        ------
+        RuntimeError
+            If server could not be started
+        """
         if self.port is None:
             self.port = self._find_port()
         
@@ -59,6 +80,8 @@ class Server:
 
 
     def stop(self) -> None:
+        """Stop server and clean up.
+        """
         try:
             psutil.Process(pid=self._pid).terminate()
         except psutil.NoSuchProcess:
@@ -71,17 +94,33 @@ class Server:
 
 
     def _save(self) -> None:
+        """Save current Server object as a pickle file.
+        """
         with open(self._statepath, "wb") as f:
             pickle.dump(self, f)
 
 
     @property
     def url(self) -> str:
+        """Get URL of running server.
+
+        Returns
+        -------
+        str
+            URL of the server.
+        """
         return f"http://localhost:{self.port}"
 
 
     @staticmethod
     def _find_port() -> int:
+        """Find open port.
+
+        Returns
+        -------
+        int
+            Port number.
+        """
         # https://stackoverflow.com/a/1365284
         sock = socket.socket()
         sock.bind(('', 0))
@@ -89,7 +128,24 @@ class Server:
 
 
     @classmethod
-    def load(cls, workdir) -> Server_t:
+    def load(cls, workdir: Path | str) -> Server_t:
+        """Construct a Server object from an existing pickle file.
+
+        Parameters
+        ----------
+        workdir : Path | str
+            Directory containing the pickle file.
+
+        Returns
+        -------
+        Server
+            Server object reconstructed from pickle file.
+
+        Raises
+        ------
+        ServerError
+            If pickle file cannot be found.
+        """
         try:
             with open(workdir / cls.statefile, "rb") as f:
                 server = pickle.load(f)
