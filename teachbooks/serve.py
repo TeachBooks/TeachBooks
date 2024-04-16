@@ -78,7 +78,7 @@ class Server:
 
             self._pid = proc.pid
 
-            sleep(0.1)
+            sleep(0.2)
 
             # Check if the subprocess is still running
             if not self.is_running:
@@ -123,7 +123,7 @@ class Server:
         except psutil.NoSuchProcess:
             return False
         isalive = proc.status() == STATUS[platform.system()]
-        isserver = proc.cmdline() == [sys.executable, "-u", "-m", "http.server", str(self.port)]
+        isserver = proc.cmdline()[1:] == ["-u", "-m", "http.server", str(self.port)]
         return isalive and isserver
 
 
