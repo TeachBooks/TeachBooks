@@ -41,15 +41,20 @@ class Server:
             Port for server, by default None. If left empty, a free port will be
             chosen automatically.
         """
-        self.servedir = Path(servedir)
-        self.workdir = Path(workdir)
-        self.port = port
+        # Check if workdir already contains a statefile.
+        try:
+            old_instance = self.load(workdir)
+            self.__dict__ = old_instance.__dict__
+        except ServerError:
+            self.servedir = Path(servedir)
+            self.workdir = Path(workdir)
+            self.port = port
 
-        self._pid = None
-        self._statepath = self.workdir / self.statefile
+            self._pid = None
+            self._statepath = self.workdir / self.statefile
 
-        if not os.path.exists(self.workdir):
-            os.makedirs(self.workdir)
+            if not os.path.exists(self.workdir):
+                os.makedirs(self.workdir)
 
 
     def start(self) -> None:
@@ -63,20 +68,24 @@ class Server:
         if self.port is None:
             self.port = self._find_port()
         
-        proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", str(self.port)],
-                            cwd=self.servedir,
-                            stderr=DEVNULL,
-                            stdout=DEVNULL)
-
-        sleep(0.1)
-
-        # Check if the subprocess is still running
-        if proc.status() != STATUS[platform.system()]:
-            proc.terminate()
-            raise RuntimeError("Error launching the server. Perhaps a server is already running on the selected port?")
+        if self.is_running:
+            return
         else:
+            proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", str(self.port)],
+                                cwd=self.servedir,
+                                stderr=DEVNULL,
+                                stdout=DEVNULL)
+
             self._pid = proc.pid
-            self._save()
+
+            sleep(0.1)
+
+            # Check if the subprocess is still running
+            if not self.is_running:
+                proc.terminate()
+                raise RuntimeError("Error launching the server. Perhaps a server is already running on the selected port?")
+            else:
+                self._save()
 
 
     def stop(self) -> None:
@@ -98,6 +107,24 @@ class Server:
         """
         with open(self._statepath, "wb") as f:
             pickle.dump(self, f)
+
+    @property
+    def is_running(self) -> bool:
+        """Check if the current process ID is a running webserver.
+
+        Returns
+        -------
+        bool
+            True if the current process ID is running and is a webserver.
+        """
+        # Make sure the process exists
+        try:
+            proc = psutil.Process(pid=self._pid)
+        except psutil.NoSuchProcess:
+            return False
+        isalive = proc.status() == STATUS[platform.system()]
+        isserver = proc.cmdline() == [sys.executable, "-u", "-m", "http.server", str(self.port)]
+        return isalive and isserver
 
 
     @property

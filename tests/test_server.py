@@ -60,3 +60,11 @@ def test_stop(server):
     
     assert not os.path.exists(WORK_DIR / "state.pickle")
     assert server._pid == None
+
+@flaky(max_runs=10)
+def test_multiple_start(running_server):
+    pid, port = running_server._pid, running_server.port
+    running_server.start()
+    assert running_server._pid == pid
+    assert running_server.port == port
+    
