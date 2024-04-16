@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "teachbooks"
-version = "0.0.1"
+version = "0.0.2"
 description = "TU Delft CiTG Jupyter Book Software Stack"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -16,6 +16,8 @@ classifiers = [
 ]
 dependencies = [
   "jupyter-book ~= 1.0",
+  "click",
+  "psutil",
   "numpy",
   "matplotlib",
   "scipy",
@@ -24,6 +26,12 @@ dependencies = [
 
 [project.scripts]
 teachbooks = "teachbooks.cli.main:main"
+
+[project.optional-dependencies]
+testing = [
+  "pytest",
+  "flaky"
+]
 
 [tool.setuptools.packages]
 find = {}
