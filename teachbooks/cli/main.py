@@ -1,9 +1,7 @@
+# Keep top-level imports to a minimum to improve responsiveness
 import click
 
 from pathlib import Path
-from jupyter_book.cli.main import build as jupyter_book_build
-
-from teachbooks.publish import make_publish
 
 @click.group()
 def main():
@@ -27,6 +25,9 @@ def main():
 def build(ctx, path_source, publish, process_only):
     """Pre-process book contents and run the Jupyter Book build command"""
 
+    from teachbooks.publish import make_publish
+    from jupyter_book.cli.main import build as jupyter_book_build
+
     strategy = "publish" if publish else "draft"
     echo_info(f"running build with strategy '{strategy}'")
 
@@ -45,9 +46,31 @@ def build(ctx, path_source, publish, process_only):
             toc=path_toc
         )
 
+@main.group(invoke_without_command=True)
+@click.pass_context
+def serve(ctx):
+    """Start a web server to interact with the book locally"""
+    from teachbooks.serve import Server
+    
+    if ctx.invoked_subcommand is None:
+        # Hardcoded for now
+        dir = Path("./book/_build/html/")
+        workdir = Path("./book/.teachbooks/server")
+        server = Server(servedir=dir, workdir=workdir)
+
+        server.start()
+        echo_info(f"server running on {server.url}")
+
+
+@serve.command()
+def stop():
+    """Stop the webserver"""
+    from teachbooks.serve import Server
+    server = Server.load(Path("./book/.teachbooks/server"))
+    server.stop()
+
 
 def echo_info(message: str) -> None:
     """Wrapper for writing to stdout"""
     prefix = click.style("TeachBooks: ", fg="cyan", bold=True)
     click.echo(prefix + message)
-    
