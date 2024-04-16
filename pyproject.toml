@@ -29,7 +29,8 @@ teachbooks = "teachbooks.cli.main:main"
 
 [project.optional-dependencies]
 testing = [
-  "pytest"
+  "pytest",
+  "flaky"
 ]
 
 [tool.setuptools.packages]

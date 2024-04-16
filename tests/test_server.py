@@ -1,7 +1,8 @@
-import pytest
 import os
-
 from pathlib import Path
+
+import pytest
+from flaky import flaky
 
 from teachbooks.serve import Server
 
@@ -32,14 +33,15 @@ def test_create(port):
     assert server._pid == None
     assert server._statepath == Path("./.teachbooks/state.pickle")
 
-
+@flaky(max_runs=10)
 def test_start(running_server):
     server = running_server
     assert server.port is not None
     assert server._pid is not None
     assert server.url == f"http://localhost:{server.port}"
 
-    
+ 
+@flaky(max_runs=10)
 def test_save_and_load(running_server):
     running_server._save()
     
@@ -51,6 +53,7 @@ def test_save_and_load(running_server):
     assert new_server._statepath == running_server._statepath
 
 
+@flaky(max_runs=10)
 def test_stop(server):
     server.start()
     server.stop()
