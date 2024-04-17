@@ -11,7 +11,7 @@ htmlcov
 coverage.xml
 .pytest_cache
 
-docs/_build
+doc/_build
 docs/apidocs
 
 # ide
