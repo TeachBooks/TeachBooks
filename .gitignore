@@ -27,3 +27,6 @@ env
 env3
 venv
 venv3
+
+docs/build
+generated
