@@ -68,6 +68,7 @@ def stop():
     from teachbooks.serve import Server
     server = Server.load(Path("./book/.teachbooks/server"))
     server.stop()
+    echo_info(f"server stopped")
 
 
 def echo_info(message: str) -> None:
