@@ -11,7 +11,7 @@ htmlcov
 coverage.xml
 .pytest_cache
 
-docs/_build
+doc/_build
 docs/apidocs
 
 # ide
@@ -27,3 +27,6 @@ env
 env3
 venv
 venv3
+
+docs/build
+generated

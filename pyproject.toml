@@ -32,6 +32,11 @@ testing = [
   "pytest",
   "flaky"
 ]
+docs = [
+  "furo",
+  "numpydoc",
+  "sphinx-click"
+]
 
 [tool.setuptools.packages]
 find = {}
