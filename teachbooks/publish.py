@@ -8,7 +8,7 @@ def make_publish(sourcedir: Path) -> tuple[Path, Path]:
     """Pre-process files in a Jupyter Book directory"""
 
     # Make hidden directory that will contain the cleaned-up files
-    workdir = sourcedir.joinpath(".psorbooks", "publish")
+    workdir = sourcedir.joinpath(".teachbooks", "publish")
 
     if not os.path.exists(workdir):
         os.makedirs(workdir)
