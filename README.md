@@ -1,5 +1,11 @@
 # TeachBooks: Our Custom Python Package
 
+```{admonition} User types
+:class: tip
+This section is useful for user type 4-5.
+```
+
+
 TeachBooks has created a Python package and released it on PyPI. It can easily be used like this:
 ```
 pip install teachbooks
