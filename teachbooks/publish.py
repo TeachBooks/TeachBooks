@@ -23,7 +23,22 @@ def make_publish(sourcedir: Path) -> tuple[Path, Path]:
 
 
 def clean_yaml(path_source: str | Path, path_output: str | Path) -> None:
-    """Removes sections marked with # REMOVE-FROM-PUBLISH from a yaml file"""
+    """Removes sections marked with # <START|END> REMOVE-FROM-PUBLISH from a yaml file
+    
+    Does not require a specific indentation and can be used an unlimited number of times
+    in the `*.yml` file. Commonly applied to `_toc.yml` and `_config.yml` files of a book.
+
+    Example:
+    ```
+    - file: subdirectory_1/intro_page
+      sections:
+      - file: subdirectory_1/sub_page_1
+    # START REMOVE-FROM-PUBLISH
+      - file: subdirectory_1/sub_page_2
+    # END REMOVE-FROM-PUBLISH
+    - file: subdirectory_2/intro_page
+    ```
+    """
 
     with open(path_source, mode="r", encoding="utf8") as f:
         yaml_source = f.read()
