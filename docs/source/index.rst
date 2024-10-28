@@ -6,12 +6,12 @@
 Welcome to TeachBooks's documentation!
 ======================================
 
-The TeachBooks package is a collection of command-line tools to make the process of making, editing and publishing books easier. 
+The TeachBooks package is a collection of command-line tools to make the process of making, editing and Releasing books easier. 
 
 Features
 ^^^^^^^^
 
-- Draft/publish workflow: take out sections not meant (yet) for students to see.
+- Draft/Release workflow: take out sections not meant (yet) for students to see.
 - Web server management: easily start a Python web server for testing interactive features.
 
 Installation

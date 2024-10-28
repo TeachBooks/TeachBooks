@@ -8,7 +8,7 @@ pip install teachbooks
 The source code is hosted in a repository on GitHub, [github.com/teachBooks/teachbooks](https://github.com/teachBooks/teachbooks), and is accompanied by a documentation website, [teachbooks.github.io/TeachBooks/](https://teachbooks.github.io/TeachBooks/).
 
 The features and documentation will increase with time; until then, note there are two important reasons to use the teachbooks package:
-1. Use the `REMOVE-FROM-RELEASE` feature to more easily maintain draft and released versions of your TeachBook (see {ref}`this page <remove-from-release>` for more details).
+1. Use the `REMOVE-FROM-RELEASE` feature to more easily maintain draft and released versions of your TeachBook. This removes any sections surrounded by REMOVE-FROM-RELEASE tags from _config.yml and _toc.yml
 2. Easily start and stop a local Python server to better test your book while writing (e.g., the interactive Python features require a local server to properly check certain TeachBooks features)
 
 For case 1, the `teachbooks` package is meant to be used instead of `jupyter book build book` to build your book (it executes `jupyter book build book` for you).
