@@ -59,6 +59,31 @@ def build(ctx, path_source, publish, release, process_only):
         )
 
 
+@main.command()
+@click.argument("path-source", type=click.Path(exists=True, file_okay=True))
+def clean(path_source):
+    """Clean up book build artifacts."""
+    from jupyter_book.cli.main import clean as jupyter_book_clean
+    from teachbooks.serve import Server, ServerError
+
+    workdir = Path(path_source) / ".teachbooks" / "server"
+
+    # Check if a server is running and stop it if so
+    try:
+        server = Server.load(workdir)
+        if server.is_running:
+            echo_info("Stopping running server before cleaning...")
+            server.stop()
+            echo_info("Server stopped.")
+    except ServerError:
+        echo_info("No running server found.")
+
+    # Now proceed with cleaning
+    echo_info(f"Cleaning build artifacts in {path_source}...")
+    jupyter_book_clean.main([str(path_source)])
+    echo_info("Clean complete.")
+
+
 @main.group(invoke_without_command=True)
 @click.pass_context
 def serve(ctx):
