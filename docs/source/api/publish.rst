@@ -1,4 +1,4 @@
-Draft/Publish Workflow
+Draft/Release Workflow
 ======================
 
 .. autofunction:: teachbooks.publish.clean_yaml

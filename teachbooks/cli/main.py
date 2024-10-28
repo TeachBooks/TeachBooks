@@ -1,20 +1,27 @@
 # Keep top-level imports to a minimum to improve responsiveness
 import click
-
 from pathlib import Path
+
 
 @click.group()
 def main():
     """TeachBooks command line tools"""
     pass
 
+
 @main.command()
 @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
 @click.option(
     "--publish",
     is_flag=True,
-    help="Target publish version of the book. Removes any sections surrounded "
-    "by REMOVE-FROM-PUBLISH tags from _config.yml and _toc.yml"
+    help="(Deprecated) Target publish version of the book. Use --release instead. "
+         "Removes any sections surrounded by REMOVE-FROM-PUBLISH or REMOVE-FROM-RELEASE tags from _config.yml and _toc.yml"
+)
+@click.option(
+    "--release",
+    is_flag=True,
+    help="Target release version of the book. Removes any sections surrounded "
+         "by REMOVE-FROM-PUBLISH or REMOVE-FROM-RELEASE tags from _config.yml and _toc.yml"
 )
 @click.option(
     "--process-only",
@@ -22,17 +29,22 @@ def main():
     help="Only pre-process content, do not build the book"
 )
 @click.pass_context
-def build(ctx, path_source, publish, process_only):
+def build(ctx, path_source, publish, release, process_only):
     """Pre-process book contents and run the Jupyter Book build command"""
 
     from teachbooks.publish import make_publish
     from jupyter_book.cli.main import build as jupyter_book_build
 
-    strategy = "publish" if publish else "draft"
+    # Deprecation warning for --publish
+    if publish:
+        click.echo(click.style("The --publish option is deprecated, use --release instead.", fg="yellow"))
+
+    # Prioritize --release if both are provided
+    strategy = "release" if release or publish else "draft"
     echo_info(f"running build with strategy '{strategy}'")
 
     path_src_folder = Path(path_source).absolute()
-    if publish:
+    if release or publish:
         path_conf, path_toc = make_publish(path_src_folder)
     else:
         path_conf, path_toc = None, None
@@ -46,12 +58,13 @@ def build(ctx, path_source, publish, process_only):
             toc=path_toc
         )
 
+
 @main.group(invoke_without_command=True)
 @click.pass_context
 def serve(ctx):
     """Start a web server to interact with the book locally"""
     from teachbooks.serve import Server
-    
+
     if ctx.invoked_subcommand is None:
         # Hardcoded for now
         dir = Path("./book/_build/html/")
