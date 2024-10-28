@@ -65,6 +65,11 @@ class Server:
         RuntimeError
             If server could not be started
         """
+        print(f"Serving directory: {self.servedir}")  # Print the directory being served
+        if not self.servedir.is_dir():
+            raise NotADirectoryError(f"Directory does not exist: {self.servedir}")
+
+
         if self.port is None:
             self.port = self._find_port()
         
