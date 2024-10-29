@@ -190,3 +190,23 @@ class Server:
         if total_size > self.SIZE_LIMIT:
             print(
                 f"Warning: The total size of files in '{self.servedir}' exceeds {self.SIZE_LIMIT / (1024 * 1024):.2f} MB.")
+
+    def check_unused_files_warning(self) -> None:
+        """Warn if there are too many unused or extraneous files in the servedir."""
+        three_months_ago = datetime.now() - timedelta(days=90)
+        unused_files = []
+
+        for f in self.servedir.rglob('*'):
+            if f.is_file():
+                # Check last accessed and modified times
+                last_accessed = datetime.fromtimestamp(f.stat().st_atime)
+                last_modified = datetime.fromtimestamp(f.stat().st_mtime)
+
+                if last_accessed < three_months_ago and last_modified < three_months_ago:
+                    unused_files.append(f)
+
+        # Check if the number of unused files exceeds the limit
+        if len(unused_files) > self.UNUSED_FILE_LIMIT:
+            print(f"Warning: There are {len(unused_files)} files in '{self.servedir}' that "
+                  f"haven't been accessed or modified in the last 3 months, which exceeds "
+                  f"the limit of {self.UNUSED_FILE_LIMIT}.")
