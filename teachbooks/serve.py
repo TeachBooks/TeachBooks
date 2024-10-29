@@ -7,6 +7,7 @@ from subprocess import DEVNULL
 from pathlib import Path
 from typing import TypeVar
 from time import sleep
+from datetime import datetime, timedelta
 
 import psutil
 
@@ -27,6 +28,10 @@ class ServerError(Exception):
 class Server:
     """Class for managing a Python webserver in the background."""
     statefile = "state.pickle"
+
+    # Define size limit and unused file limit constants (in bytes and count)
+    SIZE_LIMIT = 10 * 1024 * 1024  # 10 MB
+    UNUSED_FILE_LIMIT = 3
 
     def __init__(self, servedir: Path | str, workdir: Path | str, port: int | None = None) -> None:
         """Construct Server object
@@ -56,7 +61,6 @@ class Server:
             if not os.path.exists(self.workdir):
                 os.makedirs(self.workdir)
 
-
     def start(self) -> None:
         """Start server.
 
@@ -67,7 +71,11 @@ class Server:
         """
         if self.port is None:
             self.port = self._find_port()
-        
+
+        # Check for any warnings in the servedir before starting the server
+        self.check_filesize_warning()
+        self.check_unused_files_warning()
+
         if self.is_running:
             return
         else:
@@ -83,10 +91,10 @@ class Server:
             # Check if the subprocess is still running
             if not self.is_running:
                 proc.terminate()
-                raise RuntimeError("Error launching the server. Perhaps a server is already running on the selected port?")
+                raise RuntimeError(
+                    "Error launching the server. Perhaps a server is already running on the selected port?")
             else:
                 self._save()
-
 
     def stop(self) -> None:
         """Stop server and clean up.
@@ -100,7 +108,6 @@ class Server:
             os.remove(self._statepath)
 
         self._pid = None
-
 
     def _save(self) -> None:
         """Save current Server object as a pickle file.
@@ -126,7 +133,6 @@ class Server:
         isserver = proc.cmdline()[1:] == ["-u", "-m", "http.server", str(self.port)]
         return isalive and isserver
 
-
     @property
     def url(self) -> str:
         """Get URL of running server.
@@ -137,7 +143,6 @@ class Server:
             URL of the server.
         """
         return f"http://localhost:{self.port}"
-
 
     @staticmethod
     def _find_port() -> int:
@@ -152,7 +157,6 @@ class Server:
         sock = socket.socket()
         sock.bind(('', 0))
         return sock.getsockname()[1]
-
 
     @classmethod
     def load(cls, workdir: Path | str) -> Server_t:
@@ -179,3 +183,10 @@ class Server:
         except FileNotFoundError as exc:
             raise ServerError("Server information not found.") from exc
         return server
+
+    def check_filesize_warning(self) -> None:
+        """Check if the total size of files in the servedir exceeds the limit."""
+        total_size = sum(f.stat().st_size for f in self.servedir.rglob('*') if f.is_file())
+        if total_size > self.SIZE_LIMIT:
+            print(
+                f"Warning: The total size of files in '{self.servedir}' exceeds {self.SIZE_LIMIT / (1024 * 1024):.2f} MB.")
