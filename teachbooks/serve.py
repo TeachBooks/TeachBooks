@@ -57,7 +57,7 @@ class Server:
                 os.makedirs(self.workdir)
 
 
-    def start(self) -> None:
+    def start(self, options: list[str] = None) -> None:
         """Start server.
 
         Raises
@@ -88,7 +88,7 @@ class Server:
                 self._save()
 
 
-    def stop(self) -> None:
+    def stop(self, options: list[str] = None) -> None:
         """Stop server and clean up.
         """
         try:
