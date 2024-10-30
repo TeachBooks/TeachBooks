@@ -71,7 +71,7 @@ def serve(ctx):
         workdir = Path("./book/.teachbooks/server")
         server = Server(servedir=dir, workdir=workdir)
 
-        server.start()
+        server.start(options=["--all"])
         echo_info(f"server running on {server.url}")
 
 
