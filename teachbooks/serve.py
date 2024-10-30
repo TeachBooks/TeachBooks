@@ -71,6 +71,14 @@ class Server:
         if self.is_running:
             return
         else:
+
+            base_command = [sys.executable]
+            if options:
+                base_command.extend(options)
+
+            # Print the full command for verification
+            print("Starting server with command:", " ".join(base_command))
+
             proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", str(self.port)],
                                 cwd=self.servedir,
                                 stderr=DEVNULL,
