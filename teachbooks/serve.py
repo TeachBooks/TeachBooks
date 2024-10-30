@@ -72,7 +72,7 @@ class Server:
             return
         else:
 
-            base_command = [sys.executable]
+            base_command = [sys.executable, "-u", "-m", "http.server", str(self.port)]
             if options:
                 base_command.extend(options)
 
