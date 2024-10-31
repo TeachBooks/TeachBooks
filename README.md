@@ -16,6 +16,7 @@ The source code is hosted in a repository on GitHub, [github.com/teachBooks/teac
 
 The features and documentation will increase with time; until then, note there are two important reasons to use the teachbooks package: remove development pages from released book and start a local Python server.
 
+(remove-from-publish)=
 ## Remove development pages from released book
 Use the `REMOVE-FROM-RELEASE` feature to more easily maintain development and released versions of your TeachBook. This removes any sections surrounded by REMOVE-FROM-RELEASE tags from _config.yml and _toc.yml. This allows you to viewing a work-in-progress while preventing students from seeing it is available if those branches are merged into the release version. For example, pages in a developed book (e.g., `dev` branch) can be manually stripped out of the table of contents when a merge request from `dev` to `release` is made. This prevents the page being included in the released book. Pages marked with this feature are still visible in the `dev` book. Lines tagged in the configuration file `_config.yml` can be used in exactly the same manner. The tag is applied as follows:
 
@@ -43,7 +44,14 @@ teachbooks build --publish book
 
 Note that `teachbooks build book` would build a book without stripping the tagged lines, just as `jupyter-book build book` would.
 
+(setup-local-server)=
 ## Local Python server
+
+```{admonition} User types
+:class: tip
+This section is useful for user type 5.
+```
+
 Easily start and stop a local Python server to better test your book while writing (e.g., the interactive Python features require a local server to properly check certain TeachBooks features). Some features like interactive python code and Grasple only work when a webserver serves the HTML content for a book. Rather than building the book in your repository and updating the website on the internet, you can use a local webserver to view the book:
 1. Make sure you have the TeachBooks Python package installed (e.g., `pip install teachbooks`)
 2. Start a server from the command line with: `teachbooks serve`
