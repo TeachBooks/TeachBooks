@@ -1,4 +1,4 @@
-# TeachBooks: Exclude parts of book from released book and local Python server
+# TeachBooks package: Exclude parts of book from released book and local Python server
 
 ```{admonition} User types
 :class: tip
