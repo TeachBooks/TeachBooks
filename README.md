@@ -1,4 +1,4 @@
-# TeachBooks: Exclude parts of book from released book and local Python server
+# TeachBooks package: Exclude parts of book from released book and local Python server
 
 TeachBooks has created a Python package and released it on PyPI. It can easily be used like this:
 
