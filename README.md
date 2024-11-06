@@ -68,3 +68,7 @@ Here is how to set up a local server with only standard Python libraries:
 2. Port 8000 is usually used by default, but depending on your OS it will tell you in the output.
 3. To visit your site, just enter the address in your web browser, followed by a colon, and then the port number. By default, that would be: `127.0.0.1:8000`.
 4. You will get a website that looks like a file browser, to visit your site just navigate to `book/_build/html/` (if you've started this command from this folder you see the book immediately)
+
+
+## Contribute
+This tool's repository is stored on [GitHub](https://github.com/TeachBooks/TeachBooks). The `README.md` of the branch `docs-book` is also part of the [TeachBooks manual](https://teachbooks.tudelft.nl/jupyter-book-manual/external/TeachBooks/README.html) as a submodule. If you'd like to contribute, you can create a fork and open a pull request on the [GitHub repository](https://github.com/TeachBooks/TeachBooks). To update the `README.md` shown in the TeachBooks manual, create a fork and open a merge request for the [GitLab repository of the manual](https://gitlab.tudelft.nl/interactivetextbooks-citg/jupyter-book-manual). If you intent to clone the manual including its submodules, clone using: `git clone --recurse-submodules git@gitlab.tudelft.nl:interactivetextbooks-citg/jupyter-book-manual.git`.
