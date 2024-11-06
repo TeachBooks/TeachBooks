@@ -27,6 +27,7 @@ env
 env3
 venv
 venv3
+.venv
 
 docs/build
 generated
