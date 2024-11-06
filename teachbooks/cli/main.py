@@ -62,7 +62,7 @@ def build(ctx, path_source, publish, release, process_only):
 @main.command()
 @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
 def clean(path_source):
-    """Clean up book build artifacts."""
+    """Stop teachbooks server and run Jupyter Book clean command."""
     from jupyter_book.cli.main import clean as jupyter_book_clean
     from teachbooks.serve import Server, ServerError
 
