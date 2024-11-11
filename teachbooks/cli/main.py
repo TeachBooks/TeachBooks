@@ -57,6 +57,13 @@ def build(ctx, path_source, publish, release, process_only):
             config=path_conf,
             toc=path_toc
         )
+        ctx.invoke(
+            jupyter_book_build,
+            path_source=path_src_folder,
+            config=path_conf,
+            toc=path_toc,
+            builder="linkcheck"
+        )
 
 
 @main.command()
