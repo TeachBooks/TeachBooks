@@ -35,13 +35,20 @@ def build(ctx, path_source, publish, release, process_only):
         path_toc = path_src_folder / "_toc.yml"
 
     if not process_only:
+        # Start with base arguments
         all_args = [str(path_src_folder)]
+
+        # Add config and toc if they exist
         if path_conf and path_conf.exists():
             all_args.extend(["--config", str(path_conf)])
         if path_toc and path_toc.exists():
             all_args.extend(["--toc", str(path_toc)])
-        all_args.extend(ctx.args)
 
+        # Add all original args, preserving their order and values
+        if ctx.args:
+            all_args.extend(ctx.args)
+
+        # Pass through all args to jupyter-book
         jupyter_book_build.main(args=all_args, standalone_mode=False)
 
 
