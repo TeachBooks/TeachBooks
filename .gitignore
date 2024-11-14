@@ -24,9 +24,12 @@ docs/apidocs
 
 # virtual environments
 env
+.env
 env3
+.env3
 venv
 venv3
+.venv
 
 docs/build
 generated
