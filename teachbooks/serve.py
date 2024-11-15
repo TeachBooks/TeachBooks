@@ -57,7 +57,7 @@ class Server:
                 os.makedirs(self.workdir)
 
 
-    def start(self) -> None:
+    def start(self, options: list[str] = None) -> None:
         """Start server.
 
         Raises
@@ -76,6 +76,14 @@ class Server:
         if self.is_running:
             return
         else:
+
+            base_command = [sys.executable, "-u", "-m", "http.server", str(self.port)]
+            if options:
+                base_command.extend(options)
+
+            # Print the full command for verification
+            print("Starting server with command:", " ".join(base_command))
+
             proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", str(self.port)],
                                 cwd=self.servedir,
                                 stderr=DEVNULL,
@@ -93,7 +101,7 @@ class Server:
                 self._save()
 
 
-    def stop(self) -> None:
+    def stop(self, options: list[str] = None) -> None:
         """Stop server and clean up.
         """
         try:

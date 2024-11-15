@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "teachbooks"
-version = "0.0.6"
-description = "TU Delft CiTG Jupyter Book Software Stack"
+version = "0.0.7"
+description = "TeachBooks wrapper around JupyterBooks"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [

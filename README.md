@@ -44,6 +44,8 @@ teachbooks build --publish book
 
 Note that `teachbooks build book` would build a book without stripping the tagged lines, just as `jupyter-book build book` would.
 
+Additional options like used in jupyterbook (`--all` for example) can be added to the command similary as with the `jupyter-book` command.
+
 (setup-local-server)=
 ## Local Python server
 
