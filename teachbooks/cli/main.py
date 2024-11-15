@@ -1,6 +1,10 @@
 import click
 from pathlib import Path
 
+
+
+
+
 @click.group()
 def main():
     """TeachBooks command line tools"""
@@ -22,7 +26,9 @@ def build(ctx, path_source, publish, release, process_only):
     from jupyter_book.cli.main import build as jupyter_book_build
 
     if publish:
-        click.echo(click.style("--publish is deprecated, use --release", fg="yellow"))
+        click.secho("Warning: --publish is deprecated, use --release instead",
+                   fg="yellow",
+                   err=True)
 
     strategy = "release" if release or publish else "draft"
     echo_info(f"running build with strategy '{strategy}'")
