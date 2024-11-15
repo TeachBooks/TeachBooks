@@ -1,3 +1,0 @@
-# Welcome to Junwon's book
-
-Introduction text here...
