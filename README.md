@@ -63,7 +63,7 @@ Note that `teachbooks build book` would build a book without stripping the tagge
 
 Additional options like used in jupyterbook (`--all` for example) can be added to the command similary as with the `jupyter-book` command.
 
-## Local Python server
+### Local Python server
 
 Easily start and stop a local Python server to better test your book while writing (e.g., the interactive Python features require a local server to properly check certain TeachBooks features). Some features like interactive python code and Grasple only work when a webserver serves the HTML content for a book. Rather than building the book in your repository and updating the website on the internet, you can use a local webserver to view the book:
 
