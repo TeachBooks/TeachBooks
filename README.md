@@ -2,9 +2,7 @@
 
 The package is a CLI tool that primarily provides a wrapper around the Jupyter Book package. In this case "wrapper" refers to the CLI usage: CLI commands generally invoke `jupyter-book` commands internally; the `jupyter-book` package is _not_ distributed within the `teachbooks` package.
 
-The source code and function of the package is documented on a Sphinx-built website: [teachbooks.github.io/TeachBooks/](https://teachbooks.github.io/TeachBooks/) _(website is live, but currently a work in progress)._
-
-_Through the end of 2024 the package and related TeachBooks tooling are in active development. We expect to reach a more stable setup by Summer 2025, once the academic year wraps up._
+The source code and function of the package is documented on a Sphinx-built website: [teachbooks.github.io/TeachBooks/](https://teachbooks.github.io/TeachBooks/)
 
 ## TeachBooks
 
