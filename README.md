@@ -79,5 +79,6 @@ Easily start and stop a local Python server to better test your book while writi
 This package recieved financial support from the Civil Engineering and Geosciences faculty at Delft University of Techhnology in the Netherlands via Education Innovation Projects, [MUDE](https://mude.citg.tudelft.nl) and direct financial support of Jupyter Book applications in education. The project also recieved funding from the TU Delft Library at the end of 2024.
 
 The first version of this package was created and released by Caspar Jungbacker in Spring, 2024 and has since been primarily maintained by the TeachBooks and MUDE Student Army. 
+
 ## Contribute
 This tool's repository is stored on [GitHub](https://github.com/TeachBooks/TeachBooks). The `README.md` of the branch `docs-book` is also part of the [TeachBooks manual](https://teachbooks.io/manual/external/TeachBooks/README.html) as a submodule. If you'd like to contribute, you can create a fork and open a pull request on the [GitHub repository](https://github.com/TeachBooks/TeachBooks). To update the `README.md` shown in the TeachBooks manual, create a fork and open a merge request for the [GitHub repository of the manual](https://github.com/TeachBooks/manual). If you intent to clone the manual including its submodules, clone using: `git clone --recurse-submodulesgit@github.com:TeachBooks/manual.git`.
