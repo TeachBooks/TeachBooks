@@ -4,12 +4,6 @@ The package is a CLI tool that primarily provides a wrapper around the Jupyter B
 
 The source code and function of the package is documented on a Sphinx-built website: [teachbooks.github.io/TeachBooks/](https://teachbooks.github.io/TeachBooks/)
 
-## TeachBooks
-
-The [TeachBooks initiative](https://teachbooks.tudelft.nl) was created after a few teachers at Delft University of Technology in the Netherlands started using Jupyter Books intensively in education and thought that tools and workflows they were developing would be useful to other teachers. Many of those tools are included in the Python package `teachbooks`, which is contained in this repository.
-
-The primary documentation of TeachBooks tools and workflows are described from the teacher perspective on our website [teachbooks.tudelft.nl]() and in our Manual [teachbooks.tudelft.nl/manual](). The primary purpose of these websites is to illustrate and explain their use in an educational setting, as opposed to explaining source code, which is described in this repository.
-
 ## Primary Features and Installation
 
 Key features (described below) include:
