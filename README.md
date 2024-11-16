@@ -1,17 +1,49 @@
-# TeachBooks package: Exclude parts of book from released book and local Python server
+# TeachBooks: Jupyter-Book Wrapper for Education
 
-TeachBooks has created a Python package and released it on PyPI. It can easily be used like this:
+The package is a CLI tool that primarily provides a wrapper around the Jupyter Book package. In this case "wrapper" refers to the CLI usage: CLI commands generally invoke `jupyter-book` commands internally; the `jupyter-book` package is _not_ distributed within the `teachbooks` package.
+
+The source code and function of the package is documented on a Sphinx-built website: [teachbooks.github.io/TeachBooks/](https://teachbooks.github.io/TeachBooks/) _(website is live, but currently a work in progress)._
+
+_Through the end of 2024 the package and related TeachBooks tooling are in active development. We expect to reach a more stable setup by Summer 2025, once the academic year wraps up._
+
+## TeachBooks
+
+The [TeachBooks initiative](https://teachbooks.tudelft.nl) was created after a few teachers at Delft University of Technology in the Netherlands started using Jupyter Books intensively in education and thought that tools and workflows they were developing would be useful to other teachers. Many of those tools are included in the Python package `teachbooks`, which is contained in this repository.
+
+The primary documentation of TeachBooks tools and workflows are described from the teacher perspective on our website [teachbooks.tudelft.nl]() and in our Manual [teachbooks.tudelft.nl/manual](). The primary purpose of these websites is to illustrate and explain their use in an educational setting, as opposed to explaining source code, which is described in this repository.
+
+## Primary Features and Installation
+
+Key features (described below) include:
+- `jupyter-book` wrapper, pre- and post-processing steps
+- draft/release workflow
+- manage a local Python http server
+
+### Installation
+
+The package is currently only available on PyPI and can be installed as follows:
 
 ```
 pip install teachbooks
 ```
 
-The source code is hosted in a repository on GitHub, [github.com/teachBooks/teachbooks](https://github.com/teachBooks/teachbooks), and is accompanied by a documentation website, [teachbooks.github.io/TeachBooks/](https://teachbooks.github.io/TeachBooks/).
+### Jupyter Book wrapper and processing steps
 
-The features and documentation will increase with time; until then, note there are two important reasons to use the teachbooks package: remove development pages from released book and start a local Python server.
+Using the teachbooks CLI in the book building process generally invokes Jupyter Book. Many of the features in this package are then invoked in the stages before and after this command. The process generally includes the following steps:
 
-## Remove development pages from released book
-Use the `REMOVE-FROM-RELEASE` feature to more easily maintain development and released versions of your TeachBook. This removes any sections surrounded by REMOVE-FROM-RELEASE tags from _config.yml and _toc.yml. This allows you to viewing a work-in-progress while preventing students from seeing it is available if those branches are merged into the release version. For example, pages in a developed book (e.g., `dev` branch) can be manually stripped out of the table of contents when a merge request from `dev` to `release` is made. This prevents the page being included in the released book. Pages marked with this feature are still visible in the `dev` book. Lines tagged in the configuration file `_config.yml` can be used in exactly the same manner. The tag is applied as follows:
+1. Edit source code and prepare to build a book
+2. Execute `teachbooks [OPTIONS] COMMAND [ARGS]`
+3. Pre-processing step: carried out by `teachbooks`
+4. Build step: book is built using `jupyter book [OPTIONS] COMMAND [ARGS]`
+5. Post-processing step: carried out by `teachbooks`
+
+### Draft/Release Workflow
+
+Often it is necessary to prepare, review and edit materials in parallel to material that is currently being used by students, or another target audience. This workflow enables an author to easily maintain separate versions of a book without having to repeatedly comment out lines of a table of contents or page when building different versions. It is also easy to implement in CI/CD settings.  
+
+The workflow is enabled by a `teachbooks` CLI feature that identifies and removes any lines from the files `_config.yml` and `_toc.yml` file that are surrounded by `REMOVE-FROM-RELEASE` tags.
+
+For example, pages in a developed book (e.g., `dev` branch) can be manually stripped out of the table of contents when a merge request from `dev` to `release` is made. This prevents the page being included in the released book. Pages marked with this feature are still visible in the `dev` book. Lines tagged in the configuration file `_config.yml` can be used in exactly the same manner. The tag is applied as follows:
 
 ```
 format: jb-book
@@ -40,7 +72,9 @@ Note that `teachbooks build book` would build a book without stripping the tagge
 Additional options like used in jupyterbook (`--all` for example) can be added to the command similary as with the `jupyter-book` command.
 
 ## Local Python server
+
 Easily start and stop a local Python server to better test your book while writing (e.g., the interactive Python features require a local server to properly check certain TeachBooks features). Some features like interactive python code and Grasple only work when a webserver serves the HTML content for a book. Rather than building the book in your repository and updating the website on the internet, you can use a local webserver to view the book:
+
 1. Make sure you have the TeachBooks Python package installed (e.g., `pip install teachbooks`)
 2. Start a server from the command line with: `teachbooks serve`
 3. The command line output will return the URL where you can access your book
@@ -48,15 +82,8 @@ Easily start and stop a local Python server to better test your book while writi
 5. All interactive features like the Grasple/H5p iframe exercises, Sphinx-thebe python interactivity and HTML/Javascript elements should now work as well.
 6. When you no longer need the server, simply run `teachbooks serve stop`
 
-### How to create a local server without the TeachBooks package
+## Acknowledgements
 
-Here is how to set up a local server with only standard Python libraries:
+This package recieved financial support from the Civil Engineering and Geosciences faculty at Delft University of Techhnology in the Netherlands via Education Innovation Projects, [MUDE](https://mude.citg.tudelft.nl) and direct financial support of Jupyter Book applications in education. The project also recieved funding from the TU Delft Library at the end of 2024.
 
-1. Start a server from the command line with: `python -m http.server -b 127.0.0.1` (add ` &` if you want to keep using the terminal for other tasks).
-2. Port 8000 is usually used by default, but depending on your OS it will tell you in the output.
-3. To visit your site, just enter the address in your web browser, followed by a colon, and then the port number. By default, that would be: `127.0.0.1:8000`.
-4. You will get a website that looks like a file browser, to visit your site just navigate to `book/_build/html/` (if you've started this command from this folder you see the book immediately)
-
-
-## Contribute
-This tool's repository is stored on [GitHub](https://github.com/TeachBooks/TeachBooks). The `README.md` of the branch `docs-book` is also part of the [TeachBooks manual](https://teachbooks.tudelft.nl/jupyter-book-manual/external/TeachBooks/README.html) as a submodule. If you'd like to contribute, you can create a fork and open a pull request on the [GitHub repository](https://github.com/TeachBooks/TeachBooks). To update the `README.md` shown in the TeachBooks manual, create a fork and open a merge request for the [GitLab repository of the manual](https://gitlab.tudelft.nl/interactivetextbooks-citg/jupyter-book-manual). If you intent to clone the manual including its submodules, clone using: `git clone --recurse-submodules git@gitlab.tudelft.nl:interactivetextbooks-citg/jupyter-book-manual.git`.
+The first version of this package was created and released by Caspar Jungbacker in Spring, 2024 and has since been primarily maintained by the TeachBooks and MUDE Student Army. 
