@@ -1,4 +1,4 @@
-Internal components
+Internal Components
 ===================
 
 .. toctree::
