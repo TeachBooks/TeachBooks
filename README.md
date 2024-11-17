@@ -85,3 +85,7 @@ The first version of this package was created and released by Caspar Jungbacker 
 ## Contribute
 
 This tool's repository is stored on [GitHub](https://github.com/TeachBooks/TeachBooks). The `README.md` of the branch `docs-book` is also part of the [TeachBooks manual](https://teachbooks.io/manual/external/TeachBooks/README.html) as a submodule. If you'd like to contribute, you can create a fork and open a pull request on the [GitHub repository](https://github.com/TeachBooks/TeachBooks). To update the `README.md` shown in the TeachBooks manual, create a fork and open a merge request for the [GitHub repository of the manual](https://github.com/TeachBooks/manual). If you intent to clone the manual including its submodules, clone using: `git clone --recurse-submodulesgit@github.com:TeachBooks/manual.git`.
+
+### Documentation Website
+
+The documentation page for this package is built using Sphinx and @pradyunsg's Furo; use the [Furo documentation](https://pradyunsg.me/furo/#) as a reference when updating the documentation site.
