@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to TeachBooks's documentation!
+Welcome to TeachBooks's Documentation!
 ======================================
 
 The TeachBooks package is a collection of command-line tools to make the process of making, editing and Releasing books easier. 

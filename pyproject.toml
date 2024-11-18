@@ -4,13 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "teachbooks"
-version = "0.0.7"
+version = "0.0.9"
 description = "TeachBooks wrapper around JupyterBooks"
 readme = "README.md"
 requires-python = ">=3.10"
-authors = [
-  {name = "Caspar Jungbacker", email = "c.a.a.jungbacker@tudelft.nl"}
-]
+authors = [{name = "TeachBooks", email = "teachbooks@tudelft.nl"}]
 classifiers = [
   "Programming Language :: Python :: 3",
 ]
