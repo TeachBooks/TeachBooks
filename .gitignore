@@ -27,9 +27,7 @@ env
 .env
 env3
 .env3
-venv
-venv3
-.venv
+*venv*
 
 docs/build
 generated

@@ -22,7 +22,7 @@ def main():
 @click.pass_context
 def build(ctx, path_source, publish, release, process_only):
     """Pre-process book contents and run Jupyter Book build command"""
-    from teachbooks.publish import make_publish
+    from teachbooks.release import make_publish
     from jupyter_book.cli.main import build as jupyter_book_build
 
     if publish:

@@ -19,7 +19,7 @@
 
 project = 'TeachBooks'
 copyright = '2024, the TeachBooks team'
-author = 'the TeachBooks team'
+author = 'TeachBooks'
 
 
 # -- General configuration ---------------------------------------------------
