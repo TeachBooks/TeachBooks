@@ -3,5 +3,5 @@ Internal Components
 
 .. toctree::
 
-    api/publish
+    api/release
     api/server
