@@ -1,11 +1,11 @@
-# TeachBooks Package: Jupyter-Book Wrapper for Pre- and Postprocessing
+# TeachBooks Jupyter-Book Wrapper
 
 ```{admonition} User types
 :class: tip
 This section is useful for user type 4-5.
 ```
 
-The package is a CLI tool that primarily provides a wrapper around the Jupyter Book package. In this case "wrapper" refers to the CLI usage: CLI commands generally invoke `jupyter-book` commands internally; the `jupyter-book` package is _not_ distributed within the `teachbooks` package.
+The package is a CLI tool that primarily provides a wrapper around the Jupyter Book package which is used for pre- and postprocessing. In this case "wrapper" refers to the CLI usage: CLI commands generally invoke `jupyter-book` commands internally; the `jupyter-book` package is _not_ distributed within the `teachbooks` package.
 
 The source code and function of the package is documented on a Sphinx-built website: [teachbooks.io/TeachBooks/](https://teachbooks.io/TeachBooks/).
 
