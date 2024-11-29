@@ -1,4 +1,4 @@
-# TeachBooks Jupyter-Book Wrapper
+# Pre- and postprocessing book
 
 ```{admonition} User types
 :class: tip
