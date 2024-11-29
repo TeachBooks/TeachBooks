@@ -5,7 +5,7 @@
 This section is useful for user type 4-5.
 ```
 +++
-{bdg-secondary}`TeachBooks Package`
+{bdg-secondary}`Python Package`
 
 The package is a CLI tool that primarily provides a wrapper around the Jupyter Book package which is used for pre- and postprocessing. In this case "wrapper" refers to the CLI usage: CLI commands generally invoke `jupyter-book` commands internally; the `jupyter-book` package is _not_ distributed within the `teachbooks` package.
 
