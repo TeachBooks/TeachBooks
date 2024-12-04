@@ -21,7 +21,6 @@ def build(ctx, path_source, publish, release, process_only):
     """Pre-process book contents and run Jupyter Book build command"""
     from teachbooks.release import make_publish
     from jupyter_book.cli.main import build as jupyter_book_build
-    import os
 
     if publish:
         click.secho("Warning: --publish is deprecated, use --release instead",
