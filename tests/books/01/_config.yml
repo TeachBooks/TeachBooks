@@ -21,7 +21,7 @@ parse:
 
 thebe_config:
   use_thebe_lite: true
-  exclude_patterns: []
+  exclude_patterns: ["**/sphinx-thebe.js"]
 
 html:
   use_repository_button: true

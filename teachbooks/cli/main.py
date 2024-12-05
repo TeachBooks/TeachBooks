@@ -2,6 +2,7 @@ import click
 import os
 import yaml
 from pathlib import Path
+from fnmatch import fnmatch
 
 @click.group()
 def main():
@@ -152,16 +153,11 @@ def check_thebe_files(build_dir: Path, config_path: Path) -> tuple[set[Path], se
         config_path: Path to the _config.yml file
 
     Returns:
-        tuple[Set[Path], Set[Path]]: (excluded_files, included_files)
+        tuple[set[Path], set[Path]]: (excluded_files, included_files)
     """
     # Load configuration
     with open(config_path) as f:
         config = yaml.safe_load(f)
-
-    # Validate config
-    is_valid, warnings = validate_thebe_config(config)
-    for warning in warnings:
-        echo_info(warning)
 
     thebe_config = config.get('thebe_config', {})
     use_thebe = thebe_config.get('use_thebe_lite', False)
@@ -169,15 +165,6 @@ def check_thebe_files(build_dir: Path, config_path: Path) -> tuple[set[Path], se
 
     if not use_thebe:
         return set(), set()
-
-    # Known Thebe file patterns
-    thebe_patterns = {
-        "thebe.js",
-        "thebe-lite.js",
-        "thebe-core.js",
-        "thebe-lite.css",
-        "thebe-skeleton.css"
-    }
 
     excluded_files = set()
     included_files = set()
@@ -187,7 +174,7 @@ def check_thebe_files(build_dir: Path, config_path: Path) -> tuple[set[Path], se
         root_path = Path(root)
 
         for file in files:
-            if not any(thebe_pattern in file for thebe_pattern in thebe_patterns):
+            if 'sphinx-thebe.js' not in file:  # We only care about this specific file
                 continue
 
             file_path = root_path / file
@@ -209,13 +196,7 @@ def check_thebe_files(build_dir: Path, config_path: Path) -> tuple[set[Path], se
 
 
 def report_thebe_status(excluded_files: set[Path], included_files: set[Path]) -> None:
-    """
-    Report the status of Thebe files found during the build process.
-
-    Args:
-        excluded_files: Set of files matching exclude patterns
-        included_files: Set of files not matching exclude patterns
-    """
+    """Report the status of Thebe files found during the build process."""
     if not (excluded_files or included_files):
         echo_info("No Thebe files found in the build.")
         return
