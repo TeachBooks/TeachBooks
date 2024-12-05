@@ -19,6 +19,10 @@ parse:
     - dollarmath
     - linkify
 
+thebe_config:
+  use_thebe_lite: true
+  exclude_patterns: []
+
 html:
   use_repository_button: true
   use_issues_button: true
