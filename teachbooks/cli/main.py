@@ -9,6 +9,7 @@ def main():
     """TeachBooks command line tools"""
     pass
 
+
 @main.command(context_settings=dict(
     ignore_unknown_options=True,
     allow_extra_args=True,
@@ -26,8 +27,8 @@ def build(ctx, path_source, publish, release, process_only, check_thebe):
 
     if publish:
         click.secho("Warning: --publish is deprecated, use --release instead",
-                   fg="yellow",
-                   err=True)
+                    fg="yellow",
+                    err=True)
 
     strategy = "release" if release or publish else "draft"
     echo_info(f"running build with strategy '{strategy}'")
@@ -40,20 +41,14 @@ def build(ctx, path_source, publish, release, process_only, check_thebe):
         path_toc = path_src_folder / "_toc.yml"
 
     if not process_only:
-        # Start with base arguments
         all_args = [str(path_src_folder)]
-
-        # Add config and toc if they exist
         if path_conf and path_conf.exists():
             all_args.extend(["--config", str(path_conf)])
         if path_toc and path_toc.exists():
             all_args.extend(["--toc", str(path_toc)])
-
-        # Add all original args, preserving their order and values
         if ctx.args:
             all_args.extend(ctx.args)
 
-        # Pass through all args to jupyter-book
         jupyter_book_build.main(args=all_args, standalone_mode=False)
 
         # Check for Thebe files if requested
@@ -61,6 +56,12 @@ def build(ctx, path_source, publish, release, process_only, check_thebe):
             build_dir = path_src_folder / "_build" / "html"
             excluded_files, included_files = check_thebe_files(build_dir, path_conf)
             report_thebe_status(excluded_files, included_files)
+
+        # Calculate and report build size
+        build_dir = path_src_folder / "_build"
+        total_size = sum(f.stat().st_size for f in build_dir.rglob('*') if f.is_file())
+        size_mb = total_size / (1024 * 1024)
+        echo_info(f"Build complete. Total size: {size_mb:.2f}MB")
 
 
 @main.command()
