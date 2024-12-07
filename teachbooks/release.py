@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 
-def make_publish(sourcedir: Path) -> tuple[Path, Path]:
+def make_release(sourcedir: Path) -> tuple[Path, Path]:
     """Pre-process files in a Jupyter Book directory"""
     # Make hidden directory that will contain the cleaned-up files
     workdir = sourcedir.joinpath(".teachbooks", "release")
