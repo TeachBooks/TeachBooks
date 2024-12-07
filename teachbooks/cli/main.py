@@ -1,25 +1,24 @@
 import click
 from pathlib import Path
 
-
 @click.group()
+@click.version_option()
 def main():
     """TeachBooks command line tools"""
     pass
-
 
 @main.command(context_settings=dict(
     ignore_unknown_options=True,
     allow_extra_args=True,
 ))
 @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
-@click.option("--release", is_flag=True, help="Target release version of the book")
-@click.option("--publish", is_flag=True, help="(Deprecated) Use --release instead")
+@click.option("--release", is_flag=True, help="Build book with release strategy")
+@click.option("--publish", is_flag=True, help="--public is deprecated. Use --release instead.")
 @click.option("--process-only", is_flag=True, help="Only pre-process content")
 @click.pass_context
 def build(ctx, path_source, publish, release, process_only):
     """Pre-process book contents and run Jupyter Book build command"""
-    from teachbooks.release import make_publish
+    from teachbooks.release import make_release
     from jupyter_book.cli.main import build as jupyter_book_build
 
     if publish:
@@ -32,7 +31,7 @@ def build(ctx, path_source, publish, release, process_only):
 
     path_src_folder = Path(path_source).absolute()
     if release or publish:
-        path_conf, path_toc = make_publish(path_src_folder)
+        path_conf, path_toc = make_release(path_src_folder)
     else:
         path_conf = path_src_folder / "_config.yml"
         path_toc = path_src_folder / "_toc.yml"
