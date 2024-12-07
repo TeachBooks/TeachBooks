@@ -80,26 +80,49 @@ def clean(path_source):
 
 
 @main.group(invoke_without_command=True)
+# @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
+# @click.option("--test", is_flag=True, help="Build book with release strategy")
 @click.pass_context
 def serve(ctx):
-    """Start a web server to interact with the book locally"""
+    """Start a web server to interact with the book locally."""
     from teachbooks.serve import Server
 
     if ctx.invoked_subcommand is None:
         # Hardcoded for now
-        dir = Path("./book")
-        workdir = Path("./book/.teachbooks/server")
+        dir = Path("./book/_build/html")
+        echo_info(f"directory not provided; try {dir}")
+
+        if not dir.exists():
+            dir = Path(".")
+            echo_info(f"directory not found; using {dir}")
+
+        workdir = Path(".teachbooks/server")
         server = Server(servedir=dir, workdir=workdir)
 
         server.start(options=["--all"])
         echo_info(f"server running on {server.url}")
 
+@serve.command()
+@click.argument("path-source", type=click.Path(exists=True, file_okay=True))
+def dir(path_source):
+    """Specify webserver directory."""
+    from teachbooks.serve import Server
+
+    dir = Path(path_source).absolute().joinpath("_build", "html")
+    
+    echo_info(f"serve directory: {dir}")
+
+    workdir = Path(".teachbooks/server")
+    server = Server(servedir=dir, workdir=workdir)
+
+    server.start(options=["--all"])
+    echo_info(f"server running on {server.url}")
 
 @serve.command()
 def stop():
-    """Stop the webserver"""
+    """Stop the webserver."""
     from teachbooks.serve import Server
-    server = Server.load(Path("./book/.teachbooks/server"))
+    server = Server.load(Path(".teachbooks/server"))
     server.stop()
     echo_info(f"server stopped")
 
