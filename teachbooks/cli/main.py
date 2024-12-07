@@ -1,12 +1,11 @@
 import click
 from pathlib import Path
 
-
 @click.group()
+@click.version_option()
 def main():
     """TeachBooks command line tools"""
     pass
-
 
 @main.command(context_settings=dict(
     ignore_unknown_options=True,
