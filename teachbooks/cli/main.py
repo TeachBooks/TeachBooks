@@ -13,8 +13,8 @@ def main():
     allow_extra_args=True,
 ))
 @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
-@click.option("--release", is_flag=True, help="Target release version of the book")
-@click.option("--publish", is_flag=True, help="(Deprecated) Use --release instead")
+@click.option("--release", is_flag=True, help="Build book with release strategy")
+@click.option("--publish", is_flag=True, help="--public is deprecated. Use --release instead.")
 @click.option("--process-only", is_flag=True, help="Only pre-process content")
 @click.pass_context
 def build(ctx, path_source, publish, release, process_only):
