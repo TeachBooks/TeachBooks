@@ -46,7 +46,12 @@ class Server:
             old_instance = self.load(workdir)
             self.__dict__ = old_instance.__dict__
         except ServerError:
-            self.servedir = Path(servedir)
+            # Check is arguments were given
+            if len(sys.argv) == 2:
+                self.servedir = Path(sys.argv[1])
+            else:
+                self.servedir = Path(servedir)
+            
             self.workdir = Path(workdir)
             self.port = port
 
@@ -192,3 +197,4 @@ class Server:
         except FileNotFoundError as exc:
             raise ServerError("Server information not found.") from exc
         return server
+    

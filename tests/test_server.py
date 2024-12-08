@@ -1,7 +1,9 @@
 import os
+import sys
 from pathlib import Path
 
 import pytest
+from pytest import MonkeyPatch
 from flaky import flaky
 
 from teachbooks.serve import Server
@@ -9,6 +11,8 @@ from teachbooks.serve import Server
 SERVE_DIR = Path(".")
 WORK_DIR = Path("./.teachbooks")
 
+sys.argv = ['serve.py', './']
+print(sys.argv)
 
 @pytest.fixture
 def server():
@@ -33,6 +37,18 @@ def test_create(port):
     assert server._pid == None
     assert server._statepath == Path("./.teachbooks/state.pickle")
 
+@pytest.mark.parametrize(
+    "port", [None, 8000]
+)
+def test_create_wargs(port):
+    server = Server(servedir=None, workdir=WORK_DIR, port=port)
+    assert Path(sys.argv[1]) == Path("./")
+    assert server.workdir == Path("./.teachbooks")
+    assert server.port == port
+    assert server._pid == None
+    assert server._statepath == Path("./.teachbooks/state.pickle")
+
+
 @flaky(max_runs=10)
 def test_start(running_server):
     server = running_server
@@ -40,7 +56,6 @@ def test_start(running_server):
     assert server._pid is not None
     assert server.url == f"http://localhost:{server.port}"
 
- 
 @flaky(max_runs=10)
 def test_save_and_load(running_server):
     running_server._save()
