@@ -82,52 +82,136 @@ def clean(path_source):
 @main.group(invoke_without_command=True)
 # @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
 # @click.option("--test", is_flag=True, help="Build book with release strategy")
+@click.option('-v', '--verbose', count=True)
 @click.pass_context
-def serve(ctx):
-    """Start a web server to interact with the book locally."""
+def serve(ctx, verbose):
+    """Start a web server to interact with the book locally.
+    
+    If serve dir path not provided, default is `./book/_build/html`.
+    Checks to see if server is already running.
+    """
     from teachbooks.serve import Server
+    from teachbooks import SERVER_WORK_DIR, BOOK_SERVE_DIR
+
+    if verbose > 0:
+        echo_info(f"serve command invoked.")
 
     if ctx.invoked_subcommand is None:
-        # Hardcoded for now
-        dir = Path("./book/_build/html")
-        echo_info(f"directory not provided; try {dir}")
 
-        if not dir.exists():
-            dir = Path(".")
-            echo_info(f"directory not found; using {dir}")
+        try:
+            server = Server.load(Path(SERVER_WORK_DIR))
+            if verbose > 0:
+                echo_info(f" server already exists")
+            
+            stdout_summary(server)
+        except:
+            if verbose > 0:
+                echo_info(f"no server found, creating a new one.")
 
-        workdir = Path(".teachbooks/server")
-        server = Server(servedir=dir, workdir=workdir)
+            dir = Path(BOOK_SERVE_DIR)
 
-        server.start(options=["--all"])
-        echo_info(f"server running on {server.url}")
+            if not dir.exists():
+                echo_info(click.style("default directory not found: ", fg="yellow") + f"{dir}")
+                dir = Path(".")
+                print('            '
+                      +click.style("serving current directory: ", fg="yellow") + f"{dir}")
+                print('            '
+                      +click.style("specify a directory with: 'teachbooks serve path <path>'", fg="yellow"))
+                
+            serve_path(dir, verbose)
+
+        # Hardcoded for now 
+        # dir = Path("./book/_build/html")
+        # echo_info(f"directory not provided; try {dir}")
+
+        # if not dir.exists():
+        #     dir = Path(".")
+        #     echo_info(f"directory not found; using {dir}")
+
+        # if verbose > 0:
+        #     print(f"attempting to serve directory {dir}")
+
+        
 
 @serve.command()
-@click.argument("path-source", type=click.Path(exists=True, file_okay=True))
-def path(path_source):
+@click.option('-v', '--verbose', count=True)
+@click.argument("path-source",
+                type=click.Path(exists=True, file_okay=True))
+def path(path_source, verbose, no_build=False):
     """Specify relative path of directory to serve."""
     from teachbooks.serve import Server
-
-    dir = Path(path_source).absolute().joinpath("_build", "html")
+    from teachbooks import BUILD_DIR, SERVER_WORK_DIR
     
-    echo_info(f"serve directory: {dir}")
+    if verbose > 0:
+        print(f"desired serve directory: {dir}")
 
-    workdir = Path(".teachbooks/server")
-    server = Server(servedir=dir, workdir=workdir)
+    dir_with_build = Path(path_source).joinpath(BUILD_DIR)
+    if dir_with_build.exists():
+        dir = dir_with_build
+        echo_info(f"_build/html available and appended to path.")
+    else:
+        dir = Path(path_source)
 
-    server.start(options=["--all"])
-    echo_info(f"server running on {server.url}")
+    # if not dir.exists():
+    #     echo_info(click.style("*desired directory not found*: ", fg="yellow") + f"{dir}")
+    #     dir = Path(".")
+    #     print('            '
+    #           +click.style("try current directory instead: ", fg="yellow") + f"{dir}")
+    echo_info(f"attempting to serve this directory: {dir}")
+    try:
+        server = Server.load(Path(SERVER_WORK_DIR))
+        if server.servedir == dir:
+            print('            '
+                  +f"  ---> already serving this directory.")
+            stdout_summary(server)
+        else:
+            print('            '
+                  +f"  ---> already serving a different directory.")
+            print('            '
+                  +f"  ---> updating server directory...")
+            server.stop()
+            serve_path(dir, verbose)
+    except:
+        if verbose > 0:
+            echo_info(f"no server found, creating a new one.")
+        serve_path(dir, verbose)
 
 @serve.command()
 def stop():
     """Stop the webserver."""
     from teachbooks.serve import Server
-    server = Server.load(Path(".teachbooks/server"))
-    server.stop()
-    echo_info(f"server stopped")
+    from teachbooks import SERVER_WORK_DIR
+    try:
+        server = Server.load(Path(SERVER_WORK_DIR))
+        server.stop()
+        echo_info(f"server stopped.")
+    except:
+        echo_info(f"no server found.")
 
+
+def serve_path(dir: str,
+               verbose: int) -> None:
+    """Start web server with specific path and verbosity."""
+    from teachbooks.serve import Server
+    from teachbooks import SERVER_WORK_DIR
+
+    server = Server(servedir=Path(dir),
+                    workdir=Path(SERVER_WORK_DIR),
+                    stdout=verbose)
+    server.start(options=["--all"])
+    
+    stdout_summary(server)
+    
 
 def echo_info(message: str) -> None:
-    """Wrapper for writing to stdout"""
+    """Wrapper for writing to stdout."""
     prefix = click.style("TeachBooks: ", fg="cyan", bold=True)
     click.echo(prefix + message)
+
+def stdout_summary(server) -> None:
+    """Print summary of server status."""
+    echo_info(click.style(f"server running on: {server.url}", fg="green"))
+    print('            '
+          +click.style(f"serving directory: {server.servedir}", fg="green"))
+    print("            "
+          +"To stop server, run: 'teachbooks serve stop'")
