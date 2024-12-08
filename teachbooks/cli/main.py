@@ -104,8 +104,8 @@ def serve(ctx):
 
 @serve.command()
 @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
-def dir(path_source):
-    """Specify webserver directory."""
+def path(path_source):
+    """Specify relative path of directory to serve."""
     from teachbooks.serve import Server
 
     dir = Path(path_source).absolute().joinpath("_build", "html")
