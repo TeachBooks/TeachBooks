@@ -87,20 +87,36 @@ def serve(ctx):
     from teachbooks.serve import Server
 
     if ctx.invoked_subcommand is None:
-        # Hardcoded for now
-        dir = Path("./book")
-        workdir = Path("./book/.teachbooks/server")
-        server = Server(servedir=dir, workdir=workdir)
+        ctx.forward(start)
 
-        server.start(options=["--all"])
-        echo_info(f"server running on {server.url}")
 
+@serve.command()
+@click.argument("path", type=click.Path(exists=True, file_okay=False), required=False)
+def start(path=None):
+    # Hardcoded for now
+    """Start the webserver"""
+    from teachbooks.serve import Server
+    # dir = Path(path) if path else Path("./book")
+    if path and Path(path+"/_build/html").exists():
+        dir = Path(path+"/_build/html")
+    elif Path("./book/_build/html").exists():
+        dir = Path("./book/_build/html")
+    else:
+        dir = Path("")
+        click.secho(f"Warning: Default directory '{dir}' not found. Serving current directory.", fg="yellow")
+
+    workdir = Path(".teachbooks/server")
+    server = Server(servedir=dir, workdir=workdir)
+    server.start(options=["--all"])
+    echo_info(f"Starting server with path: {dir}")
+    echo_info(f"Server running on {server.url}")
 
 @serve.command()
 def stop():
     """Stop the webserver"""
     from teachbooks.serve import Server
-    server = Server.load(Path("./book/.teachbooks/server"))
+    # server = Server.load(Path("./book/.teachbooks/server"))
+    server = Server.load(Path(".teachbooks/server"))
     server.stop()
     echo_info(f"server stopped")
 
