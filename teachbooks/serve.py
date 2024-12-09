@@ -28,7 +28,12 @@ class Server:
     """Class for managing a Python webserver in the background."""
     statefile = "state.pickle"
 
-    def __init__(self, servedir: Path | str, workdir: Path | str, port: int | None = None) -> None:
+    def __init__(self,
+                 servedir: Path | str,
+                 workdir: Path | str,
+                 port: int | None = None,
+                 stdout: int | None = None,
+                 ) -> None:
         """Construct Server object
 
         Parameters
@@ -40,7 +45,12 @@ class Server:
         port : int | None, optional
             Port for server, by default None. If left empty, a free port will be
             chosen automatically.
+        stdout : int | None, optional
+            Verbosity level, by default None (prints summary info).
+            - int={0, 1, 2, 3} for use with cli.
+            - int=0 is silent; None is mixed, int>0.
         """
+        self.stdout = stdout
         # Check if workdir already contains a statefile.
         try:
             old_instance = self.load(workdir)
@@ -57,7 +67,7 @@ class Server:
                 os.makedirs(self.workdir)
 
 
-    def start(self, options: list[str] = None) -> None:
+    def start(self, options: list[str] = None) -> bool:
         """Start server.
 
         Raises
@@ -65,7 +75,6 @@ class Server:
         RuntimeError
             If server could not be started
         """
-        print(f"Serving directory: {self.servedir}")  # Print the directory being served
         if not self.servedir.is_dir():
             raise NotADirectoryError(f"Directory does not exist: {self.servedir}")
 
@@ -74,15 +83,26 @@ class Server:
             self.port = self._find_port()
         
         if self.is_running:
+            if self.stdout is None or self.stdout > 0:
+                print(f"Server already running:")
+                print(f"  Serving directory: {self.servedir}")
+                print(f"  Accessible at url: {self.url}")
             return
         else:
+            if self.stdout is None or self.stdout > 0:
+                print(f"Starting server:")
+                print(f"  Directory: {self.servedir}")
+                print(f"  Port:      {self.port}")
+                print(f"  At url:    {self.url}")
 
             base_command = [sys.executable, "-u", "-m", "http.server", str(self.port)]
             if options:
                 base_command.extend(options)
 
             # Print the full command for verification
-            print("Starting server with command:", " ".join(base_command))
+            if self.stdout is None or self.stdout > 1:
+                print("Starting server with this command:\n",
+                      "  ".join(base_command))
 
             proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", str(self.port)],
                                 cwd=self.servedir,
