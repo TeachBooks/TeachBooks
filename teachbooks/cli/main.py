@@ -120,19 +120,6 @@ def serve(ctx, verbose):
                 
             serve_path(dir, verbose)
 
-        # Hardcoded for now 
-        # dir = Path("./book/_build/html")
-        # echo_info(f"directory not provided; try {dir}")
-
-        # if not dir.exists():
-        #     dir = Path(".")
-        #     echo_info(f"directory not found; using {dir}")
-
-        # if verbose > 0:
-        #     print(f"attempting to serve directory {dir}")
-
-        
-
 @serve.command()
 @click.option('-v', '--verbose', count=True)
 @click.argument("path-source",
@@ -152,11 +139,6 @@ def path(path_source, verbose, no_build=False):
     else:
         dir = Path(path_source)
 
-    # if not dir.exists():
-    #     echo_info(click.style("*desired directory not found*: ", fg="yellow") + f"{dir}")
-    #     dir = Path(".")
-    #     print('            '
-    #           +click.style("try current directory instead: ", fg="yellow") + f"{dir}")
     echo_info(f"attempting to serve this directory: {dir}")
     try:
         server = Server.load(Path(SERVER_WORK_DIR))

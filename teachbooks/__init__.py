@@ -1,6 +1,3 @@
-
-from pathlib import Path
-
 TEACHBOOKS_WORK_DIR = ".teachbooks/"
 SERVER_WORK_DIR = TEACHBOOKS_WORK_DIR + "server/"
 RELEASE_WORK_DIR = TEACHBOOKS_WORK_DIR + "release/"
