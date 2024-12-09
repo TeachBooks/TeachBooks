@@ -89,3 +89,18 @@ This tool's repository is stored on [GitHub](https://github.com/TeachBooks/Teach
 ### Documentation Website
 
 The documentation page for this package is built using Sphinx and @pradyunsg's Furo; use the [Furo documentation](https://pradyunsg.me/furo/#) as a reference when updating the documentation site.
+
+### Development Setup
+
+_Work in progress. This is a quick summary of the process used in [PR 44](https://github.com/TeachBooks/TeachBooks/pull/44), which could become the "standard" development setup. See [TeachBooks Discussion 49](https://github.com/TeachBooks/TeachBooks/discussions/49) for a more thorough overview and/or to make suggestions!_
+
+The steps and packages are chosen to match our GitHub Actions workflows as closely as possible, which use `pip`. 
+
+```
+conda deactivate
+<path to your>\python -m venv venv
+venv\Scripts\activate
+pip install -e .
+```
+
+Check that the local installation worked by running `pip show teachbooks`. For running tests, install dependencies listed in `pyproject.toml`.
