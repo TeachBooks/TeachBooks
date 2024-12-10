@@ -40,7 +40,7 @@ docs = [
 find = {}
 
 [project.urls]
-"Homepage" = "https://gitlab.tudelft.nl/interactivetextbooks-citg/extensions/teachbooks-package"
+"Homepage" = "https://github.com/teachbooks/teachbooks"
 
 [project.entry-points."pybtex.style.formatting"]
 apa = "teachbooks.plugins.pybtex.formatting.apa:APAStyle"
