@@ -43,7 +43,7 @@ The first version of this package was created and released by Caspar Jungbacker 
 
 ## License
 
-This software will most likely be licensed with a BSD 3-clause license, which aligns with similar Python packages (e.g., Jupyter Book)> However, the license file is not yet included with this repository as we are currently in the process of reviewing Copyright status.
+This software will most likely be licensed with a BSD 3-clause license, which aligns with similar Python packages (e.g., Jupyter Book). However, the license file is not yet included with this repository as we are currently in the process of reviewing Copyright status.
 
 ## Development
 
