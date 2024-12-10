@@ -1,0 +1,25 @@
+title: Test _ext copy
+author: Robert Lanzafame
+copyright: "2024"
+
+repository:
+  url: https://github.com/teachbooks/teachbooks
+  branch: main
+
+execute:
+  execute_notebooks: auto
+
+sphinx:
+  extra_extensions:
+    - sphinx.ext.intersphinx
+
+parse:
+  myst_enable_extensions:
+    - amsmath
+    - dollarmath
+    - linkify
+
+html:
+  use_repository_button: true
+  use_issues_button: true
+  use_edit_page_button: true
