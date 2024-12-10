@@ -20,6 +20,7 @@ def build(ctx, path_source, publish, release, process_only):
     """Pre-process book contents and run Jupyter Book build command"""
     from teachbooks.release import make_release
     from jupyter_book.cli.main import build as jupyter_book_build
+    from teachbooks.release import copy_ext
 
     if publish:
         click.secho("Warning: --publish is deprecated, use --release instead",
@@ -32,6 +33,10 @@ def build(ctx, path_source, publish, release, process_only):
     path_src_folder = Path(path_source).absolute()
     if release or publish:
         path_conf, path_toc = make_release(path_src_folder)
+        path_ext = path_src_folder / "_ext"
+        if path_ext.exists():
+            echo_info(click.style("copying _ext/ directory to support APA in release [TEMPORARY FEATURE]", fg="yellow"))
+            copy_ext(path_src_folder)
     else:
         path_conf = path_src_folder / "_config.yml"
         path_toc = path_src_folder / "_toc.yml"

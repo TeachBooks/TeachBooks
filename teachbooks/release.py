@@ -19,6 +19,28 @@ def make_release(sourcedir: Path) -> tuple[Path, Path]:
 
     return workdir.joinpath("_config.yml"), workdir.joinpath("_toc.yml")
 
+def copy_ext(sourcedir: Path) -> None:
+    """Copy _ext/ to support APA in release [TEMPORARY]"""
+    # Make hidden directory that will contain the cleaned-up files
+    ext_dir = sourcedir.joinpath("_ext")
+    workdir = sourcedir.joinpath(".teachbooks", "release")
+
+    if not os.path.exists(workdir):
+        os.makedirs(workdir)
+
+    try:
+        for root, dirs, files in os.walk(ext_dir):
+            for dir in dirs:
+                os.makedirs(workdir.joinpath("_ext", Path(root).relative_to(ext_dir).joinpath(dir)), exist_ok=True)
+            for file in files:
+                src_file = Path(root).joinpath(file)
+                dest_file = workdir.joinpath("_ext", Path(root).relative_to(ext_dir).joinpath(file))
+                os.makedirs(dest_file.parent, exist_ok=True)
+                with open(src_file, 'rb') as fsrc, open(dest_file, 'wb') as fdst:
+                    fdst.write(fsrc.read())
+        print("Copied _ext/ directory successfully.")
+    except:
+        print("Error copying _ext/ directory.")
 
 def clean_yaml(path_source: str | Path, path_output: str | Path) -> None:
     """Removes sections marked with # <START|END> REMOVE-FROM-PUBLISH or REMOVE-FROM-RELEASE from a yaml file
