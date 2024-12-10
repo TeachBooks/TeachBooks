@@ -49,3 +49,37 @@ def test_build_publish(cli: CliRunner):
     _ = cli.invoke(commands.clean,
                    book.as_posix())
     assert not html.joinpath("index.html").exists()
+
+def test_build_release_apa(cli: CliRunner):
+    """Confirm _ext is copied into .teachbooks dir.
+    
+    Note that this does not test proper build, which
+    must be done manually in a GitHub repo using the
+    deploy-book-workflow with BRANCHES_TO_PREPROCESS.
+    """
+    book = PATH_BOOKS.joinpath("02")
+    build_result = cli.invoke(commands.build,
+                              ['--release',
+                              book.as_posix()])
+    assert build_result.exit_code == 0, build_result.output
+    html = book.joinpath("_build", "html")
+    assert html.joinpath("index.html").exists()
+    assert book.joinpath(".teachbooks","release","_ext","apastyle.py").exists()
+    assert book.joinpath(".teachbooks","release","_ext","bracket_citation_style.py").exists()
+    assert book.joinpath(".teachbooks","release","_ext","pybtexapastyle").exists()
+    assert book.joinpath(".teachbooks","release","_ext","pybtexapastyle","setup.py").exists()
+    _ = cli.invoke(commands.clean,
+                   book.as_posix())
+    assert not html.joinpath("index.html").exists()
+
+    # build 2x to make sure there aren't write conflicts within _ext
+    build_result = cli.invoke(commands.build,
+                              ['--release',
+                              book.as_posix()])
+    assert build_result.exit_code == 0, build_result.output
+    html = book.joinpath("_build", "html")
+    assert html.joinpath("index.html").exists()
+    assert book.joinpath(".teachbooks","release","_ext","apastyle.py").exists()
+    assert book.joinpath(".teachbooks","release","_ext","bracket_citation_style.py").exists()
+    assert book.joinpath(".teachbooks","release","_ext","pybtexapastyle").exists()
+    assert book.joinpath(".teachbooks","release","_ext","pybtexapastyle","setup.py").exists()
