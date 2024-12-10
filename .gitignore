@@ -31,3 +31,6 @@ env3
 
 docs/build
 generated
+
+**/_build
+**.teachbooks
