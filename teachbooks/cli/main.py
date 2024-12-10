@@ -53,6 +53,8 @@ def build(ctx, path_source, publish, release, process_only):
         size_mb = total_size / (1024 * 1024)
         echo_info(f"Build complete. Total size: {size_mb:.2f}MB")
 
+        check_server()
+
 
 @main.command()
 @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
@@ -181,9 +183,18 @@ def serve_path(dir: str,
                     workdir=Path(SERVER_WORK_DIR),
                     stdout=verbose)
     server.start(options=["--all"])
-    
     stdout_summary(server)
-    
+
+def check_server():
+    """Check if webserver is running and print status."""
+    from teachbooks.serve import Server
+    from teachbooks import SERVER_WORK_DIR
+    try:
+        server = Server.load(Path(SERVER_WORK_DIR))
+        stdout_summary(server)
+    except:
+        echo_info(f"Use `teachbooks serve` to start a local server.")
+        
 
 def echo_info(message: str) -> None:
     """Wrapper for writing to stdout."""
