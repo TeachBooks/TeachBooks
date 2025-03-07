@@ -13,6 +13,7 @@ Features
 
 - Draft/Release workflow: take out sections not meant (yet) for students to see.
 - Web server management: easily start a Python web server for testing interactive features.
+- Add existing material from GitHub or GitLab to your book, by refering to it in the table of content.
 
 Installation
 ^^^^^^^^^^^^
@@ -29,3 +30,4 @@ Contents
 
    cli/cli
    api
+   external

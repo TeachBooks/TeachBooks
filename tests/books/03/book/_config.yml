@@ -1,0 +1,23 @@
+title: Test Book 03 for External Content
+author: Junwon
+copyright: "2024"
+
+repository:
+  url: https://github.com/teachbooks/teachbooks
+  branch: main
+
+only_build_toc_files: true
+
+execute:
+  execute_notebooks: false
+
+parse:
+  myst_enable_extensions:
+    - amsmath
+    - dollarmath
+    - linkify
+
+html:
+  use_repository_button: true
+  use_issues_button: true
+  use_edit_page_button: true

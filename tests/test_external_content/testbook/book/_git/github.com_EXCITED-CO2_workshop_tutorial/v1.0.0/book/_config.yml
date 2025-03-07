@@ -1,0 +1,45 @@
+title: Working with modern (cloud) data formats
+author: Bart Schilperoort and Claire Donnelly
+logo: figures/logo_excited_square.png
+
+execute:
+  execute_notebooks: "off"
+
+only_build_toc_files: true
+
+html:
+  # favicon : "figures/favicon.ico"
+  baseurl :  "https://excited-co2.github.io/workshop_tutorial"
+
+sphinx:
+  config:
+    html_js_files:
+    - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
+    thebe_config:
+      use_thebe_lite: false
+      exclude_patterns: ["**/_*.yml", "**/*.md", "**/*.ipynb"]
+    html_theme_options:
+      repository_url: "https://github.com/EXCITED-CO2/workshop_tutorial"
+      repository_branch: main
+      path_to_docs: book
+      use_repository_button: true
+      use_issues_button : true
+      launch_buttons:
+        jupyterhub_url: https://aecfr.excited-exchang.src.surf-hosted.nl/
+        notebook_interface: "jupyterlab"
+        thebe: false
+    html_show_copyright: false
+    html_last_updated_fmt: '%B %-d, %Y'
+  extra_extensions:
+    - sphinx.ext.imgconverter
+    - jupyterbook_patches
+    - download_link_replacer
+    - sphinx.ext.extlinks
+
+repository:
+  url: https://github.com/EXCITED-CO2/workshop_tutorial
+  path_to_book: book  # A path to your book's folder, relative to the repository root.
+  branch: main  # Which branch of the repository should be used when creating links
+
+bibtex_bibfiles: 
+  - references.bib
