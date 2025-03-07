@@ -3,9 +3,20 @@ import click
 
 
 def check_requirements(main_requirements: Path, git_repos: list[Path]):
+    if not main_requirements.exists():
+        click.secho(
+            "Warning: no requirements.txt file found for the main book.\n"
+            "    TeachBooks will not be able to find which external-content"
+            "dependencies are missing",
+            fg="yellow",
+            err=True,
+        )
+        return None
+
     requirements = read_requirements(main_requirements)
 
-    for repo in git_repos:
+    repos = (repo for repo in git_repos if (repo / "requirements.txt").exists())
+    for repo in repos:
         repo_requirements = read_requirements(repo / "requirements.txt")
         unmatched_requirements = repo_requirements - requirements
         if len(unmatched_requirements) > 0:
