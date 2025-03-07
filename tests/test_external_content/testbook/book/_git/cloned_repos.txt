@@ -1,0 +1,4 @@
+github.com_EXCITED-CO2_workshop_tutorial/v1.0.0
+github.com_TeachBooks_HOS-workbook/main
+gitlab.tudelft.nl_interactivetextbooks-citg_risk-and-reliability/v0.1
+gitlab.tudelft.nl_interactivetextbooks-citg_risk-and-reliability/main
