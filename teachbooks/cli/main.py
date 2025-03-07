@@ -2,6 +2,7 @@ import shutil
 import click
 from pathlib import Path
 from teachbooks.external_content.process_toc import process_external_toc_entries
+from teachbooks.external_content.process_toc import chmod_git_files
 
 
 @click.group()
@@ -94,7 +95,7 @@ def clean(path_source, external: bool=False):
     if external:
         if gitdir.exists():
             echo_info(f"Cleaning cloned git repositories in {gitdir}")
-            shutil.rmtree(gitdir, ignore_errors=False)
+            shutil.rmtree(gitdir.absolute(), onerror=chmod_git_files)
         else:
             echo_info(f"No _git directory found at {gitdir}")
     else:

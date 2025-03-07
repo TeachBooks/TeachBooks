@@ -139,3 +139,9 @@ def external_to_local(
     rel_path = os.path.relpath(repository_dir, root)
     mapping_local["file"] = os.path.join(rel_path, content_file).replace("\\", "/")
     return mapping_local
+
+
+def chmod_git_files(foo, file, err):
+    if Path(file).suffix in ['.idx', '.pack'] and 'PermissionError' == err[0].__name__:
+        os.chmod(file, os.stat.S_IWRITE)
+        foo(file)
