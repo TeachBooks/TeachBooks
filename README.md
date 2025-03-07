@@ -2,9 +2,9 @@
 
 This Python package is primarily a wrapper around the Jupyter Book package and is designed to facilitate usage of the platform in educational contexts. In this case "wrapper" refers to the CLI usage: CLI commands generally invoke `jupyter-book` commands internally; the `jupyter-book` package is _not_ distributed within the `teachbooks` package.
 
-The source code (on GitHub [here]() and function of the package is documented on a Sphinx-built website: [teachbooks.io/TeachBooks/](https://teachbooks.io/TeachBooks/). Visit the TeachBooks [website](https://teachbooks.io) and [manual](https://teachbooks.io) to learn more about how this package is used in an educational context.
+The source code and function of the package is documented on a Sphinx-built website: [teachbooks.io/TeachBooks/](https://teachbooks.io/TeachBooks/). Visit the TeachBooks [website](https://teachbooks.io) and [manual](https://teachbooks.io/manual) to learn more about how this package is used in an educational context.
 
-The package is currently only [available on PyPI](https://pypi.org/project/teachbooks/) and can be installed as follows:
+The package is currently [available on PyPI](https://pypi.org/project/teachbooks/) only and can be installed as follows:
 
 ```
 pip install teachbooks
@@ -31,9 +31,11 @@ Using the teachbooks CLI in the book building process generally invokes Jupyter 
 
 Expect frequent updates to the package as patches and minor releases until further notice. We expect to release `v1.0.0` in Spring, 2025. Update the package in your local environment using using `pip install --upgrade teachbooks`. Visit the setup chapter of the [TeachBooks Manual](https://teachbooks.io/manual/installation-and-setup/overview.html) for more information.
 
-To contribute, create a fork and open a pull request to the (default) `develop` branch. An open pull request "Next release vA.B.C" will between `develop` and `stable` to illustrate changes in the next minor release. 
+To contribute, create a fork and open a pull request to the (default) `develop` branch. An open pull request "Next release vA.B.C" should be created between `develop` and `stable` to illustrate changes in the next minor release.
 
-Semantic numbering is used: `vA.B.C`, where patches advance `C` and minor releases advance `B`. [Releases in the GitHub Repository](https://github.com/TeachBooks/TeachBooks/releases) deploy automatically to [PyPI](https://pypi.org/project/teachbooks/). Minor releases will be merged into the `stable` branch (including those below `v1.0.0`); patches may be incorporated in `develop` or `stable`.
+Semantic numbering is used: `vA.B.C`, where patches advance `C` and minor releases advance `B`. [Releases in the GitHub Repository](https://github.com/TeachBooks/TeachBooks/releases) deploy automatically to [PyPI](https://pypi.org/project/teachbooks/) once a tag is created and the `pyproject.toml` file is updated with the new version number. Minor releases will be merged into the `stable` branch (including those below `v1.0.0`); patches may be incorporated in `develop` or `stable`. 
+
+If a release must be available on PyPI but it is not desired for it to be available as the primary release, use the numbering `vA.B.Cbn`, where `n` is an increasing number starting from 1. The specific version can be installed via pip using `pip install teachbooks==A.B.Cbn`.
 
 ## Acknowledgements
 
