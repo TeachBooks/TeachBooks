@@ -70,7 +70,9 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
 
 @main.command()
 @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
-def clean(path_source):
+@click.option('--external', is_flag=True,
+              help="Remove contengs of _git/ directory [DEVELOPEMENT]")
+def clean(path_source, external: bool=False):
     """Stop teachbooks server and run Jupyter Book clean command."""
     from jupyter_book.cli.main import clean as jupyter_book_clean
     from teachbooks.serve import Server, ServerError
@@ -89,9 +91,18 @@ def clean(path_source):
 
     # Clean external content
     gitdir = Path(path_source) / "_git"
-    if gitdir.exists():
-        echo_info(f"Cleaning cloned git repositories in {gitdir}")
-        shutil.rmtree(gitdir, ignore_errors=True)
+    if external:
+        if gitdir.exists():
+            echo_info(f"Cleaning cloned git repositories in {gitdir}")
+            echo_info(f"  --> CLEANING OF EXTERNAL CONTENT IS IN DEVELOPMENT.")
+            shutil.rmtree(gitdir, ignore_errors=True)
+        else:
+            echo_info(f"No _git directory found at {gitdir}")
+    else:
+        if gitdir.exists():
+            echo_info(f"Skipping external content cleaning. Use --external"
+                      +" to remove cloned git repositories.")
+            echo_info(f"  --> CLEANING OF EXTERNAL CONTENT IS IN DEVELOPMENT.")
 
     # Now proceed with cleaning
     echo_info(f"Cleaning build artifacts in {path_source}...")

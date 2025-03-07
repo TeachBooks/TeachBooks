@@ -18,7 +18,7 @@ def check_requirements(main_requirements: Path, git_repos: list[Path]):
                 f"    Repository: {repo}\n"
                 "    Missing or non-matching requirements:\n"
                 f"{unmatched_str}"
-                "Content from this book might not display correctly.",
+                "Content from this book might not display or function correctly.",
                 fg="yellow",
                 err=True,
             )

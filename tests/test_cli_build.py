@@ -83,3 +83,34 @@ def test_build_release_apa(cli: CliRunner):
     assert book.joinpath(".teachbooks","release","_ext","bracket_citation_style.py").exists()
     assert book.joinpath(".teachbooks","release","_ext","pybtexapastyle").exists()
     assert book.joinpath(".teachbooks","release","_ext","pybtexapastyle","setup.py").exists()
+
+def test_build_external_content(cli: CliRunner):
+    book = PATH_BOOKS.joinpath("03", "book")
+    build_result = cli.invoke(commands.build,
+                              book.as_posix())
+    assert build_result.exit_code == 0, build_result.output
+    assert book.joinpath("_git").exists()
+    html = book.joinpath("_build", "html")
+    assert html.joinpath("index.html").exists()
+    # cleaning this book causes second test book 03 to fail
+    # postpone testing clean until removal of _git is solved
+    # _ = cli.invoke(commands.clean,
+    #                book.as_posix())
+    # assert not html.joinpath("index.html").exists()
+    # postponing removal of _git until implementation is more refined
+    # assert not book.joinpath("_git").exists()
+
+def test_build_release_external_content(cli: CliRunner):
+    book = PATH_BOOKS.joinpath("03", "book")
+    build_result = cli.invoke(commands.build,
+                              ['--release',
+                              book.as_posix()])
+    assert build_result.exit_code == 0, build_result.output
+    assert book.joinpath("_git").exists()
+    html = book.joinpath("_build", "html")
+    assert html.joinpath("index.html").exists()
+    _ = cli.invoke(commands.clean,
+                   book.as_posix())
+    assert not html.joinpath("index.html").exists()
+    # postponing removal of _git until implementation is more refined
+    # assert not book.joinpath("_git").exists()

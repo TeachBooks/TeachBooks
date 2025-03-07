@@ -48,7 +48,7 @@ def test_build(cli: CliRunner, tmp_path: Path, monkeypatch):
         assert path.exists()
 
     _ = cli.invoke(commands.clean,
-                   bookdir.as_posix())
-
+                   ['--external',
+                   bookdir.as_posix()],)
     assert not indexfile.exists()
     assert not _gitdir.exists()
