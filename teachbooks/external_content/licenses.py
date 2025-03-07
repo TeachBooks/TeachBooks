@@ -11,7 +11,7 @@ LICENSE_MAPPING = {
     "Mozilla Public License": "Mozilla",
     "Apache License": "Apache",
     "CREATIVE COMMONS PUBLIC LICENSE": "CCPL",
-    "Creative Commons Attribution-NonCommercial": "CC-BY",
+    "Creative Commons Attribution-NonCommercial": "CC-BY-NC",
     "Creative Commons Attribution 4.0": "CC-BY-4.0",
     "Attribution 4.0 International": "CC-BY-4.0",
     "CC0 1.0 Universal": "CC0",
