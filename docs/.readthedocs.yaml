@@ -15,8 +15,8 @@ sphinx:
    configuration: docs/source/conf.py
 
 # Note: installation can also be done with pip and "docs" as 'extra_requirements',
-#    however, jupyter-book is a dependency of teachbooks and thus conflicts could occur
-#    between RTD's sphinx and the sphinx pin of jupyter-book.
+#    however, jupyter-book is a dependency of teachbooks and thus conflicts could
+#    occur between RTD's sphinx and the sphinx pin of jupyter-book.
 python:
    install:
    - requirements: docs/requirements.txt
