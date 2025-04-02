@@ -1,0 +1,3 @@
+furo
+numpydoc
+sphinx-click

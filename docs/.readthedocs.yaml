@@ -1,0 +1,22 @@
+# Read the Docs configuration file
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+
+# Required
+version: 2
+
+# Set the OS, Python version, and other tools you might need
+build:
+  os: ubuntu-24.04
+  tools:
+    python: "3.12"
+
+# Build documentation in the "docs/" directory with Sphinx
+sphinx:
+   configuration: docs/source/conf.py
+
+# Note: installation can also be done with pip and "docs" as 'extra_requirements',
+#    however, jupyter-book is a dependency of teachbooks and thus conflicts could occur
+#    between RTD's sphinx and the sphinx pin of jupyter-book.
+python:
+   install:
+   - requirements: docs/requirements.txt
