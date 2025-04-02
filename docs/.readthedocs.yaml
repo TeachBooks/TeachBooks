@@ -19,4 +19,7 @@ sphinx:
 #    occur between RTD's sphinx and the sphinx pin of jupyter-book.
 python:
    install:
-   - requirements: docs/requirements.txt
+    - method: pip
+      path: .
+      extra_requirements:
+        - docs
