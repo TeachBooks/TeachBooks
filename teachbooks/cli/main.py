@@ -46,7 +46,7 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
 
     # Parse out external git entries from ToC
     path_toc = process_external_toc_entries(
-        path_toc, path_toc.with_stem("local_toc"), book_root=path_src_folder
+        path_toc, path_toc.with_stem("_toc_with_local_paths"), book_root=path_src_folder
     )
 
     if not process_only:
