@@ -3,7 +3,7 @@ import stat
 import subprocess
 
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import click
 import yaml
@@ -15,6 +15,11 @@ from teachbooks.external_content.git import create_repository_dir_name, get_bran
 from teachbooks.external_content.licenses import validate_licenses
 from teachbooks.external_content.requirements import check_requirements
 from teachbooks.external_content.utils import load_yaml_file, modify_field
+
+
+LOCAL_TOC_HEADER = (
+    "ToC file with localized paths. Used for Teachbooks' external content feature."
+)
 
 
 def process_external_toc_entries(
@@ -56,7 +61,7 @@ def process_external_toc_entries(
         write_bibfile(dest.parent / "references.bib", merged_bibs)
         # TODO: don't overwrite original references.bib file
 
-        write_toc_yaml(toc, dest)
+        write_toc_yaml(toc, dest, header=LOCAL_TOC_HEADER)
         return dest
     
     if toc != src_toc:
@@ -90,7 +95,10 @@ def get_content_path(url: str) -> str:
 
 
 def write_toc_yaml(
-        data: Dict[str, str], path: str | Path, encoding: str = "utf8"
+    data: Dict[str, str],
+    path: str | Path,
+    encoding: str = "utf8",
+    header: Optional[str] = None,
 ) -> None:
     """Write a ToC file.
 
@@ -99,6 +107,8 @@ def write_toc_yaml(
     :param encoding: `_toc.yml` file character encoding
     """
     with open(path, encoding=encoding, mode="w") as handle:
+        if header is not None:
+            handle.write(f"#{header}\n")
         yaml.safe_dump(data, handle)
 
 
