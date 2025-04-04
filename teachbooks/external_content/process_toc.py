@@ -108,7 +108,7 @@ def write_toc_yaml(
     """
     with open(path, encoding=encoding, mode="w") as handle:
         if header is not None:
-            handle.write(f"#{header}\n")
+            handle.write(f"# {header}\n")
         yaml.safe_dump(data, handle)
 
 
