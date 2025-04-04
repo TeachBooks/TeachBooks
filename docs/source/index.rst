@@ -31,3 +31,4 @@ Contents
    cli/cli
    api
    external
+   contributing
