@@ -2,7 +2,7 @@
 
 This Python package is primarily a wrapper around the Jupyter Book package and is designed to facilitate usage of the platform in educational contexts. In this case "wrapper" refers to the CLI usage: CLI commands generally invoke `jupyter-book` commands internally; the `jupyter-book` package is _not_ distributed within the `teachbooks` package.
 
-The source code and function of the package is documented on a Sphinx-built website: [teachbooks.io/TeachBooks/](https://teachbooks.io/TeachBooks/). Visit the TeachBooks [website](https://teachbooks.io) and [manual](https://teachbooks.io/manual) to learn more about how this package is used in an educational context.
+The source code and function of the package is documented at [teachbooks.readthedocs.io](https://teachbooks.readthedocs.io). Visit the TeachBooks [website](https://teachbooks.io) and [manual](https://teachbooks.io/manual) to learn more about how this package is used in an educational context.
 
 The package is currently [available on PyPI](https://pypi.org/project/teachbooks/) only and can be installed as follows:
 
@@ -53,7 +53,9 @@ New features and improvements are incorporated via pull requests to the (default
 
 ### Documentation Website
 
-The [documentation for this package](https://teachbooks.io/teachbooks) is built using Sphinx and @pradyunsg's Furo; use the [Furo documentation](https://pradyunsg.me/furo/#) as a reference when updating the documentation site.
+The documentation for this package is built using Sphinx and @pradyunsg's Furo; use the [Furo documentation](https://pradyunsg.me/furo/#) as a reference when updating the documentation site.
+
+The Read the Docs website [teachbooks.readthedocs.io](https://teachbooks.readthedocs.io) maintains documentation for each tagged release beginning with version `0.2.0`. The documentation website is also deployed from GitHub Pages from the `stable` branch and can be accessed at [teachbooks.io/TeachBooks/](https://teachbooks.io/TeachBooks/). This should remain identical to the "latest" (default) Read the Docs documentation page as long as the most recent tagged release is on branch `stable`.
 
 ### Development Setup
 
