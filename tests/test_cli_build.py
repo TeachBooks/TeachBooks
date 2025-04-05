@@ -99,7 +99,6 @@ def test_build_external_content(cli: CliRunner):
     html = book.joinpath("_build", "html")
     assert html.joinpath("index.html").exists()
 
-    # TODO: cleaning this book can make second test book 03 to fail on some systems;
     _ = cli.invoke(commands.clean, ["--external", book.as_posix()])
     assert not html.joinpath("index.html").exists()
     assert not book.joinpath("_git").exists()
