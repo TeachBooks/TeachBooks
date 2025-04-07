@@ -3,24 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to TeachBooks's Documentation!
-======================================
-
-The TeachBooks package is a collection of command-line tools to make the process of making, editing and Releasing books easier. 
-
-Features
-^^^^^^^^
-
-- Draft/Release workflow: take out sections not meant (yet) for students to see.
-- Web server management: easily start a Python web server for testing interactive features.
-- Add existing material from GitHub or GitLab to your book, by refering to it in the table of content.
-
-Installation
-^^^^^^^^^^^^
-
-`teachbooks` can be installed through pip:
-
-   pip install teachbooks
+TeachBooks Documentation: Welcome!
+==================================
 
 Contents
 ^^^^^^^^
@@ -28,7 +12,9 @@ Contents
    :maxdepth: 2
    :caption: Contents:
 
+   intro
    cli/cli
    api
    external
    contributing
+   tests

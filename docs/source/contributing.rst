@@ -176,3 +176,24 @@ This section is for maintainers of the package.
        ``pip install teachbooks==<new version>``?
 
 #.  Celebrate
+
+Releases and Versioning
+-----------------------
+
+Semantic numbering is used: `vA.B.C`, where patches advance `C` and minor
+releases advance `B`. `Releases in the GitHub Repository
+<https://github.com/TeachBooks/TeachBooks/releases>`__ deploy automatically
+to [PyPI](https://pypi.org/project/teachbooks/) once a tag is created and
+the `pyproject.toml` file is updated with the new version number. Minor
+releases will be merged into the `stable` branch (including those below
+`v1.0.0`); patches may be incorporated in `develop` or `stable`.
+
+As described above, a Pull Request should be created when making a
+contribution. A draft Pull Request may be set up between the ``develop`` and
+``stable`` branches to preview updates for the next minor or major release.
+
+If a release must be available on PyPI but it is not desired for it to be
+available as the primary release, use the numbering `vA.B.Cbn`, where `n`
+is an increasing number starting from 1. The specific version can be installed
+via pip using `pip install teachbooks==A.B.Cbn`. A tag defining this type of
+release may be used on any branch.
