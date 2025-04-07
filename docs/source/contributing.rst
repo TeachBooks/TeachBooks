@@ -37,7 +37,7 @@ You think you may have found a bug
    Depending on the issue, you may want to include:
 
    - the `SHA hashcode <https://help.github.com/articles/autolinked-references-and-urls/#commit-shas>`__
-   of the commit that is causing your problem;
+     of the commit that is causing your problem;
    - some identifying information (name and version number) for dependencies you're using;
    - information about the operating system;
 
