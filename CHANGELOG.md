@@ -16,6 +16,7 @@ The complete list of features added:
 - Documentation for the entire package is provided by via Read the Docs: [teachbooks.readthedocs.io](https://teachbooks.readthedocs.io/latest/)
 - A license is now provided (MIT)
 - A waiver is added clarifying that TeachBooks is the copyright holder, allowing contributions from the community to be more straightforward
+- added Linkspector to verify URL's in documentation
 
 ## 0.2.0b1
 
