@@ -19,9 +19,9 @@ Features
 ^^^^^^^^
 
 - Wrapper for ``jupyter-book``: pre- and post-processing steps, easy
-    customization of book build.
+  customization of book build.
 - Draft-Release workflow: take out sections not meant (yet) for
-readers (students) to see.
+  readers (students) to see.
 - Local web server management: easily start a Python web server to review
   changes and test features in your book.
 - External Content: add material from GitHub or GitLab to your book,
