@@ -87,8 +87,7 @@ Setting up a development environment
 As the package and its dependencies are installed using ``pip`` in the Deploy
 Book Workflow (the GitHub Action for building books), it is best to do the
 same with a development environment. Begin by cloning the repository and
-creating a new branch (typically from the ``stable`` or ``develop``
-(default) branches).
+creating a new branch from the appropriate branch and/or commit.
 
 The creation of the development environment should be somthing like this:
 
