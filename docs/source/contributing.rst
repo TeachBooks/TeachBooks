@@ -35,12 +35,14 @@ You think you may have found a bug
    issue, making sure to provide enough information to the rest of the
    community to understand the cause and context of the problem.
    Depending on the issue, you may want to include:
+
    - the `SHA
    hashcode <https://help.github.com/articles/autolinked-references-and-urls/#commit-shas>`__
    of the commit that is causing your problem;
    - some identifying
    information (name and version number) for dependencies you're using;
    - information about the operating system;
+   
 3. apply relevant labels to the newly created issue.
 
 You want to make some kind of change to the code base
