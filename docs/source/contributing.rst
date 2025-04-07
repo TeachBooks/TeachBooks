@@ -100,10 +100,12 @@ The creation of the development environment should be somthing like this:
 
 Using option ``pip install -e`` is editable mode, which updates the
 ``teachbooks`` module in the venv as it is edited. Note that this step
-often takes a long time on Windows (reason unclear) and may need to be
-stopped and restarted several times. The `Setuptools manual
+can take a long time on Windows; the reason is most likely due to malware
+scanners on organization-owned/managed computers. To resolve this you
+can stop and start the installation process several times (or switch
+to Linux). to avoid this). In general, the `Setuptools manual
 <https://setuptools.pypa.io/en/latest/userguide/development_mode.html>`__
-is a good reference in case you run into issues here.
+can be a useful reference in case you run into issues here.
 
 The instructions above will create a venv in the root directory of the
 package repository and improvements to the source code will typically
