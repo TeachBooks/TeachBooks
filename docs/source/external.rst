@@ -35,7 +35,7 @@ Upon running ``teachbooks build book/``, the following will happen:
    If any missing plugins/extensions are found, a warning is raised during the build process.
 #. The external repositories are checked for any ``references.bib`` files.
    These are merged together with the main book's ``references.bib`` file.
-#. A new table of contents is generated (``local_toc.yml```) which refers to the locally cloned content.
+#. A new table of contents is generated (``_toc_with_local_paths.yml```) which refers to the locally cloned content.
 
 Upon running ``teachbooks clean book/``, the `_git/` subdirectory will be removed 
 (along with the build artifacts).

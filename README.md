@@ -32,7 +32,7 @@ Using the teachbooks CLI in the book building process generally invokes Jupyter 
 
 Expect frequent updates to the package as patches and minor releases until further notice. We expect to release `v1.0.0` in Spring, 2025. Update the package in your local environment using using `pip install --upgrade teachbooks`. Visit the setup chapter of the [TeachBooks Manual](https://teachbooks.io/manual/installation-and-setup/overview.html) for more information.
 
-To contribute, create a fork and open a pull request to the (default) `develop` branch. An open pull request "Next release vA.B.C" should be created between `develop` and `stable` to illustrate changes in the next minor release.
+Contributions are ideally made via a fork and pull request to the (default) `develop` branch (see [Documentation](https://teachbooks.readthedocs.io) for detailed instructions). A draft pull request "Next release vA.B.C" should be created between `develop` and `stable` to illustrate changes in the next minor release.
 
 Semantic numbering is used: `vA.B.C`, where patches advance `C` and minor releases advance `B`. [Releases in the GitHub Repository](https://github.com/TeachBooks/TeachBooks/releases) deploy automatically to [PyPI](https://pypi.org/project/teachbooks/) once a tag is created and the `pyproject.toml` file is updated with the new version number. Minor releases will be merged into the `stable` branch (including those below `v1.0.0`); patches may be incorporated in `develop` or `stable`. 
 
@@ -40,33 +40,20 @@ If a release must be available on PyPI but it is not desired for it to be availa
 
 Beginning with `v0.2.0` all tagged releases are available in the Read the Docs website [teachbooks.readthedocs.io](https://teachbooks.readthedocs.io) (described below).
 
-## Acknowledgements
-
-This package received financial support from the Civil Engineering and Geosciences faculty at Delft University of Technology in the Netherlands via Education Innovation Projects, [MUDE](https://mude.citg.tudelft.nl) and direct financial support of Jupyter Book applications in education by the CEG faculty. The project also received funding from the TU Delft Library at the end of 2024.
-
-The first version of this package was created and released by Caspar Jungbacker in Spring, 2024 and has since been primarily maintained by TeachBooks contributors and MUDE the Student Army.
-
-## License
-
-This software will most likely be licensed with a BSD 3-clause license, which aligns with similar Python packages (e.g., Jupyter Book). However, the license file is not yet included with this repository as we are currently in the process of reviewing Copyright status.
-
 ### Documentation Website
 
 The documentation for this package is built using Sphinx and @pradyunsg's Furo; use the [Furo documentation](https://pradyunsg.me/furo/#) as a reference when updating the documentation site.
 
 The Read the Docs website [teachbooks.readthedocs.io](https://teachbooks.readthedocs.io) maintains documentation for each tagged release beginning with `v0.2.0`. The documentation website is also deployed from GitHub Pages from the `stable` branch and can be accessed at [teachbooks.io/TeachBooks/](https://teachbooks.io/TeachBooks/). This should remain identical to the "latest" (default) Read the Docs documentation page as long as the most recent tagged release is on branch `stable`.
 
-### Development Setup
+See the [Documentation](https://teachbooks.readthedocs.io) for guidance on **Contributing** and **Development.**
 
-_Work in progress. This is a quick summary of the process used in [PR 44](https://github.com/TeachBooks/TeachBooks/pull/44), which could become the "standard" development setup. See [TeachBooks Discussion 49](https://github.com/TeachBooks/TeachBooks/discussions/49) for a more thorough overview and/or to make suggestions!_
+## License
 
-The steps and packages are chosen to match our GitHub Actions workflows as closely as possible, which use `pip`. 
+This software will most likely be licensed with a BSD 3-clause license, which aligns with similar Python packages (e.g., Jupyter Book). However, the license file is not yet included with this repository as we are currently in the process of reviewing Copyright status.
 
-```
-conda deactivate
-<path to your>\python -m venv venv
-venv\Scripts\activate
-pip install -e .
-```
+## Acknowledgements
 
-Check that the local installation worked by running `pip show teachbooks`. For running tests, install dependencies listed in `pyproject.toml`.
+This package received financial support from the Civil Engineering and Geosciences faculty at Delft University of Technology in the Netherlands via Education Innovation Projects, [MUDE](https://mude.citg.tudelft.nl) and direct financial support of Jupyter Book applications in education by the CEG faculty. The project also received funding from the TU Delft Library at the end of 2024. Bart Schilperoort of the Netherlands eScience Center implemented the external contents module and also provided critical advice on the journey to `v1.0.0`.
+
+The first version of this package was created and released by Caspar Jungbacker in Spring, 2024 and has since been primarily maintained by a variety of TeachBooks contributors. 
