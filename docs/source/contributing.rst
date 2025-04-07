@@ -42,7 +42,7 @@ You think you may have found a bug
    - some identifying
    information (name and version number) for dependencies you're using;
    - information about the operating system;
-   
+
 3. apply relevant labels to the newly created issue.
 
 You want to make some kind of change to the code base
@@ -111,7 +111,7 @@ is a good reference in case you run into issues here.
 The instructions above will create a venv in the root directory of the
 package repository and improvements to the source code will typically
 be tested by building a book. For example, testing on an existing book
-with source code in ``./book/``located outside of the teachbooks repo
+with source code in ``./book/`` located outside of the teachbooks repo
 will require using the relative path to the venv
 ``PATH_TO_TEACHBOOKS_REPO``:
 
