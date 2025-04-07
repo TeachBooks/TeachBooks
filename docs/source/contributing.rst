@@ -59,7 +59,7 @@ You want to make some kind of change to the code base
     repository (follow the instructions
     `here <https://help.github.com/articles/configuring-a-remote-for-a-fork/>`__
     and `here <https://help.github.com/articles/syncing-a-fork/>`__);
-#.  install package main and dev dependencies. See the :ref: `dev environment setup`
+#.  install package main and dev dependencies. See the :ref:`dev-environment-setup`
     below.
 #.  make sure the existing documentation can still by generated without
     warnings by running ``cd docs && sphinx-build source/ _build/``.
@@ -78,7 +78,7 @@ request; we can help you! Just go ahead and submit the pull request, but
 keep in mind that you might be asked to append additional commits to
 your pull request.
 
-.. _dev environment setup:
+.. _dev-environment-setup:
 
 Setting up a development environment
 ------------------------------------
