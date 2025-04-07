@@ -1,5 +1,9 @@
+import shutil
 import click
 from pathlib import Path
+from teachbooks.external_content.process_toc import process_external_toc_entries
+from teachbooks.external_content.process_toc import chmod_git_files
+
 
 @click.group()
 @click.version_option()
@@ -16,7 +20,7 @@ def main():
 @click.option("--publish", is_flag=True, help="--public is deprecated. Use --release instead.")
 @click.option("--process-only", is_flag=True, help="Only pre-process content")
 @click.pass_context
-def build(ctx, path_source, publish, release, process_only):
+def build(ctx, path_source: str, publish: bool, release: bool, process_only: bool):
     """Pre-process book contents and run Jupyter Book build command"""
     from teachbooks.release import make_release
     from jupyter_book.cli.main import build as jupyter_book_build
@@ -29,7 +33,6 @@ def build(ctx, path_source, publish, release, process_only):
 
     strategy = "release" if release or publish else "draft"
     echo_info(f"running build with strategy '{strategy}'")
-
     path_src_folder = Path(path_source).absolute()
     if release or publish:
         path_conf, path_toc = make_release(path_src_folder)
@@ -40,6 +43,11 @@ def build(ctx, path_source, publish, release, process_only):
     else:
         path_conf = path_src_folder / "_config.yml"
         path_toc = path_src_folder / "_toc.yml"
+
+    # Parse out external git entries from ToC
+    path_toc = process_external_toc_entries(
+        path_toc, path_toc.with_stem("_toc_with_local_paths"), book_root=path_src_folder
+    )
 
     if not process_only:
         all_args = [str(path_src_folder)]
@@ -63,7 +71,9 @@ def build(ctx, path_source, publish, release, process_only):
 
 @main.command()
 @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
-def clean(path_source):
+@click.option('--external', is_flag=True,
+              help="Empty _git/ directory.")
+def clean(path_source, external: bool=False):
     """Stop teachbooks server and run Jupyter Book clean command."""
     from jupyter_book.cli.main import clean as jupyter_book_clean
     from teachbooks.serve import Server, ServerError
@@ -79,6 +89,21 @@ def clean(path_source):
             echo_info("Server stopped.")
     except ServerError:
         echo_info("No running server found.")
+
+    # Clean external content
+    gitdir = Path(path_source) / "_git"
+    if external:
+        if gitdir.exists():
+            echo_info(f"Cleaning cloned git repositories in {gitdir}")
+            shutil.rmtree(gitdir.absolute(), onerror=chmod_git_files)
+        else:
+            echo_info(f"No _git directory found at {gitdir}")
+    else:
+        if gitdir.exists():
+            echo_info(
+                "Skipping external content cleaning. Use --external"
+                " to remove cloned git repositories."
+            )
 
     # Now proceed with cleaning
     echo_info(f"Cleaning build artifacts in {path_source}...")

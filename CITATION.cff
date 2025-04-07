@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+title: TeachBooks Package
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - email: info@teachbooks.io
+    name: 'TeachBooks Development Team'
+    website: 'https://teachbooks.io/'
+repository-code: 'https://github.com/TeachBooks/TeachBooks'
+url: 'https://doi.org/10.5281/zenodo.15167392' 
+repository-artifact: 'https://pypi.org/project/teachbooks/'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.15167392
+    description: Latest released version of software
+abstract: >-
+  This Python package is primarily a wrapper around the
+  Jupyter Book package and is designed to facilitate usage
+  of the platform in educational contexts. In this case
+  "wrapper" refers to the CLI usage, as CLI commands
+  generally invoke jupyter-book commands internally (the
+  jupyter-book package is not distributed by the teachbooks
+  package).
+institution:
+    name: 'TeachBooks'
+license: MIT
+copyright: '© 2025 TeachBooks'
+version: 0.2.0
+date-released: '2025-04-07'
+languages:
+    - en
+contact:
+  - email: info@teachbooks.io
+    name: 'TeachBooks Development Team'
+keywords:
+    - TeachBooks
+    - Package
+    - Python
+    - 'Jupyter Book'

@@ -1,0 +1,11 @@
+format: jb-book
+root: intro.md
+
+parts:
+  - caption: Contents
+    chapters:
+    - file: references.md
+    - external: https://github.com/EXCITED-CO2/workshop_tutorial/blob/v1.0.0/book/ARCO-ERA5.ipynb
+    - external: https://github.com/TeachBooks/HOS-workbook/blob/main/book/intro.md
+    - external: https://gitlab.tudelft.nl/interactivetextbooks-citg/risk-and-reliability/-/blob/v0.1/book/intro.md
+    - external: https://gitlab.tudelft.nl/interactivetextbooks-citg/risk-and-reliability/-/blob/main/book/intro.md
