@@ -34,9 +34,11 @@ You think you may have found a bug
 2. if your issue search did not yield any relevant results, make a new
    issue, making sure to provide enough information to the rest of the
    community to understand the cause and context of the problem.
-   Depending on the issue, you may want to include: - the `SHA
+   Depending on the issue, you may want to include:
+   - the `SHA
    hashcode <https://help.github.com/articles/autolinked-references-and-urls/#commit-shas>`__
-   of the commit that is causing your problem; - some identifying
+   of the commit that is causing your problem;
+   - some identifying
    information (name and version number) for dependencies you're using;
    - information about the operating system;
 3. apply relevant labels to the newly created issue.
@@ -50,7 +52,8 @@ You want to make some kind of change to the code base
 #.  (**important**) wait until some kind of consensus is reached about
     your idea being a good idea;
 #.  if needed, fork the repository to your own Github profile and create
-    your own feature branch off of the latest main commit. While working
+    your own feature branch off of the latest main commit (typically the 
+    ``stable`` or ``develop`` branch). While working
     on your feature branch, make sure to stay up to date with the main
     branch by pulling in changes, possibly from the 'upstream'
     repository (follow the instructions
@@ -104,7 +107,7 @@ This section is for maintainers of the package.
 
 #.  Set new version in ``pyproject.toml`` file in project section.
 
-#.  Update CHANGELOG.md with changes between current and new version.
+#.  Update ``CHANGELOG.md`` with changes between current and new version.
 
 #.  Make sure all tests passed by running ``pytest``.
 
