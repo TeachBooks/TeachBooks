@@ -36,8 +36,7 @@ You think you may have found a bug
    community to understand the cause and context of the problem.
    Depending on the issue, you may want to include:
 
-   - the `SHA hashcode 
-   <https://help.github.com/articles/autolinked-references-and-urls/#commit-shas>`__
+   - the `SHA hashcode <https://help.github.com/articles/autolinked-references-and-urls/#commit-shas>`__
    of the commit that is causing your problem;
    - some identifying information (name and version number) for dependencies you're using;
    - information about the operating system;
@@ -132,7 +131,7 @@ This section is for maintainers of the package.
     ``git pull``.
 
 #.  Determine what new version (major, minor or patch) to use. Package
-    uses ``semantic versioning <https://semver.org>``\ \_.
+    uses `semantic versioning <https://semver.org>`__.
 
 #.  Because the stable branch is protected, you need to create a new branch
     with ``git checkout -b release-<version>``.
