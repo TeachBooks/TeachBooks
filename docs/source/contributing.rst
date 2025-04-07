@@ -83,13 +83,45 @@ your pull request.
 Setting up a development environment
 ------------------------------------
 
+As the package and its dependencies are installed using ``pip`` in the Deploy
+Book Workflow (the GitHub Action for building books), it is best to do the
+same with a development environment. Begin by cloning the repository and
+creating a new branch (typically from the ``stable`` or ``develop``
+(default) branches).
+
+The creation of the development environment should be somthing like this:
+
 .. code-block:: shell
 
-    conda deactivate  # Only needed if you have conda
-    python3 -m venv venv  # Create a virtual environment
+    conda deactivate         # Only needed if you have conda
+    python3 -m venv venv     # Create a virtual environment
     source venv/bin/activate # or 'venv\Scripts\activate' on Windows
     pip install -e .[testing,docs]
+    pip show teachbooks      # confirm local installation is used
 
+Using option ``pip install -e`` is editable mode, which updates the
+``teachbooks`` module in the venv as it is edited. Note that this step
+often takes a long time on Windows (reason unclear) and may need to be
+stopped and restarted several times. The `Setuptools manual
+<https://setuptools.pypa.io/en/latest/userguide/development_mode.html>`__
+is a good reference in case you run into issues here.
+
+The instructions above will create a venv in the root directory of the
+package repository and improvements to the source code will typically
+be tested by building a book. For example, testing on an existing book
+with source code in ``./book/``located outside of the teachbooks repo
+will require using the relative path to the venv
+``PATH_TO_TEACHBOOKS_REPO``:
+
+.. code-block:: shell
+
+    source PATH_TO_TEACHBOOKS_REPO/venv/bin/activate
+    pip install -r requirements.txt
+    teachbooks build book/
+    
+Alternatively, one could use one of the test books in ``./tests/``.
+In fact, this is where tests should be added if making a new
+contribution to the package.
 
 You want to make a release
 --------------------------
