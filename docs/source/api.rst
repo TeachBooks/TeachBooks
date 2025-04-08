@@ -5,5 +5,5 @@ Internal Components
 
 .. toctree::
 
-    api/release
-    api/server
+    api/teachbooks.release
+    api/teachbooks.serve

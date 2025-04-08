@@ -17,6 +17,9 @@
 
 # -- Project information -----------------------------------------------------
 
+from pathlib import Path
+
+
 project = 'TeachBooks'
 copyright = '2024, the TeachBooks team'
 author = 'TeachBooks'
@@ -28,11 +31,16 @@ author = 'TeachBooks'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinxcontrib.apidoc',
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
-    'numpydoc',
-    'sphinx_click'
+    'sphinx.ext.autosummary',
+    'sphinx_click',
 ]
+
+docs_dir = Path(__file__).parent.parent
+apidoc_module_dir = str(docs_dir.parent / 'teachbooks')
+apidoc_separate_modules = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

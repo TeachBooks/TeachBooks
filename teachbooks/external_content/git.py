@@ -3,7 +3,7 @@ import re
 
 
 def get_repo_url(url: str) -> str:
-    """Get repo url by searching for reg like https://*/*/*/
+    """Get repo url by searching for reg like ``https://*/*/*/``.
 
     Args:
         url: URL path to the external content
