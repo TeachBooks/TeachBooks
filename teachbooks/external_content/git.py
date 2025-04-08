@@ -5,8 +5,11 @@ import re
 def get_repo_url(url: str) -> str:
     """Get repo url by searching for reg like https://*/*/*/
 
-    :param url: URL path to the external content
-    :return: repository URL
+    Args:
+        url: URL path to the external content
+    
+    Returns:
+        repository URL
     """
     pattern = r"https://[^/]+/[^/]+/[^/]+(?=/)"
     match = re.search(pattern, url)
@@ -20,11 +23,13 @@ def get_repo_url(url: str) -> str:
 
 
 def get_branch_tag_name(url: str) -> str:
-    """Get branch_tag_name by searching for anything between blob and book in
-    external_url
+    """Get branch_tag_name by searching for between blob and book in external_url.
 
-    :param url: URL path to the external content
-    :return: branch or tag name
+    Args:
+        url: URL path to the external content.
+    
+    Returns:
+        branch or tag name.
     """
     pattern = r"blob/([^/]+)/"
     match = re.search(pattern, url)
@@ -45,9 +50,12 @@ def create_repository_dir_name(url: str, root_dir: str | Path) -> str:
 
     {root_path}/{platform}_{organization}_{repository}/{revision}
 
-    :param url: URL path to the external content
-    :param root_dir: root directory where the repo will be cloned into
-    :return: path where the repo will be cloned to
+    Args:
+        url: URL path to the external content.
+        root_dir: root directory where the repo will be cloned into.
+    
+    Returns:
+        Path where the repo will be cloned to.
     """
     branch_tag_name = get_branch_tag_name(url)
     url = get_repo_url(url)

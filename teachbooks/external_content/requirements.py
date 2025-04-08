@@ -3,6 +3,7 @@ import click
 
 
 def check_requirements(main_requirements: Path, git_repos: list[Path]):
+    """Check for mismatch between main and external python dependencies."""
     if not main_requirements.exists():
         click.secho(
             "Warning: no requirements.txt file found for the main book.\n"

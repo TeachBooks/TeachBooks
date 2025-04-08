@@ -22,8 +22,11 @@ class BibEntry:
 def read_bibfile(file: Path) -> list[BibEntry]:
     """Read bib file into list of BibEntry objects.
 
-    :param file: Path to the .bib file.
-    :return: List of .bib file entries.
+    Args:
+        file: Path to the .bib file.
+    
+    Returns:
+        List of .bib file entries.
     """
     with file.open("r") as f:
         lines = f.readlines()
@@ -69,10 +72,13 @@ def bib_union(bibs: list[BibEntry], additional_bibs: list[BibEntry]):
     is the same, it is assumed that the reference already exists in the main list,
     and is skipped silently. If the titles do not match, a warning is given.
 
-    :param bibs: Main list of bib entries.
-    :param additional_bibs: List of additional bib entries you want to add to 
-        the main list.
-    :return: Joined list of .bib file entries.
+    Args:
+        bibs: Main list of bib entries.
+        additional_bibs: List of additional bib entries you want to add to 
+            the main list.
+    
+    Returns:
+        Joined list of .bib file entries.
     """
     bib_citekeys = set(bib.citekey for bib in bibs)
     extra_citekeys = set(bib.citekey for bib in additional_bibs)

@@ -24,11 +24,14 @@ def modify_field(
     Recursively look for the fields matching a given key in a YAML-like
     mapping. Modify the matching fields by running `func` on them.
 
-    :param data: mapping where to look for matches
-    :param key: key to look for
-    :param func: function to run on the matching fields
-    :param args, kwargs: other positional and keyword arguments for `func`
-    :return: modified mapping
+    Args:
+        data: mapping where to look for matches
+        key: key to look for
+        func: function to run on the matching fields
+        args, kwargs: other positional and keyword arguments for `func`
+    
+    Returns:
+        modified mapping
     """
     if isinstance(data, dict):
         if key in data:
@@ -48,9 +51,12 @@ def load_yaml_file(
 ) -> Dict[str, Any]:
     """Load a yaml file file (ToC or config) as dictionary.
 
-    :param path: file path
-    :param encoding: file character encoding
-    :return: parsed file
+    Args:
+        path: file path
+        encoding: file character encoding
+    
+    Returns:
+        parsed file
     """
     with open(path, encoding=encoding) as handle:
         data = yaml.safe_load(handle)

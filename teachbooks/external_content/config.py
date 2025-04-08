@@ -16,9 +16,12 @@ def check_plugins(config_file: Path, git_repos: list[Path]) -> tuple[set[str], s
     The user will be warned if any plugins or extensions are missing/not the same
     version pin.
     
-    :param config_file: Path to the config yaml file.
-    :param git_repos: List of cloned git repositories.
-    :return: The missing plugins and myst extensions.
+    Args:
+        config_file: Path to the config yaml file.
+        git_repos: List of cloned git repositories.
+    
+    Returns:
+        The missing plugins and myst extensions.
     """
     plugins, myst_extensions = find_plugins(config_file)
 
@@ -66,6 +69,14 @@ def check_plugins(config_file: Path, git_repos: list[Path]) -> tuple[set[str], s
 
 
 def find_config(repo: Path) -> Path | None:
+    """Find path to config file.
+    
+    Args:
+        repo: Path to repository.
+        
+    Returns:
+        Path to config file if found, otherwise None.
+    """
     std_config = repo / "book" / "_config.yml"
     if std_config.exists():
         return std_config
@@ -92,6 +103,7 @@ def find_config(repo: Path) -> Path | None:
 
 
 def find_plugins(config_file: Path) -> tuple[set[str], set[str]]:
+    """Collect all plugins (sphinx, myst) from config file."""
     sphinx_plugins = get_sphinx_plugins(config_file)
     myst_extensions = get_myst_extensions(config_file)
     return sphinx_plugins, myst_extensions
@@ -100,8 +112,11 @@ def find_plugins(config_file: Path) -> tuple[set[str], set[str]]:
 def get_sphinx_plugins(config_file: Path) -> set[str]:
     """Find the sphinx plugins in the config file.
     
-    :param config_file: Path to the config yaml file.
-    :return: Sphinx plugin names as a set
+    Args:
+        config_file: Path to the config yaml file.
+    
+    Returns:
+        Sphinx plugin names as a set.
     """
     config = load_yaml_file(config_file)
 
@@ -132,8 +147,11 @@ def get_sphinx_plugins(config_file: Path) -> set[str]:
 def get_myst_extensions(config_file: Path) -> set[str]:
     """Find the myst extensions in the config file.
     
-    :param config_file: Path to the config yaml file.
-    :return: myst extension names as a set
+    Args:
+        config_file: Path to the config yaml file.
+    
+    Returns:
+        myst extension names as a set.
     """
     config = load_yaml_file(config_file)
 
