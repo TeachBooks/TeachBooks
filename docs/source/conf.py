@@ -29,6 +29,7 @@ author = 'TeachBooks'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',
     'numpydoc',
     'sphinx_click'
 ]
