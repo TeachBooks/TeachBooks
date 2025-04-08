@@ -49,7 +49,8 @@ def clean_yaml(path_source: str | Path, path_output: str | Path) -> None:
     in the ``*.yml`` file. Commonly applied to ``_toc.yml`` and ``_config.yml`` files of a book.
 
     Example:
-    .. code:: python
+        To remove sub_page_2 and sub_page_3 from publishing:
+
         - file: subdirectory_1/intro_page
         sections:
         - file: subdirectory_1/sub_page_1
