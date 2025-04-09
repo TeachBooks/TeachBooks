@@ -50,10 +50,8 @@ def clean_yaml(path_source: str | Path, path_output: str | Path) -> None:
         - or ``# <START|END> REMOVE-FROM-RELEASE``
 
     Does not require a specific indentation and can be used an
-    unlimited number of times
-    
-    in the ``*.yml`` file. Commonly applied to ``_toc.yml`` and
-    ``_config.yml`` files of a book.
+    unlimited number of times in the ``*.yml`` file. Commonly
+    applied to ``_toc.yml`` and ``_config.yml`` files of a book.
 
     Example:
         To remove sub_page_2 and sub_page_3 from publishing::
