@@ -88,7 +88,7 @@ Book Workflow (the GitHub Action for building books), it is best to do the
 same with a development environment. Begin by cloning the repository and
 creating a new branch from the appropriate branch and/or commit.
 
-The creation of the development environment should be somthing like this:
+The creation of the development environment should be something like this:
 
 .. code-block:: shell
 
