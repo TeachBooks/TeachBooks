@@ -65,7 +65,7 @@ You want to make some kind of change to the code base
     warnings by running ``cd docs && sphinx-build source/ _build/``.
 #.   add your own tests (if necessary);
 #.  update or expand the documentation; Please add `Google Style Python
-    docstrings <https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings>`__.
+    docstrings <https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html>`__.
 #.  `push <http://rogerdudler.github.io/git-guide/>`__ your feature
     branch to (your fork of) the TeachBooks repository on GitHub;
 #.  create the pull request, e.g. following the instructions
@@ -88,7 +88,7 @@ Book Workflow (the GitHub Action for building books), it is best to do the
 same with a development environment. Begin by cloning the repository and
 creating a new branch from the appropriate branch and/or commit.
 
-The creation of the development environment should be somthing like this:
+The creation of the development environment should be something like this:
 
 .. code-block:: shell
 
