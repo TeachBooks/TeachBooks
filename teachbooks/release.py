@@ -43,23 +43,29 @@ def copy_ext(sourcedir: Path) -> None:
         print("Error copying _ext/ directory.")
 
 def clean_yaml(path_source: str | Path, path_output: str | Path) -> None:
-    """Removes sections marked with # <START|END> REMOVE-FROM-PUBLISH or REMOVE-FROM-RELEASE from a yaml file
+    """Removes marked sections from a yaml file.
+     
+    A marked section can be:
+        - ``# <START|END> REMOVE-FROM-PUBLISH``
+        - or ``# <START|END> REMOVE-FROM-RELEASE``
 
-    Does not require a specific indentation and can be used an unlimited number of times
-    in the ``*.yml`` file. Commonly applied to ``_toc.yml`` and ``_config.yml`` files of a book.
+    Does not require a specific indentation and can be used an
+    unlimited number of times in the ``*.yml`` file. Commonly
+    applied to ``_toc.yml`` and ``_config.yml`` files of a book.
 
     Example:
-    .. code:: python
-        - file: subdirectory_1/intro_page
-        sections:
-        - file: subdirectory_1/sub_page_1
-        # START REMOVE-FROM-PUBLISH
-        - file: subdirectory_1/sub_page_2
-        # END REMOVE-FROM-PUBLISH
-        # START REMOVE-FROM-RELEASE
-        - file: subdirectory_1/sub_page_3
-        # END REMOVE-FROM-RELEASE
-        - file: subdirectory_2/intro_page
+        To remove sub_page_2 and sub_page_3 from publishing::
+
+            - file: subdirectory_1/intro_page
+            sections:
+            - file: subdirectory_1/sub_page_1
+            # START REMOVE-FROM-PUBLISH
+            - file: subdirectory_1/sub_page_2
+            # END REMOVE-FROM-PUBLISH
+            # START REMOVE-FROM-RELEASE
+            - file: subdirectory_1/sub_page_3
+            # END REMOVE-FROM-RELEASE
+            - file: subdirectory_2/intro_page
 
     """
 

@@ -1,9 +1,9 @@
 Internal Components
 ===================
 
-**This chapter is under construction.**
+The pages in this chapter are automatically created from the source code.
 
 .. toctree::
 
-    api/release
-    api/server
+    api/teachbooks.release
+    api/teachbooks.serve

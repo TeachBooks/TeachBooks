@@ -19,9 +19,11 @@ def _strip_accents(s):
 
 def _strip_nonalnum(parts):
     """Strip all non-alphanumerical characters from a list of strings.
-
-    >>> print(_strip_nonalnum([u"ÅA. B. Testing 12+}[.@~_", u" 3%"]))
-    AABTesting123
+    
+    Example:
+        
+        >>> print(_strip_nonalnum([u"ÅA. B. Testing 12+}[.@~_", u" 3%"]))
+        AABTesting123
     """
     s = "".join(parts)
     return _nonalnum_pattern.sub("", _strip_accents(s))

@@ -30,12 +30,15 @@ def process_external_toc_entries(
 ) -> Path:
     """Parse external (git) ToC entries, checkout repos & write new ToC to file.
     
-    :param src: Path to the source table-of-contents yaml file.
-    :param dest: Path to the destination table-of-contents yaml file.
-    :param fail_invalid_license: If true, and no valid license is found in an
-        external repository, an error will be raised. Else only a warning.
-    :return: Path to the new table-of-contents yaml file, or the original file
-        if the toc was not modified.
+    Args:
+        src: Path to the source table-of-contents yaml file.
+        dest: Path to the destination table-of-contents yaml file.
+        fail_invalid_license: If true, and no valid license is found in an
+            external repository, an error will be raised. Else only a warning.
+    
+    Returns:
+        Path to the new table-of-contents yaml file, or the original file
+            if the toc was not modified.
     """
     src_toc = load_yaml_file(src)
     toc = src_toc.copy()
@@ -86,8 +89,11 @@ def read_cloned_repos(log: Path) -> list[Path]:
 def get_content_path(url: str) -> str:
     """Get relative path of the external content from the URL path
 
-    :param url: URL path to the external content
-    :return: repo path to the external content
+    Args:
+        url: URL path to the external content
+    
+    Returns:
+        repo path to the external content
     """
     branch_tag_name = get_branch_tag_name(url)
     *_, path = url.split(branch_tag_name)
@@ -102,9 +108,10 @@ def write_toc_yaml(
 ) -> None:
     """Write a ToC file.
 
-    :param data: site map
-    :param path: `_toc.yml` file path
-    :param encoding: `_toc.yml` file character encoding
+    Args:
+        data: site map
+        path: Target `_toc.yml` file path
+        encoding: `_toc.yml` file character encoding
     """
     with open(path, encoding=encoding, mode="w") as handle:
         if header is not None:
@@ -121,10 +128,13 @@ def external_to_local(
 
     Retrieve external components locally, and fix ToC fields accordingly.
 
-    :param mapping: map to modify
-    :param external_path: path where to store external components
-    :param root: express paths to external components with respect to root
-    :return: map with fields adjusted in order to refer to local resources
+    Args:
+        mapping: map to modify.
+        external_path: path where to store external components.
+        root: express paths to external components with respect to root.
+    
+    Returns:
+        map with fields adjusted in order to refer to local resources.
     """
     mapping_local = mapping.copy()
     external_url = mapping_local.pop("external")
@@ -154,6 +164,7 @@ def external_to_local(
 
 def chmod_git_files(foo, file, err):
     """Remove git files on Windows.
+
     Solution from: https://stackoverflow.com/a/76356125
     """
     if (

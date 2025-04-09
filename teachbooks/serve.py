@@ -36,19 +36,14 @@ class Server:
                  ) -> None:
         """Construct Server object
 
-        Parameters
-        ----------
-        servedir : Path | str
-            Directory to serve.
-        workdir : Path | str
-            Directory for temporary files.
-        port : int | None, optional
-            Port for server, by default None. If left empty, a free port will be
-            chosen automatically.
-        stdout : int | None, optional
-            Verbosity level, by default None (prints summary info).
-            - int={0, 1, 2, 3} for use with cli.
-            - int=0 is silent; None is mixed, int>0.
+        Args:
+            servedir: Directory to serve.
+            workdir: Directory for temporary files.
+            port: (Optional) port for server, by default None. If left empty, a free
+                port will be chosen automatically.
+            stdout: (Optional) verbosity level, by default None (prints summary info).
+                Use int={0, 1, 2, 3} with cli.
+                With int=0 is silent; None is mixed, int>0.
         """
         self.stdout = stdout
         # Check if workdir already contains a statefile.
@@ -70,10 +65,8 @@ class Server:
     def start(self, options: list[str] = None) -> bool:
         """Start server.
 
-        Raises
-        ------
-        RuntimeError
-            If server could not be started
+        Raises:
+            RuntimeError: If server could not be started
         """
         if not self.servedir.is_dir():
             raise NotADirectoryError(f"Directory does not exist: {self.servedir}")
@@ -122,8 +115,7 @@ class Server:
 
 
     def stop(self, options: list[str] = None) -> None:
-        """Stop server and clean up.
-        """
+        """Stop server and clean up."""
         try:
             psutil.Process(pid=self._pid).terminate()
         except psutil.NoSuchProcess:
@@ -136,8 +128,7 @@ class Server:
 
 
     def _save(self) -> None:
-        """Save current Server object as a pickle file.
-        """
+        """Save current Server object as a pickle file."""
         with open(self._statepath, "wb") as f:
             pickle.dump(self, f)
 
@@ -145,9 +136,7 @@ class Server:
     def is_running(self) -> bool:
         """Check if the current process ID is a running webserver.
 
-        Returns
-        -------
-        bool
+        Returns:
             True if the current process ID is running and is a webserver.
         """
         # Make sure the process exists
@@ -164,9 +153,7 @@ class Server:
     def url(self) -> str:
         """Get URL of running server.
 
-        Returns
-        -------
-        str
+        Returns:
             URL of the server.
         """
         return f"http://localhost:{self.port}"
@@ -176,9 +163,7 @@ class Server:
     def _find_port() -> int:
         """Find open port.
 
-        Returns
-        -------
-        int
+        Returns:
             Port number.
         """
         # https://stackoverflow.com/a/1365284
@@ -191,20 +176,14 @@ class Server:
     def load(cls, workdir: Path | str) -> Server_t:
         """Construct a Server object from an existing pickle file.
 
-        Parameters
-        ----------
-        workdir : Path | str
-            Directory containing the pickle file.
+        Args:
+            workdir: Directory containing the pickle file.
 
-        Returns
-        -------
-        Server
+        Returns:
             Server object reconstructed from pickle file.
 
-        Raises
-        ------
-        ServerError
-            If pickle file cannot be found.
+        Raises:
+            ServerError: If pickle file cannot be found.
         """
         try:
             with open(workdir / cls.statefile, "rb") as f:

@@ -39,9 +39,7 @@ date = words[field('year'), optional[", ", field('month')]]
 
 @node
 def apa_names(children, context, role, **kwargs):
-    """
-    Returns formatted names as an APA compliant reference list citation.
-    """
+    """Format names as an APA compliant reference list citation."""
     assert not children
 
     try:
@@ -66,9 +64,7 @@ def apa_names(children, context, role, **kwargs):
 
 @node
 def editor_names(children, context, with_suffix=True, **kwargs):
-    """
-    Returns formatted editor names for inbook.
-    """
+    """Format editor names for inbook."""
     assert not children
 
     try:

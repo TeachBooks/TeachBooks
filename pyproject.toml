@@ -33,6 +33,7 @@ testing = [
 docs = [
   "furo",
   "numpydoc",
+  "sphinxcontrib-apidoc",
   "sphinx-click"
 ]
 
