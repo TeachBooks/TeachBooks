@@ -1,8 +1,12 @@
 import shutil
-import click
 from pathlib import Path
-from teachbooks.external_content.process_toc import process_external_toc_entries
-from teachbooks.external_content.process_toc import chmod_git_files
+
+import click
+
+from teachbooks.external_content.process_toc import (
+    chmod_git_files,
+    process_external_toc_entries,
+)
 
 
 @click.group()
@@ -22,9 +26,9 @@ def main():
 @click.pass_context
 def build(ctx, path_source: str, publish: bool, release: bool, process_only: bool):
     """Pre-process book contents and run Jupyter Book build command"""
-    from teachbooks.release import make_release
     from jupyter_book.cli.main import build as jupyter_book_build
-    from teachbooks.release import copy_ext
+
+    from teachbooks.release import copy_ext, make_release
 
     if publish:
         click.secho("Warning: --publish is deprecated, use --release instead",
@@ -76,6 +80,7 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
 def clean(path_source, external: bool=False):
     """Stop teachbooks server and run Jupyter Book clean command."""
     from jupyter_book.cli.main import clean as jupyter_book_clean
+
     from teachbooks.serve import Server, ServerError
 
     workdir = Path(path_source) / ".teachbooks" / "server"
@@ -122,23 +127,23 @@ def serve(ctx, verbose):
     If serve dir path not provided, default is `./book/_build/html`.
     Checks to see if server is already running.
     """
+    from teachbooks import BOOK_SERVE_DIR, SERVER_WORK_DIR
     from teachbooks.serve import Server
-    from teachbooks import SERVER_WORK_DIR, BOOK_SERVE_DIR
 
     if verbose > 0:
-        echo_info(f"serve command invoked.")
+        echo_info("serve command invoked.")
 
     if ctx.invoked_subcommand is None:
 
         try:
             server = Server.load(Path(SERVER_WORK_DIR))
             if verbose > 0:
-                echo_info(f" server already exists")
+                echo_info(" server already exists")
             
             stdout_summary(server)
         except:
             if verbose > 0:
-                echo_info(f"no server found, creating a new one.")
+                echo_info("no server found, creating a new one.")
 
             dir = Path(BOOK_SERVE_DIR)
 
@@ -158,8 +163,8 @@ def serve(ctx, verbose):
                 type=click.Path(exists=True, file_okay=True))
 def path(path_source, verbose, no_build=False):
     """Specify relative path of directory to serve."""
-    from teachbooks.serve import Server
     from teachbooks import BUILD_DIR, SERVER_WORK_DIR
+    from teachbooks.serve import Server
     
     if verbose > 0:
         print(f"desired serve directory: {dir}")
@@ -167,7 +172,7 @@ def path(path_source, verbose, no_build=False):
     dir_with_build = Path(path_source).joinpath(BUILD_DIR)
     if dir_with_build.exists():
         dir = dir_with_build
-        echo_info(f"_build/html available and appended to path.")
+        echo_info("_build/html available and appended to path.")
     else:
         dir = Path(path_source)
 
@@ -176,38 +181,38 @@ def path(path_source, verbose, no_build=False):
         server = Server.load(Path(SERVER_WORK_DIR))
         if server.servedir == dir:
             print('            '
-                  +f"  ---> already serving this directory.")
+                  +"  ---> already serving this directory.")
             stdout_summary(server)
         else:
             print('            '
-                  +f"  ---> already serving a different directory.")
+                  +"  ---> already serving a different directory.")
             print('            '
-                  +f"  ---> updating server directory...")
+                  +"  ---> updating server directory...")
             server.stop()
             serve_path(dir, verbose)
     except:
         if verbose > 0:
-            echo_info(f"no server found, creating a new one.")
+            echo_info("no server found, creating a new one.")
         serve_path(dir, verbose)
 
 @serve.command()
 def stop():
     """Stop the webserver."""
-    from teachbooks.serve import Server
     from teachbooks import SERVER_WORK_DIR
+    from teachbooks.serve import Server
     try:
         server = Server.load(Path(SERVER_WORK_DIR))
         server.stop()
-        echo_info(f"server stopped.")
+        echo_info("server stopped.")
     except:
-        echo_info(f"no server found.")
+        echo_info("no server found.")
 
 
 def serve_path(dir: str,
                verbose: int) -> None:
     """Start web server with specific path and verbosity."""
-    from teachbooks.serve import Server
     from teachbooks import SERVER_WORK_DIR
+    from teachbooks.serve import Server
 
     server = Server(servedir=Path(dir),
                     workdir=Path(SERVER_WORK_DIR),
@@ -217,13 +222,13 @@ def serve_path(dir: str,
 
 def check_server():
     """Check if webserver is running and print status."""
-    from teachbooks.serve import Server
     from teachbooks import SERVER_WORK_DIR
+    from teachbooks.serve import Server
     try:
         server = Server.load(Path(SERVER_WORK_DIR))
         stdout_summary(server)
     except:
-        echo_info(f"Use `teachbooks serve` to start a local server.")
+        echo_info("Use `teachbooks serve` to start a local server.")
         
 
 def echo_info(message: str) -> None:

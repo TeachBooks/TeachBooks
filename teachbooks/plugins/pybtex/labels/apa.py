@@ -1,27 +1,24 @@
 # -*- coding:Utf-8 -*-
-from __future__ import unicode_literals
 
-from collections import Counter
 import re
 import unicodedata
+from collections import Counter
 
 from pybtex.style.labels import BaseLabelStyle
-
 
 _nonalnum_pattern = re.compile('[^A-Za-z0-9 \-]+', re.UNICODE)
 
 
 def _strip_accents(s):
     return "".join(
-        (c for c in unicodedata.normalize('NFD', s)
-            if not unicodedata.combining(c)))
+        c for c in unicodedata.normalize('NFD', s)
+            if not unicodedata.combining(c))
 
 
 def _strip_nonalnum(parts):
     """Strip all non-alphanumerical characters from a list of strings.
     
     Example:
-        
         >>> print(_strip_nonalnum([u"ÅA. B. Testing 12+}[.@~_", u" 3%"]))
         AABTesting123
     """
@@ -55,15 +52,12 @@ class APALabelStyle(BaseLabelStyle):
         if 'year' in entry.fields:
             return "{}, {}".format(label, entry.fields['year'])
         else:
-            return "{}, n.d.".format(label)
+            return f"{label}, n.d."
 
     def format_author_or_editor_names(self, persons):
-        if len(persons) is 1:
+        if len(persons) == 1:
             return _strip_nonalnum(persons[0].last_names)
-        elif len(persons) is 2:
-            return "{} & {}".format(
-                _strip_nonalnum(persons[0].last_names),
-                _strip_nonalnum(persons[1].last_names))
+        elif len(persons) == 2:
+            return f"{_strip_nonalnum(persons[0].last_names)} & {_strip_nonalnum(persons[1].last_names)}"
         else:
-            return "{} et al.".format(
-                _strip_nonalnum(persons[0].last_names))
+            return f"{_strip_nonalnum(persons[0].last_names)} et al."

@@ -1,6 +1,5 @@
 import setuptools
 
-
 setuptools.setup(
     name='pybtex-apa-style',
     version='1.3',

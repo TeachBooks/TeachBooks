@@ -1,12 +1,12 @@
-import pickle
-import sys
 import os
-import socket
+import pickle
 import platform
-from subprocess import DEVNULL
+import socket
+import sys
 from pathlib import Path
-from typing import TypeVar
+from subprocess import DEVNULL
 from time import sleep
+from typing import TypeVar
 
 import psutil
 
@@ -77,13 +77,13 @@ class Server:
         
         if self.is_running:
             if self.stdout is None or self.stdout > 0:
-                print(f"Server already running:")
+                print("Server already running:")
                 print(f"  Serving directory: {self.servedir}")
                 print(f"  Accessible at url: {self.url}")
             return
         else:
             if self.stdout is None or self.stdout > 0:
-                print(f"Starting server:")
+                print("Starting server:")
                 print(f"  Directory: {self.servedir}")
                 print(f"  Port:      {self.port}")
                 print(f"  At url:    {self.url}")

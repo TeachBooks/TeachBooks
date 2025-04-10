@@ -1,20 +1,18 @@
 # -*- coding:Utf-8 -*-
-from __future__ import unicode_literals
 
-from collections import Counter
 import re
 import unicodedata
+from collections import Counter
 
 from pybtex.style.labels import BaseLabelStyle
-
 
 _nonalnum_pattern = re.compile('[^A-Za-z0-9 \-]+', re.UNICODE)
 
 
 def _strip_accents(s):
     return "".join(
-        (c for c in unicodedata.normalize('NFD', s)
-            if not unicodedata.combining(c)))
+        c for c in unicodedata.normalize('NFD', s)
+            if not unicodedata.combining(c))
 
 
 def _strip_nonalnum(parts):
@@ -59,9 +57,6 @@ class LabelStyle(BaseLabelStyle):
         if len(persons)==1:
             return _strip_nonalnum(persons[0].last_names)
         elif len(persons)==2:
-            return "{} & {}".format(
-                _strip_nonalnum(persons[0].last_names),
-                _strip_nonalnum(persons[1].last_names))
+            return f"{_strip_nonalnum(persons[0].last_names)} & {_strip_nonalnum(persons[1].last_names)}"
         else:
-            return "{} et al.".format(
-                _strip_nonalnum(persons[0].last_names))
+            return f"{_strip_nonalnum(persons[0].last_names)} et al."

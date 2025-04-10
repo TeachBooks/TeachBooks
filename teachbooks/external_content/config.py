@@ -6,7 +6,6 @@ import click
 
 from teachbooks.external_content.utils import load_yaml_file
 
-
 CLICK_WARNING_KWARGS: dict[str, Any] = {"fg": "yellow", "err": True}
 
 

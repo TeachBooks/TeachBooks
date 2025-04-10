@@ -19,7 +19,6 @@
 
 from pathlib import Path
 
-
 project = 'TeachBooks'
 copyright = '2024, the TeachBooks team'
 author = 'TeachBooks'

@@ -1,8 +1,9 @@
 
 # from pybtex.style.formatting.unsrt import Style
+from pybtex.plugin import register_plugin
 from pybtexapastyle.formatting.apa import APAStyle
 from pybtexapastyle.labels.apa import LabelStyle as APALabelStyle
-from pybtex.plugin import register_plugin
+
 # from pybtex.style.template import names, sentence
 
 class MyAPALabelStyle(APALabelStyle):

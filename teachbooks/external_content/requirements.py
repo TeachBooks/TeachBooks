@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import click
 
 
@@ -45,11 +46,7 @@ def read_requirements(file: Path) -> set[str]:
     for req in requirements:
         req = req.strip("\n\r")
 
-        if len(req) == 0:
-            pass
-        elif req.startswith("#"):
-            pass
-        elif req.startswith("--"):
+        if len(req) == 0 or req.startswith("#") or req.startswith("--"):
             pass
         else:
             valid_requirements.add(req.split(" #")[0])

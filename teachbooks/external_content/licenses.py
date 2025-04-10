@@ -2,7 +2,6 @@ from pathlib import Path
 
 import click
 
-
 LICENSE_MAPPING = {
     "MIT License": "MIT",
     "GNU AFFERO GENERAL PUBLIC LICENSE": "AGPL",

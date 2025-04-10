@@ -1,12 +1,11 @@
 """Functionality to read write and compare .bib files."""
-from dataclasses import dataclass
 import re
+from dataclasses import dataclass
 from pathlib import Path
 
 import click
 
 from teachbooks.external_content.config import CLICK_WARNING_KWARGS
-
 
 BIB_ENTRY_RE = re.compile(r"@(\w+){([\w:-]+)")
 

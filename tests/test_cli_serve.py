@@ -1,6 +1,8 @@
 from pathlib import Path
+
 import pytest
 from click.testing import CliRunner
+
 from teachbooks.cli import main as commands
 
 SERVE_DIR = Path(".")

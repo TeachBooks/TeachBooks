@@ -1,6 +1,6 @@
-from __future__ import unicode_literals
 
 from pybtex.style.sorting import BaseSortingStyle
+
 
 class SortingStyle(BaseSortingStyle):
 

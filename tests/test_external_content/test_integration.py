@@ -1,9 +1,10 @@
-from pathlib import Path
 import shutil
+from pathlib import Path
+
 import pytest
 from click.testing import CliRunner
-from teachbooks.cli import main as commands
 
+from teachbooks.cli import main as commands
 
 WORK_DIR = Path(__file__).parent / ".teachbooks"
 PATH_TESTDATA = Path(__file__).parent / "testbook"

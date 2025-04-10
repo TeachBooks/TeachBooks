@@ -1,5 +1,6 @@
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable, Dict, overload
+from typing import Any, overload
 
 import yaml
 
@@ -48,7 +49,7 @@ def modify_field(
 
 def load_yaml_file(
         path: str | Path, encoding: str = "utf8"
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Load a yaml file file (ToC or config) as dictionary.
 
     Args:

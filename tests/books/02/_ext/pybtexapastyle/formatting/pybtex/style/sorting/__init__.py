@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 
 
 from pybtex.plugin import Plugin

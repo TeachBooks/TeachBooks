@@ -1,9 +1,8 @@
 import os.path
 import stat
 import subprocess
-
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 import click
 import yaml
@@ -11,11 +10,14 @@ import yaml
 from teachbooks.external_content import GIT_PATH
 from teachbooks.external_content.bib import merge_bibs, write_bibfile
 from teachbooks.external_content.config import check_plugins
-from teachbooks.external_content.git import create_repository_dir_name, get_branch_tag_name, get_repo_url
+from teachbooks.external_content.git import (
+    create_repository_dir_name,
+    get_branch_tag_name,
+    get_repo_url,
+)
 from teachbooks.external_content.licenses import validate_licenses
 from teachbooks.external_content.requirements import check_requirements
 from teachbooks.external_content.utils import load_yaml_file, modify_field
-
 
 LOCAL_TOC_HEADER = (
     "ToC file with localized paths. Used for Teachbooks' external content feature."
@@ -101,10 +103,10 @@ def get_content_path(url: str) -> str:
 
 
 def write_toc_yaml(
-    data: Dict[str, str],
+    data: dict[str, str],
     path: str | Path,
     encoding: str = "utf8",
-    header: Optional[str] = None,
+    header: str | None = None,
 ) -> None:
     """Write a ToC file.
 
@@ -120,10 +122,10 @@ def write_toc_yaml(
 
 
 def external_to_local(
-    mapping: Dict[str, Any],
+    mapping: dict[str, Any],
     external_path: str | Path,
     root: str | Path
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Modify mapping with the "external" key.
 
     Retrieve external components locally, and fix ToC fields accordingly.
@@ -170,7 +172,7 @@ def chmod_git_files(foo, file, err):
     if (
         os.name == "nt" and
         Path(file).suffix in [".idx", ".pack", ".rev"] and
-        "PermissionError" == err[0].__name__
+        err[0].__name__ == "PermissionError"
     ):
         os.chmod(file, stat.S_IWRITE)
         foo(file)

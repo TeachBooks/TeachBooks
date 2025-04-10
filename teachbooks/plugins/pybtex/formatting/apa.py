@@ -1,18 +1,25 @@
 # -*- coding:Utf-8 -*-
-from __future__ import unicode_literals
 
 import re
-import six
 
+import six
 from pybtex.plugin import find_plugin
+from pybtex.richtext import Symbol, Text
 from pybtex.style.formatting import BaseStyle, toplevel
 from pybtex.style.template import (
-    field, first_of, href, join, optional, optional_field, sentence, tag,
-    together, words, node, FieldIsMissing
+    FieldIsMissing,
+    field,
+    first_of,
+    href,
+    join,
+    node,
+    optional,
+    optional_field,
+    sentence,
+    tag,
+    together,
+    words,
 )
-
-from pybtex.richtext import Text, Symbol
-
 
 firstlast = find_plugin('pybtex.style.names', 'lastfirst')()
 

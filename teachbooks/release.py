@@ -1,5 +1,5 @@
-import re
 import os
+import re
 from pathlib import Path
 
 
@@ -68,8 +68,7 @@ def clean_yaml(path_source: str | Path, path_output: str | Path) -> None:
             - file: subdirectory_2/intro_page
 
     """
-
-    with open(path_source, mode="r", encoding="utf8") as f:
+    with open(path_source, encoding="utf8") as f:
         yaml_source = f.read()
 
     # Regex to remove both PUBLISH and RELEASE tags
