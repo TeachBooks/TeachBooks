@@ -42,6 +42,7 @@ docs = [
 
 [tool.ruff]
 target-version = "py310"
+exclude = ["teachbooks/plugins/*", "*/_ext/*"]
 
 [tool.ruff.lint]
 select = [
@@ -55,6 +56,10 @@ select = [
   "D",
   "DOC",
 ]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D", "DOC", "E501"]
+"*/__init__.py" = ["D104"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
