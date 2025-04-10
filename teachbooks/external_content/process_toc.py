@@ -1,3 +1,4 @@
+"""Read and process table of contents files."""
 import os.path
 import stat
 import subprocess
@@ -35,9 +36,10 @@ def process_external_toc_entries(
     Args:
         src: Path to the source table-of-contents yaml file.
         dest: Path to the destination table-of-contents yaml file.
-        fail_invalid_license: If true, and no valid license is found in an
+        book_root: Path to the root of the book.
+        error_invalid_license: If true, and no valid license is found in an
             external repository, an error will be raised. Else only a warning.
-    
+
     Returns:
         Path to the new table-of-contents yaml file, or the original file
             if the toc was not modified.
@@ -80,6 +82,7 @@ def process_external_toc_entries(
 
 
 def read_cloned_repos(log: Path) -> list[Path]:
+    """Read in cloned repo file to get paths to all cloned repos."""
     with log.open("r") as f:
         cloned_repos_str = [repo.strip("\n\r") for repo in f.readlines()]
     return [
@@ -89,7 +92,7 @@ def read_cloned_repos(log: Path) -> list[Path]:
 
 
 def get_content_path(url: str) -> str:
-    """Get relative path of the external content from the URL path
+    """Get relative path of the external content from the URL path.
 
     Args:
         url: URL path to the external content
@@ -114,6 +117,7 @@ def write_toc_yaml(
         data: site map
         path: Target `_toc.yml` file path
         encoding: `_toc.yml` file character encoding
+        header: Commented out header to start toc file with.
     """
     with open(path, encoding=encoding, mode="w") as handle:
         if header is not None:

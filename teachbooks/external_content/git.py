@@ -1,3 +1,4 @@
+"""Process git repo URLs."""
 import re
 from pathlib import Path
 

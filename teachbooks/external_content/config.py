@@ -1,4 +1,4 @@
-
+"""Parse external content config files."""
 from pathlib import Path
 from typing import Any
 
@@ -9,7 +9,9 @@ from teachbooks.external_content.utils import load_yaml_file
 CLICK_WARNING_KWARGS: dict[str, Any] = {"fg": "yellow", "err": True}
 
 
-def check_plugins(config_file: Path, git_repos: list[Path]) -> tuple[set[str], set[str]]:
+def check_plugins(
+    config_file: Path, git_repos: list[Path]
+) -> tuple[set[str], set[str]]:
     """Check external configs for missing plugins/myst extensions and return them.
 
     The user will be warned if any plugins or extensions are missing/not the same
@@ -165,8 +167,8 @@ def get_myst_extensions(config_file: Path) -> set[str]:
         click.secho(msg, **CLICK_WARNING_KWARGS)
     elif config.get("parse").get("myst_enable_extensions") is None:
         msg = (
-            "Malformed 'parse' entry in config (expected 'myst_enable_extensions' entry),\n"
-            f"    Please check {config_file}"
+            "Malformed 'parse' entry in config (expected 'myst_enable_extensions'"
+            f" entry),\n    Please check {config_file}"
         )
         click.secho(msg, **CLICK_WARNING_KWARGS)
     else:

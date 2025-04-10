@@ -1,3 +1,4 @@
+"""Find and validate external content license files."""
 from pathlib import Path
 
 import click

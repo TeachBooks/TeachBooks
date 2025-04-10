@@ -1,3 +1,4 @@
+"""Serve a teachbook locally."""
 import os
 import pickle
 import platform
@@ -20,8 +21,8 @@ Server_t = TypeVar("Server_t", bound="Server")
 
 
 class ServerError(Exception):
-    """Server exception class"""
-    pass
+    """Server exception class."""
+    ...
 
 
 class Server:
@@ -34,7 +35,7 @@ class Server:
                  port: int | None = None,
                  stdout: int | None = None,
                  ) -> None:
-        """Construct Server object
+        """Construct Server object.
 
         Args:
             servedir: Directory to serve.
@@ -97,10 +98,12 @@ class Server:
                 print("Starting server with this command:\n",
                       "  ".join(base_command))
 
-            proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", str(self.port)],
-                                cwd=self.servedir,
-                                stderr=DEVNULL,
-                                stdout=DEVNULL)
+            proc = psutil.Popen(
+                [sys.executable, "-u", "-m", "http.server", str(self.port)],
+                cwd=self.servedir,
+                stderr=DEVNULL,
+                stdout=DEVNULL
+            )
 
             self._pid = proc.pid
 
@@ -109,14 +112,18 @@ class Server:
             # Check if the subprocess is still running
             if not self.is_running:
                 proc.terminate()
-                raise RuntimeError("Error launching the server. Perhaps a server is already running on the selected port?")
+                msg = (
+                    "Error launching the server. Perhaps a server "
+                    "is already running on the selected port?"
+                )
+                raise RuntimeError(msg)
             else:
                 self._save()
 
 
     def stop(self, options: list[str] = None) -> None:
         """Stop server and clean up."""
-        try:
+        try:  # noqa: SIM105 TODO: check if his rule improves this.
             psutil.Process(pid=self._pid).terminate()
         except psutil.NoSuchProcess:
             pass

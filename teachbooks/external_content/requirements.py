@@ -1,3 +1,4 @@
+"""Parse requirements.txt files."""
 from pathlib import Path
 
 import click
@@ -38,7 +39,7 @@ def check_requirements(main_requirements: Path, git_repos: list[Path]):
 
 
 def read_requirements(file: Path) -> set[str]:
-    """Read requirements file and strip comments, index urls, and empty lines"""
+    """Read requirements file and strip comments, index urls, and empty lines."""
     with file.open("r") as f:
         requirements = f.readlines()
     
