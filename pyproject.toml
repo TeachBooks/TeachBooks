@@ -30,14 +30,17 @@ testing = [
   "pytest",
   "flaky"
 ]
-dev = [
-  "ruff"
+lint = [
+  "ruff",
 ]
 docs = [
   "furo",
   "numpydoc",
   "sphinxcontrib-apidoc",
   "sphinx-click"
+]
+dev = [
+  "teachbooks[testing,lint,docs]"
 ]
 
 [tool.ruff]
