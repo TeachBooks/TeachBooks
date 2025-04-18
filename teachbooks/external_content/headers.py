@@ -42,7 +42,7 @@ def add_header_admonitions(repo: Path, text: str):
 
 def prepend(file: Path, text: str):
     """Prepend string `text` to plaintext file `file`."""
-    original_content = file.read_text()
+    original_content = file.read_text(encoding="utf-8")
     file.write_text(text + original_content, encoding="utf-8")
 
 
@@ -68,8 +68,8 @@ def add_rst_admonition(file: Path, text: str):
 
 def add_nb_admonition(file: Path, text: str):
     """Add an admonition containing `text` to the top of notebook `file."""
-    with file.open("r") as f:
-        notebook = json.load(f)
+
+    notebook = json.loads(file.read_text(encoding="utf-8"))
 
     admonition_cell = {
         "cell_type": "markdown",
