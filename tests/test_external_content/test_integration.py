@@ -14,6 +14,7 @@ ADMONITION_HTML = (
     "<p>This page originates from a TeachBook hosted at"
 )
 
+
 @pytest.fixture()
 def cli():
     """Provides a click.testing CliRunner object for invoking CLI commands."""
@@ -21,9 +22,11 @@ def cli():
     yield runner
     del runner
 
+
 def strip_whitespace(text: str) -> str:
     text = text.replace(" ","")
     text = text.replace("\n", "")
+    text = text.replace("\r", "")
     return text.replace("\t","")
 
 

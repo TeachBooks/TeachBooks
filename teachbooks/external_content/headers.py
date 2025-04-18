@@ -43,7 +43,7 @@ def add_header_admonitions(repo: Path, text: str):
 def prepend(file: Path, text: str):
     """Prepend string `text` to plaintext file `file`."""
     original_content = file.read_text()
-    file.write_text(text + original_content)
+    file.write_text(text + original_content, encoding="utf-8")
 
 
 def add_md_admonition(file: Path, text: str):
