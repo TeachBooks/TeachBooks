@@ -27,7 +27,9 @@ Modify your ``_toc.yml`` file by adding an ``external`` entry:
 Upon running ``teachbooks build book/``, the following will happen:
 
 #. The table of content will be parsed to find any "external" keys.
-#. The git repositories corresponding to the "external" keys will be cloned into a subdirectory `_git/`.
+#. The git repositories corresponding to the "external" keys will be cloned into a subdirectory ``_git/``.
+#. Any ``.md``, ``.rst`` or ``.ipynb`` files are modified to include a banner at the top of the page,
+   to denote the file's origin.
 #. The licenses of the repositories are validated. If no (open) license is found, an error is raised.
 #. The ``requirements.txt`` files of the external repositories are checked for any missing values or conflicts.
    If any missing values or conflicts are found, a warning is raised during the build process.

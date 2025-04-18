@@ -24,17 +24,17 @@ def add_header_admonitions(repo: Path, text: str):
     """Add header to a file.
 
     Args:
-        repo: .
-        text: .
+        repo: Path to the git repo cloned by the external content routine.
+        text: Which text to add to the admonition.
     """
     md_files = repo.glob("**/*.md")
     for md_file in md_files:
         add_md_admonition(md_file, text)
-    
+
     rst_files = repo.glob("**/*.rst")
     for rst_file in rst_files:
         add_rst_admonition(rst_file, text)
-    
+
     nb_files = repo.glob("**/*.ipynb")
     for nb_file in nb_files:
         add_nb_admonition(nb_file, text)
@@ -42,11 +42,8 @@ def add_header_admonitions(repo: Path, text: str):
 
 def prepend(file: Path, text: str):
     """Prepend string `text` to plaintext file `file`."""
-    with file.open(mode="r") as f:
-        original_content = f.read()
-
-    with file.open(mode="w") as f:
-        f.write(text + original_content)
+    original_content = file.read_text()
+    file.write_text(text + original_content)
 
 
 def add_md_admonition(file: Path, text: str):
@@ -73,7 +70,7 @@ def add_nb_admonition(file: Path, text: str):
     """Add an admonition containing `text` to the top of notebook `file."""
     with file.open("r") as f:
         notebook = json.load(f)
-    
+
     admonition_cell = {
         "cell_type": "markdown",
         "metadata": {},
