@@ -16,6 +16,8 @@ from teachbooks.external_content.git import (
     get_branch_tag_name,
     get_repo_url,
 )
+from teachbooks.external_content.git import create_repository_dir_name, get_branch_tag_name, get_repo_url
+from teachbooks.external_content.headers import add_origin_notes
 from teachbooks.external_content.licenses import validate_licenses
 from teachbooks.external_content.requirements import check_requirements
 from teachbooks.external_content.utils import load_yaml_file, modify_field
@@ -151,16 +153,26 @@ def external_to_local(
     branch_tag_name = get_branch_tag_name(external_url)
     repository_dir = create_repository_dir_name(external_url, root_dir=external_path)
 
-    if os.path.isdir(repository_dir):
-        click.secho(f"{repository_dir} already exists. Not re-downloading")
+    cloned_repo_file = Path(external_path) / "cloned_repos.txt"
+    if cloned_repo_file.exists():
+        with open(cloned_repo_file) as f:
+            cloned_repos = f.read()
     else:
-        # clone with branch_name
-        subprocess.run([
-            "git", "clone", "--single-branch", "-b",  branch_tag_name, clone_url,
-            repository_dir
-        ])
-        with (Path(external_path) / "cloned_repos.txt").open("a") as f:
+        cloned_repos = []
+
+    if repository_dir in cloned_repos:
+        click.secho(f"{repository_dir} has already been cloned. Not re-downloading")
+    else:
+        # clone with branch_name. Check for environment var (for testing)
+        if "NO_GIT_CLONE" not in os.environ:
+            subprocess.run([
+                "git", "clone", "--single-branch", "-b",  branch_tag_name, clone_url,
+                repository_dir
+            ])
+        with cloned_repo_file.open("a") as f:
             f.write(str(repository_dir) + "\n")
+
+        add_origin_notes(Path(repository_dir), clone_url, version=branch_tag_name)
 
     content_file = get_content_path(external_url)
     rel_path = os.path.relpath(repository_dir, root)
