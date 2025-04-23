@@ -68,7 +68,6 @@ def add_rst_admonition(file: Path, text: str):
 
 def add_nb_admonition(file: Path, text: str):
     """Add an admonition containing `text` to the top of notebook `file."""
-
     notebook = json.loads(file.read_text(encoding="utf-8"))
 
     admonition_cell = {

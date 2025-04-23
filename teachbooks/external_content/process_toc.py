@@ -16,7 +16,6 @@ from teachbooks.external_content.git import (
     get_branch_tag_name,
     get_repo_url,
 )
-from teachbooks.external_content.git import create_repository_dir_name, get_branch_tag_name, get_repo_url
 from teachbooks.external_content.headers import add_origin_notes
 from teachbooks.external_content.licenses import validate_licenses
 from teachbooks.external_content.requirements import check_requirements
