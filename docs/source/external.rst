@@ -58,7 +58,8 @@ To adapt the location of the admonition (margin or top, top is default option), 
     teachbooks:
       attribution_location: margin
 
-To adapt the colour of the admonition (with for example a grey colour, default is blue), you can use the following configuration:
+To adapt the colour of the admonition (with for example a grey colour, default is blue), you can use the following configuration.
+Make sure to add the `sphinx-named-colors` extension to your environment (e.g., `requirements.txt`):
 
 .. code-block:: yaml
     :emphasize-lines: 3,5,8
