@@ -9,7 +9,7 @@ def format_header(cfg: dict, base_url: str, version: str) -> str:
     admonition = (
         "```{" + cfg['attribution_color'] + "} Attribution\n"
         ":class: attribution\n"
-        f"This page originates from a TeachBook hosted at {base_url},"
+        f"This page originates from {base_url},"
         f" version: {version}\n"
         "```\n"
     )

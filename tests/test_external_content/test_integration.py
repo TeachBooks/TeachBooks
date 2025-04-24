@@ -12,7 +12,7 @@ PATH_TESTDATA = Path(__file__).parent / "testbook"
 ADMONITION_HTML = (
     "<div class=\"attribution admonition\">"
     "<p class=\"admonition-title\">Attribution</p>"
-    "<p>This page originates from a TeachBook hosted at"
+    "<p>This page originates from"
 )
 
 
