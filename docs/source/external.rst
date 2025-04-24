@@ -53,15 +53,15 @@ and symbol (by adding a custom CSS class).
 To adapt the location of the admonition (margin or top, top is default option), you can use the following configuration:
 
 .. code-block:: yaml
-    :emphasize-lines: 3
+    :emphasize-lines: 2
 
     teachbooks:
-      attribution_location: margin #
+      attribution_location: margin
 
 To adapt the colour of the admonition (with for example a grey colour, default is blue), you can use the following configuration:
 
 .. code-block:: yaml
-    :emphasize-lines: 4,6,9
+    :emphasize-lines: 3,5,8
 
     sphinx:
       config:
