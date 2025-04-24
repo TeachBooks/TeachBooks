@@ -73,7 +73,7 @@ Make sure to add the `sphinx-named-colors` extension to your environment (e.g., 
     teachbooks:
       attribution_color: attributiongrey
 
-To adapt the symbol of the admonitio (with for example double quotes), you can add the following custom CSS class to `book/_static/attribution.css`:
+To adapt the symbol of the admonition (with for example double quotes), you can add the following custom CSS class to `book/_static/attribution.css`:
 
 .. code-block:: css
 
