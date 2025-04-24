@@ -1,7 +1,7 @@
 External content from GitHub/GitLab
 ===================================
 
-TeachBooks includes an 'external content' processor, where you can refer to meterial
+TeachBooks includes an 'external content' processor, where you can refer to material
 hosted on GitHub or GitLab, which will be retrieved on-the-fly during the build process.
 
 This feature works consistently when using draft or release build strategies.
@@ -38,9 +38,48 @@ Upon running ``teachbooks build book/``, the following will happen:
 #. The external repositories are checked for any ``references.bib`` files.
    These are merged together with the main book's ``references.bib`` file.
 #. A new table of contents is generated (``_toc_with_local_paths.yml```) which refers to the locally cloned content.
+#. An attribution admonition is added to the top of the page in default blue, to denote the file's origin.
 
 Upon running ``teachbooks clean book/``, the `_git/` subdirectory will be removed 
 (along with the build artifacts).
+
+Configuration
+^^^^^^^^^^^^^
+
+The attribution admonition can be configured in the ``_config.yml`` file. You can adapt the location
+(top or margin), colour (making use of the sphinx extension `Sphinx-Named-Colors <https://github.com/TeachBooks/Sphinx-Named-Colors>`_),
+and symbol (by adding a custom CSS class).
+
+To adapt the location of the admonition (margin or top, top is default option), you can use the following configuration:
+
+.. code-block:: yaml
+    :emphasize-lines: 3
+
+    teachbooks:
+      attribution_location: margin #
+
+To adapt the colour of the admonition (with for example a grey colour, default is blue), you can use the following configuration:
+
+.. code-block:: yaml
+    :emphasize-lines: 4,6,9
+
+    sphinx:
+      config:
+        named_colors_custom_colors: {'attributiongrey':[150,150,150]}
+      extra_extensions:
+        - sphinx_named_colors
+
+    teachbooks:
+      attribution_color: attributiongrey
+
+To adapt the symbol of the admonitio (with for example double quotes), you can add the following custom CSS class to `book/_static/attribution.css`:
+
+.. code-block:: css
+
+   /* Attribution */
+   div.attribution > .admonition-title::after {
+      content: "\f10d";
+   }
 
 Notes
 ^^^^^
