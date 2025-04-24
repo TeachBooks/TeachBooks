@@ -6,6 +6,12 @@ Formatted as described on [https://keepachangelog.com](https://keepachangelog.co
 
 ## Unreleased
 
+## Added
+
+- An admonition will automatically be added on top of external content pages.
+  - The admonition location can be configured (either at top of page or in the right margin).
+  - The color of the admonition can be configured as well.
+
 ## 0.2.0 - 2025-04-07
 
 This release introduces an exciting new feature: automatically including external content in your book!
