@@ -30,7 +30,7 @@ def test_create(port):
     assert server.servedir == Path(".")
     assert server.workdir == Path("./.teachbooks")
     assert server.port == port
-    assert server._pid == None
+    assert server._pid is None
     assert server._statepath == Path("./.teachbooks/state.pickle")
 
 @flaky(max_runs=10)
@@ -59,7 +59,7 @@ def test_stop(server):
     server.stop()
     
     assert not os.path.exists(WORK_DIR / "state.pickle")
-    assert server._pid == None
+    assert server._pid is None
 
 @flaky(max_runs=10)
 def test_multiple_start(running_server):

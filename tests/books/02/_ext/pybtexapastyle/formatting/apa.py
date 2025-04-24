@@ -1,18 +1,25 @@
 # -*- coding:Utf-8 -*-
-from __future__ import unicode_literals
 
 import re
-import six
 
+import six
 from pybtex.plugin import find_plugin
+from pybtex.richtext import Symbol, Text
 from pybtex.style.formatting import BaseStyle, toplevel
 from pybtex.style.template import (
-    field, first_of, href, join, optional, optional_field, sentence, tag,
-    together, words, node, FieldIsMissing
+    FieldIsMissing,
+    field,
+    first_of,
+    href,
+    join,
+    node,
+    optional,
+    optional_field,
+    sentence,
+    tag,
+    together,
+    words,
 )
-
-from pybtex.richtext import Text, Symbol
-
 
 firstlast = find_plugin('pybtex.style.names', 'lastfirst')()
 
@@ -39,8 +46,7 @@ date = words[field('year'), optional[", ", field('month')]]
 
 @node
 def apa_names(children, context, role, **kwargs):
-    """
-    Returns formatted names as an APA compliant reference list citation.
+    """Returns formatted names as an APA compliant reference list citation.
     """
     assert not children
 
@@ -66,8 +72,7 @@ def apa_names(children, context, role, **kwargs):
 
 @node
 def editor_names(children, context, with_suffix=True, **kwargs):
-    """
-    Returns formatted editor names for inbook.
+    """Returns formatted editor names for inbook.
     """
     assert not children
 

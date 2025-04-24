@@ -1,5 +1,7 @@
+"""Utilities for external content."""
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable, Dict, overload
+from typing import Any, overload
 
 import yaml
 
@@ -28,7 +30,8 @@ def modify_field(
         data: mapping where to look for matches
         key: key to look for
         func: function to run on the matching fields
-        args, kwargs: other positional and keyword arguments for `func`
+        args: positional arguments for `func`
+        kwargs: keyword arguments for `func`
     
     Returns:
         modified mapping
@@ -48,7 +51,7 @@ def modify_field(
 
 def load_yaml_file(
         path: str | Path, encoding: str = "utf8"
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Load a yaml file file (ToC or config) as dictionary.
 
     Args:

@@ -1,10 +1,11 @@
-import re
+"""Teachbooks release workflow."""
 import os
+import re
 from pathlib import Path
 
 
 def make_release(sourcedir: Path) -> tuple[Path, Path]:
-    """Pre-process files in a Jupyter Book directory"""
+    """Pre-process files in a Jupyter Book directory."""
     # Make hidden directory that will contain the cleaned-up files
     workdir = sourcedir.joinpath(".teachbooks", "release")
 
@@ -20,7 +21,7 @@ def make_release(sourcedir: Path) -> tuple[Path, Path]:
     return workdir.joinpath("_config.yml"), workdir.joinpath("_toc.yml")
 
 def copy_ext(sourcedir: Path) -> None:
-    """Copy _ext/ to support APA in release [TEMPORARY]"""
+    """Copy _ext/ to support APA in release [TEMPORARY]."""
     # Make hidden directory that will contain the cleaned-up files
     ext_dir = sourcedir.joinpath("_ext")
     workdir = sourcedir.joinpath(".teachbooks", "release")
@@ -30,16 +31,22 @@ def copy_ext(sourcedir: Path) -> None:
 
     try:
         for root, dirs, files in os.walk(ext_dir):
-            for dir in dirs:
-                os.makedirs(workdir.joinpath("_ext", Path(root).relative_to(ext_dir).joinpath(dir)), exist_ok=True)
+            for _dir in dirs:
+                os.makedirs(
+                    workdir.joinpath(
+                        "_ext", Path(root).relative_to(ext_dir).joinpath(_dir)
+                        ), exist_ok=True
+                )
             for file in files:
                 src_file = Path(root).joinpath(file)
-                dest_file = workdir.joinpath("_ext", Path(root).relative_to(ext_dir).joinpath(file))
+                dest_file = workdir.joinpath(
+                    "_ext", Path(root).relative_to(ext_dir).joinpath(file)
+                )
                 os.makedirs(dest_file.parent, exist_ok=True)
                 with open(src_file, 'rb') as fsrc, open(dest_file, 'wb') as fdst:
                     fdst.write(fsrc.read())
         print("Copied _ext/ directory successfully.")
-    except:
+    except:  # noqa: E722 (TODO: isolate specific exception, or re-raise error.)
         print("Error copying _ext/ directory.")
 
 def clean_yaml(path_source: str | Path, path_output: str | Path) -> None:
@@ -68,13 +75,16 @@ def clean_yaml(path_source: str | Path, path_output: str | Path) -> None:
             - file: subdirectory_2/intro_page
 
     """
-
-    with open(path_source, mode="r", encoding="utf8") as f:
+    with open(path_source, encoding="utf8") as f:
         yaml_source = f.read()
 
     # Regex to remove both PUBLISH and RELEASE tags
+    re_pub_release = (
+        r"# START REMOVE-FROM-(PUBLISH|RELEASE)(.|\n)*?"
+        r"# END REMOVE-FROM-(PUBLISH|RELEASE)"
+    )
     yaml_output = re.sub(
-        r"# START REMOVE-FROM-(PUBLISH|RELEASE)(.|\n)*?# END REMOVE-FROM-(PUBLISH|RELEASE)",
+        re_pub_release,
         "",
         yaml_source
     )

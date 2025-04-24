@@ -1,12 +1,13 @@
-import pickle
-import sys
+"""Serve a teachbook locally."""
 import os
-import socket
+import pickle
 import platform
-from subprocess import DEVNULL
+import socket
+import sys
 from pathlib import Path
-from typing import TypeVar
+from subprocess import DEVNULL
 from time import sleep
+from typing import TypeVar
 
 import psutil
 
@@ -20,8 +21,8 @@ Server_t = TypeVar("Server_t", bound="Server")
 
 
 class ServerError(Exception):
-    """Server exception class"""
-    pass
+    """Server exception class."""
+    ...
 
 
 class Server:
@@ -34,7 +35,7 @@ class Server:
                  port: int | None = None,
                  stdout: int | None = None,
                  ) -> None:
-        """Construct Server object
+        """Construct Server object.
 
         Args:
             servedir: Directory to serve.
@@ -77,13 +78,13 @@ class Server:
         
         if self.is_running:
             if self.stdout is None or self.stdout > 0:
-                print(f"Server already running:")
+                print("Server already running:")
                 print(f"  Serving directory: {self.servedir}")
                 print(f"  Accessible at url: {self.url}")
             return
         else:
             if self.stdout is None or self.stdout > 0:
-                print(f"Starting server:")
+                print("Starting server:")
                 print(f"  Directory: {self.servedir}")
                 print(f"  Port:      {self.port}")
                 print(f"  At url:    {self.url}")
@@ -97,10 +98,12 @@ class Server:
                 print("Starting server with this command:\n",
                       "  ".join(base_command))
 
-            proc = psutil.Popen([sys.executable, "-u", "-m", "http.server", str(self.port)],
-                                cwd=self.servedir,
-                                stderr=DEVNULL,
-                                stdout=DEVNULL)
+            proc = psutil.Popen(
+                [sys.executable, "-u", "-m", "http.server", str(self.port)],
+                cwd=self.servedir,
+                stderr=DEVNULL,
+                stdout=DEVNULL
+            )
 
             self._pid = proc.pid
 
@@ -109,14 +112,18 @@ class Server:
             # Check if the subprocess is still running
             if not self.is_running:
                 proc.terminate()
-                raise RuntimeError("Error launching the server. Perhaps a server is already running on the selected port?")
+                msg = (
+                    "Error launching the server. Perhaps a server "
+                    "is already running on the selected port?"
+                )
+                raise RuntimeError(msg)
             else:
                 self._save()
 
 
     def stop(self, options: list[str] = None) -> None:
         """Stop server and clean up."""
-        try:
+        try:  # noqa: SIM105 TODO: check if his rule improves this.
             psutil.Process(pid=self._pid).terminate()
         except psutil.NoSuchProcess:
             pass

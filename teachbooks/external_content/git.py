@@ -1,5 +1,6 @@
-from pathlib import Path
+"""Process git repo URLs."""
 import re
+from pathlib import Path
 
 
 def get_repo_url(url: str) -> str:

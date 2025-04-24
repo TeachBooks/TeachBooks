@@ -3,9 +3,7 @@ from pathlib import Path
 import pytest
 
 from teachbooks.external_content.bib import merge_bibs, read_bibfile, write_bibfile
-from tests.test_external_content import BOOK_ROOT
-from tests.test_external_content import CLONED_REPOS
-
+from tests.test_external_content import BOOK_ROOT, CLONED_REPOS
 
 TEST_BIBFILE = (
     Path(__file__).parent / "testbook" / "book" / "_git" / 

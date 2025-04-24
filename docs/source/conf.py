@@ -1,5 +1,5 @@
-# Configuration file for the Sphinx documentation builder.
-#
+"""Configuration file for the Sphinx documentation builder."""
+
 # This file only contains a selection of the most common options. For a full
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
@@ -19,9 +19,8 @@
 
 from pathlib import Path
 
-
 project = 'TeachBooks'
-copyright = '2024, the TeachBooks team'
+copyright = '2024, the TeachBooks team'  # noqa: A001
 author = 'TeachBooks'
 
 

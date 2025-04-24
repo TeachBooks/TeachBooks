@@ -1,12 +1,11 @@
 """Functionality to read write and compare .bib files."""
-from dataclasses import dataclass
 import re
+from dataclasses import dataclass
 from pathlib import Path
 
 import click
 
 from teachbooks.external_content.config import CLICK_WARNING_KWARGS
-
 
 BIB_ENTRY_RE = re.compile(r"@(\w+){([\w:-]+)")
 
@@ -107,7 +106,7 @@ def bib_union(bibs: list[BibEntry], additional_bibs: list[BibEntry]):
 
 
 def find(citekey: str, bibs: list[BibEntry]) -> BibEntry:
-    """Find bib entry by citekey"""
+    """Find bib entry by citekey."""
     key_index = [bib.citekey == citekey for bib in bibs].index(True)
     return bibs[key_index]
 
@@ -132,10 +131,7 @@ def merge_bibs(bibfile: Path, repos: list[Path]) -> list[BibEntry]:
     
     Will return an empty list if no reference.bib files are present anywhere.
     """
-    if bibfile.exists():
-        book_bib = read_bibfile(bibfile)
-    else:
-        book_bib = []
+    book_bib = read_bibfile(bibfile) if bibfile.exists() else []
 
     for repo in repos:
         repo_bibfile = find_bibfile(repo)

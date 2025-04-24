@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from sphinxcontrib.bibtex.style.referencing import BracketStyle
 from sphinxcontrib.bibtex.style.referencing.author_year import AuthorYearReferenceStyle
 
+
 def bracket_style() -> BracketStyle:
     return BracketStyle(left='(', right=')')
 

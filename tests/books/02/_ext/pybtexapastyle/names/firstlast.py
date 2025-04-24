@@ -1,5 +1,4 @@
 # -*- coding:Utf-8 -*-
-from __future__ import unicode_literals
 
 from pybtex.style.names import BaseNameStyle, name_part
 from pybtex.style.template import join
@@ -8,8 +7,7 @@ from pybtex.style.template import join
 class NameStyle(BaseNameStyle):
 
     def format(self, person, abbr=False):
-        r"""
-        Format names similarly to {vv~}{ll}{, jj}{, f.} in BibTeX.
+        r"""Format names similarly to {vv~}{ll}{, jj}{, f.} in BibTeX.
 
         >>> from pybtex.database import Person
         >>> name = Person(string=r"Charles Louis Xavier Joseph de la Vall{\'e}e Poussin")

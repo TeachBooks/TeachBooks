@@ -63,7 +63,10 @@ You want to make some kind of change to the code base
     below.
 #.  make sure the existing documentation can still by generated without
     warnings by running ``cd docs && sphinx-build source/ _build/``.
-#.   add your own tests (if necessary);
+#.  add your own tests (if necessary), and make sure they run when you
+    run the test suite (using the command `pytest`).
+#.  make sure your additions pass the static code analysis. You can run it
+    locally with the command `ruff check`.
 #.  update or expand the documentation; Please add `Google Style Python
     docstrings <https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html>`__.
 #.  `push <http://rogerdudler.github.io/git-guide/>`__ your feature
@@ -95,15 +98,15 @@ The creation of the development environment should be something like this:
     conda deactivate         # Only needed if you have conda
     python3 -m venv venv     # Create a virtual environment
     source venv/bin/activate # or 'venv\Scripts\activate' on Windows
-    pip install -e .[testing,docs]
+    pip install -e .[dev]
     pip show teachbooks      # confirm local installation is used
 
 Using option ``pip install -e`` is editable mode, which updates the
 ``teachbooks`` module in the venv as it is edited. Note that this step
 can take a long time on Windows; the reason is most likely due to malware
 scanners on organization-owned/managed computers. To resolve this you
-should disable the "Realtime malware protection" on your machine. If that
-is not possible, stop and start the installation process several times.
+could (temporarily) disable the "Realtime malware protection" on your machine.
+If that is not possible, stop and start the installation process several times.
 As you can probably already guess, the most effective solution for this
 (and perhaps many of your other open source software problems) is to switch
 to Linux. to avoid this). In general, the `Setuptools manual

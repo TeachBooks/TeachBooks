@@ -1,9 +1,9 @@
+"""Read and process table of contents files."""
 import os.path
 import stat
 import subprocess
-
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 import click
 import yaml
@@ -11,12 +11,15 @@ import yaml
 from teachbooks.external_content import GIT_PATH
 from teachbooks.external_content.bib import merge_bibs, write_bibfile
 from teachbooks.external_content.config import check_plugins
-from teachbooks.external_content.git import create_repository_dir_name, get_branch_tag_name, get_repo_url
+from teachbooks.external_content.git import (
+    create_repository_dir_name,
+    get_branch_tag_name,
+    get_repo_url,
+)
 from teachbooks.external_content.headers import add_origin_notes
 from teachbooks.external_content.licenses import validate_licenses
 from teachbooks.external_content.requirements import check_requirements
 from teachbooks.external_content.utils import load_yaml_file, modify_field
-
 
 LOCAL_TOC_HEADER = (
     "ToC file with localized paths. Used for Teachbooks' external content feature."
@@ -34,9 +37,10 @@ def process_external_toc_entries(
     Args:
         src: Path to the source table-of-contents yaml file.
         dest: Path to the destination table-of-contents yaml file.
-        fail_invalid_license: If true, and no valid license is found in an
+        book_root: Path to the root of the book.
+        error_invalid_license: If true, and no valid license is found in an
             external repository, an error will be raised. Else only a warning.
-    
+
     Returns:
         Path to the new table-of-contents yaml file, or the original file
             if the toc was not modified.
@@ -79,6 +83,7 @@ def process_external_toc_entries(
 
 
 def read_cloned_repos(log: Path) -> list[Path]:
+    """Read in cloned repo file to get paths to all cloned repos."""
     with log.open("r") as f:
         cloned_repos_str = [repo.strip("\n\r") for repo in f.readlines()]
     return [
@@ -88,7 +93,7 @@ def read_cloned_repos(log: Path) -> list[Path]:
 
 
 def get_content_path(url: str) -> str:
-    """Get relative path of the external content from the URL path
+    """Get relative path of the external content from the URL path.
 
     Args:
         url: URL path to the external content
@@ -102,10 +107,10 @@ def get_content_path(url: str) -> str:
 
 
 def write_toc_yaml(
-    data: Dict[str, str],
+    data: dict[str, str],
     path: str | Path,
     encoding: str = "utf8",
-    header: Optional[str] = None,
+    header: str | None = None,
 ) -> None:
     """Write a ToC file.
 
@@ -113,6 +118,7 @@ def write_toc_yaml(
         data: site map
         path: Target `_toc.yml` file path
         encoding: `_toc.yml` file character encoding
+        header: Commented out header to start toc file with.
     """
     with open(path, encoding=encoding, mode="w") as handle:
         if header is not None:
@@ -121,10 +127,10 @@ def write_toc_yaml(
 
 
 def external_to_local(
-    mapping: Dict[str, Any],
+    mapping: dict[str, Any],
     external_path: str | Path,
     root: str | Path
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Modify mapping with the "external" key.
 
     Retrieve external components locally, and fix ToC fields accordingly.
@@ -181,7 +187,7 @@ def chmod_git_files(foo, file, err):
     if (
         os.name == "nt" and
         Path(file).suffix in [".idx", ".pack", ".rev"] and
-        "PermissionError" == err[0].__name__
+        err[0].__name__ == "PermissionError"
     ):
         os.chmod(file, stat.S_IWRITE)
         foo(file)

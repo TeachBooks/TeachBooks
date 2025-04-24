@@ -1,10 +1,11 @@
 # Many book-related tests follow that set up in
 # github.com/jupyter-book/jupyter-book/
 from pathlib import Path
+
 import pytest
 from click.testing import CliRunner
-from teachbooks.cli import main as commands
 
+from teachbooks.cli import main as commands
 
 WORK_DIR = Path("./.teachbooks")
 PATH_BOOKS = Path(__file__).parent / "books"

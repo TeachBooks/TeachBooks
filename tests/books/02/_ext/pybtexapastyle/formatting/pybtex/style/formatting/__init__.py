@@ -1,9 +1,8 @@
-from __future__ import unicode_literals
 
-from pybtex.style import FormattedEntry, FormattedBibliography
-from pybtex.style.template import node, join
-from pybtex.richtext import Symbol
 from pybtex.plugin import Plugin, find_plugin
+from pybtex.richtext import Symbol
+from pybtex.style import FormattedBibliography, FormattedEntry
+from pybtex.style.template import join, node
 
 
 @node
@@ -12,8 +11,7 @@ def toplevel(children, data):
 
 
 class BaseStyle(Plugin):
-    """
-    The base class for pythonic formatting styles.
+    """The base class for pythonic formatting styles.
     """
 
     default_name_style = None
@@ -33,7 +31,7 @@ class BaseStyle(Plugin):
     def format_entries(self, entries, bib_data=None):
         sorted_entries = self.sort(entries)
         labels = self.format_labels(sorted_entries)
-        for label, entry in zip(labels, sorted_entries):
+        for label, entry in zip(labels, sorted_entries, strict=False):
             yield self.format_entry(label, entry, bib_data=bib_data)
 
     def format_entry(self, label, entry, bib_data=None):
@@ -43,7 +41,7 @@ class BaseStyle(Plugin):
                 'bib_data': bib_data,
             }
             try:
-                get_template = getattr(self, 'get_{}_template'.format(entry.type))
+                get_template = getattr(self, f'get_{entry.type}_template')
             except AttributeError:
                 format_method = getattr(self, "format_" + entry.type)
                 text = format_method(context)
@@ -52,14 +50,12 @@ class BaseStyle(Plugin):
             return FormattedEntry(entry.key, text, label)
 
     def format_bibliography(self, bib_data, citations=None):
-        """
-        Format bibliography entries with the given keys and return a
+        """Format bibliography entries with the given keys and return a
         ``FormattedBibliography`` object.
 
         :param bib_data: A :py:class:`pybtex.database.BibliographyData` object.
         :param citations: A list of citation keys.
         """
-
         if citations is None:
             citations = list(bib_data.entries.keys())
         citations = bib_data.add_extra_citations(citations, self.min_crossrefs)
