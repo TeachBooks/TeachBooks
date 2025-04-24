@@ -82,6 +82,10 @@ To adapt the symbol of the admonition (with for example double quotes), you can 
       content: "\f10d";
    }
 
+Note that when making a change for the configuration locally, those are not incorporated to existing external content.
+You will need to remove the `_git/` folder and re-run the build command to see the changes. When building the book
+on i.e. GitHub Actions, the `_git/` folder is always rebuild from scratch.
+
 Notes
 ^^^^^
 
