@@ -10,7 +10,7 @@ import yaml
 
 from teachbooks.external_content import GIT_PATH
 from teachbooks.external_content.bib import merge_bibs, write_bibfile
-from teachbooks.external_content.config import check_plugins
+from teachbooks.external_content.config import check_plugins, get_teachbooks_config
 from teachbooks.external_content.git import (
     create_repository_dir_name,
     get_branch_tag_name,
@@ -143,6 +143,8 @@ def external_to_local(
     Returns:
         map with fields adjusted in order to refer to local resources.
     """
+    cfg = get_teachbooks_config(root / "_config.yml")
+
     mapping_local = mapping.copy()
     external_url = mapping_local.pop("external")
 
@@ -171,7 +173,7 @@ def external_to_local(
         with cloned_repo_file.open("a") as f:
             f.write(str(repository_dir) + "\n")
 
-        add_origin_notes(Path(repository_dir), clone_url, version=branch_tag_name)
+        add_origin_notes(Path(repository_dir), cfg, clone_url, version=branch_tag_name)
 
     content_file = get_content_path(external_url)
     rel_path = os.path.relpath(repository_dir, root)

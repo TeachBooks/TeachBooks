@@ -8,6 +8,38 @@ from teachbooks.external_content.utils import load_yaml_file
 
 CLICK_WARNING_KWARGS: dict[str, Any] = {"fg": "yellow", "err": True}
 
+DEFAULT_CONFIG = {
+    "attribution_color": "admonition",  # should refer to a color defined in _config.
+    "attribution_location": "top",  # Either 'top' or 'margin'
+}
+
+
+def get_teachbooks_config(config_file: Path) -> dict[str, str]:
+    """Load teachbooks entries from _config.yml.
+
+    Args:
+        config_file: Path to _config.yml file
+
+    Returns:
+        Loaded configuration.
+    """
+    config = load_yaml_file(config_file)
+
+    cfg = DEFAULT_CONFIG
+    if "teachbooks" in config:
+        if "attribution_color" in config["teachbooks"]:
+            cfg["attribution_color"] = config["teachbooks"]["attribution_color"]
+        if "attribution_location" in config["teachbooks"]:
+            loc = config["teachbooks"]["attribution_location"]
+            if loc not in ["top", "margin"]:
+                msg = (
+                    "Incorrect config location configuration. "
+                    "Should be `top` or `margin`"
+                )
+                raise ValueError(msg)
+            cfg["attribution_location"] = loc
+    return cfg
+
 
 def check_plugins(
     config_file: Path, git_repos: list[Path]
