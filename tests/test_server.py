@@ -15,6 +15,7 @@ def server():
     server = Server(servedir=SERVE_DIR, workdir=WORK_DIR)
     return server
 
+
 @pytest.fixture
 def running_server(server):
     server.start()
@@ -22,9 +23,7 @@ def running_server(server):
     server.stop()
 
 
-@pytest.mark.parametrize(
-    "port", [None, 8000]
-)
+@pytest.mark.parametrize("port", [None, 8000])
 def test_create(port):
     server = Server(servedir=SERVE_DIR, workdir=WORK_DIR, port=port)
     assert server.servedir == Path(".")
@@ -33,6 +32,7 @@ def test_create(port):
     assert server._pid is None
     assert server._statepath == Path("./.teachbooks/state.pickle")
 
+
 @flaky(max_runs=10)
 def test_start(running_server):
     server = running_server
@@ -40,11 +40,11 @@ def test_start(running_server):
     assert server._pid is not None
     assert server.url == f"http://localhost:{server.port}"
 
- 
+
 @flaky(max_runs=10)
 def test_save_and_load(running_server):
     running_server._save()
-    
+
     new_server = Server.load(WORK_DIR)
     assert new_server.servedir == running_server.servedir
     assert new_server.workdir == running_server.workdir
@@ -57,9 +57,10 @@ def test_save_and_load(running_server):
 def test_stop(server):
     server.start()
     server.stop()
-    
+
     assert not os.path.exists(WORK_DIR / "state.pickle")
     assert server._pid is None
+
 
 @flaky(max_runs=10)
 def test_multiple_start(running_server):
@@ -67,4 +68,3 @@ def test_multiple_start(running_server):
     running_server.start()
     assert running_server._pid == pid
     assert running_server.port == port
-    
