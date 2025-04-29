@@ -7,7 +7,7 @@ from pathlib import Path
 def format_header(cfg: dict, base_url: str, version: str) -> str:
     """Generate the admonition header based on the user's config."""
     admonition = (
-        "```{" + cfg['attribution_color'] + "} Attribution\n"
+        "```{" + cfg["attribution_color"] + "} Attribution\n"
         ":class: attribution\n"
         f"This page originates from {base_url},"
         f" version: {version}\n"
@@ -16,15 +16,11 @@ def format_header(cfg: dict, base_url: str, version: str) -> str:
     if cfg["attribution_location"] == "top":
         return admonition
 
-    return (
-        "````{margin}\n"
-        f"{admonition}"
-        "````\n"
-    )
+    return f"````{{margin}}\n{admonition}````\n"
 
 
 def add_origin_notes(
-    repo: Path, cfg: dict[str,str], base_url: str, version: str
+    repo: Path, cfg: dict[str, str], base_url: str, version: str
 ) -> None:
     """Add a note denoting the origin of a certain file.
 
@@ -66,7 +62,7 @@ def prepend(file: Path, text: str):
 
 def add_rst_admonition(file: Path, header: str):
     """Add an admonition top of reST file.
-    
+
     To do this we make use of the `include` directive and write the admonition
     as a separate markdown file which will be parsed by myst.
     """
@@ -74,9 +70,7 @@ def add_rst_admonition(file: Path, header: str):
     admon_file.write_text(header, encoding="utf-8")
 
     admonition = (
-        f".. include:: {admon_file.name}\n"
-        "    :parser: myst_parser.docutils_\n"
-        "\n"
+        f".. include:: {admon_file.name}\n    :parser: myst_parser.docutils_\n\n"
     )
     prepend(file, admonition)
 

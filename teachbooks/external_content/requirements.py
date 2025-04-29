@@ -1,4 +1,5 @@
 """Parse requirements.txt files."""
+
 from pathlib import Path
 
 import click
@@ -42,7 +43,7 @@ def read_requirements(file: Path) -> set[str]:
     """Read requirements file and strip comments, index urls, and empty lines."""
     with file.open("r") as f:
         requirements = f.readlines()
-    
+
     valid_requirements = set()
     for req in requirements:
         req = req.strip("\n\r")

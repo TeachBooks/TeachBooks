@@ -1,4 +1,5 @@
 """Teachbooks release workflow."""
+
 import os
 import re
 from pathlib import Path
@@ -13,12 +14,10 @@ def make_release(sourcedir: Path) -> tuple[Path, Path]:
         os.makedirs(workdir)
 
     for file in ["_config.yml", "_toc.yml"]:
-        clean_yaml(
-            sourcedir.joinpath(file),
-            workdir.joinpath(file)
-        )
+        clean_yaml(sourcedir.joinpath(file), workdir.joinpath(file))
 
     return workdir.joinpath("_config.yml"), workdir.joinpath("_toc.yml")
+
 
 def copy_ext(sourcedir: Path) -> None:
     """Copy _ext/ to support APA in release [TEMPORARY]."""
@@ -35,7 +34,8 @@ def copy_ext(sourcedir: Path) -> None:
                 os.makedirs(
                     workdir.joinpath(
                         "_ext", Path(root).relative_to(ext_dir).joinpath(_dir)
-                        ), exist_ok=True
+                    ),
+                    exist_ok=True,
                 )
             for file in files:
                 src_file = Path(root).joinpath(file)
@@ -43,15 +43,16 @@ def copy_ext(sourcedir: Path) -> None:
                     "_ext", Path(root).relative_to(ext_dir).joinpath(file)
                 )
                 os.makedirs(dest_file.parent, exist_ok=True)
-                with open(src_file, 'rb') as fsrc, open(dest_file, 'wb') as fdst:
+                with open(src_file, "rb") as fsrc, open(dest_file, "wb") as fdst:
                     fdst.write(fsrc.read())
         print("Copied _ext/ directory successfully.")
     except:  # noqa: E722 (TODO: isolate specific exception, or re-raise error.)
         print("Error copying _ext/ directory.")
 
+
 def clean_yaml(path_source: str | Path, path_output: str | Path) -> None:
     """Removes marked sections from a yaml file.
-     
+
     A marked section can be:
         - ``# <START|END> REMOVE-FROM-PUBLISH``
         - or ``# <START|END> REMOVE-FROM-RELEASE``
@@ -83,11 +84,7 @@ def clean_yaml(path_source: str | Path, path_output: str | Path) -> None:
         r"# START REMOVE-FROM-(PUBLISH|RELEASE)(.|\n)*?"
         r"# END REMOVE-FROM-(PUBLISH|RELEASE)"
     )
-    yaml_output = re.sub(
-        re_pub_release,
-        "",
-        yaml_source
-    )
+    yaml_output = re.sub(re_pub_release, "", yaml_source)
 
     with open(path_output, mode="w", encoding="utf8") as f:
         f.write(yaml_output)

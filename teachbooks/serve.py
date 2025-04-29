@@ -1,4 +1,5 @@
 """Serve a teachbook locally."""
+
 import os
 import pickle
 import platform
@@ -11,30 +12,29 @@ from typing import TypeVar
 
 import psutil
 
-STATUS = {
-    "Linux": "sleeping",
-    "Darwin": "running",
-    "Windows": "running"
-}
+STATUS = {"Linux": "sleeping", "Darwin": "running", "Windows": "running"}
 
 Server_t = TypeVar("Server_t", bound="Server")
 
 
 class ServerError(Exception):
     """Server exception class."""
+
     ...
 
 
 class Server:
     """Class for managing a Python webserver in the background."""
+
     statefile = "state.pickle"
 
-    def __init__(self,
-                 servedir: Path | str,
-                 workdir: Path | str,
-                 port: int | None = None,
-                 stdout: int | None = None,
-                 ) -> None:
+    def __init__(
+        self,
+        servedir: Path | str,
+        workdir: Path | str,
+        port: int | None = None,
+        stdout: int | None = None,
+    ) -> None:
         """Construct Server object.
 
         Args:
@@ -62,7 +62,6 @@ class Server:
             if not os.path.exists(self.workdir):
                 os.makedirs(self.workdir)
 
-
     def start(self, options: list[str] = None) -> bool:
         """Start server.
 
@@ -72,10 +71,9 @@ class Server:
         if not self.servedir.is_dir():
             raise NotADirectoryError(f"Directory does not exist: {self.servedir}")
 
-
         if self.port is None:
             self.port = self._find_port()
-        
+
         if self.is_running:
             if self.stdout is None or self.stdout > 0:
                 print("Server already running:")
@@ -95,14 +93,13 @@ class Server:
 
             # Print the full command for verification
             if self.stdout is None or self.stdout > 1:
-                print("Starting server with this command:\n",
-                      "  ".join(base_command))
+                print("Starting server with this command:\n", "  ".join(base_command))
 
             proc = psutil.Popen(
                 [sys.executable, "-u", "-m", "http.server", str(self.port)],
                 cwd=self.servedir,
                 stderr=DEVNULL,
-                stdout=DEVNULL
+                stdout=DEVNULL,
             )
 
             self._pid = proc.pid
@@ -120,7 +117,6 @@ class Server:
             else:
                 self._save()
 
-
     def stop(self, options: list[str] = None) -> None:
         """Stop server and clean up."""
         try:  # noqa: SIM105 TODO: check if his rule improves this.
@@ -132,7 +128,6 @@ class Server:
             os.remove(self._statepath)
 
         self._pid = None
-
 
     def _save(self) -> None:
         """Save current Server object as a pickle file."""
@@ -155,7 +150,6 @@ class Server:
         isserver = proc.cmdline()[1:] == ["-u", "-m", "http.server", str(self.port)]
         return isalive and isserver
 
-
     @property
     def url(self) -> str:
         """Get URL of running server.
@@ -164,7 +158,6 @@ class Server:
             URL of the server.
         """
         return f"http://localhost:{self.port}"
-
 
     @staticmethod
     def _find_port() -> int:
@@ -175,9 +168,8 @@ class Server:
         """
         # https://stackoverflow.com/a/1365284
         sock = socket.socket()
-        sock.bind(('', 0))
+        sock.bind(("", 0))
         return sock.getsockname()[1]
-
 
     @classmethod
     def load(cls, workdir: Path | str) -> Server_t:

@@ -1,4 +1,5 @@
 """Parse external content config files."""
+
 from pathlib import Path
 from typing import Any
 
@@ -48,11 +49,11 @@ def check_plugins(
 
     The user will be warned if any plugins or extensions are missing/not the same
     version pin.
-    
+
     Args:
         config_file: Path to the config yaml file.
         git_repos: List of cloned git repositories.
-    
+
     Returns:
         The missing plugins and myst extensions.
     """
@@ -82,7 +83,7 @@ def check_plugins(
                     "    Missing or non-matching plugins:\n"
                     f"{unmatched_str}"
                     "Content from this book might not display correctly.",
-                    **CLICK_WARNING_KWARGS
+                    **CLICK_WARNING_KWARGS,
                 )
 
             if len(unmatched_extensions) > 0:
@@ -96,17 +97,17 @@ def check_plugins(
                     "    Missing or non-matching extensions:\n"
                     f"{unmatched_str}"
                     "Content from this book might not display correctly.",
-                    **CLICK_WARNING_KWARGS
+                    **CLICK_WARNING_KWARGS,
                 )
     return missing_plugins, missing_extensions
 
 
 def find_config(repo: Path) -> Path | None:
     """Find path to config file.
-    
+
     Args:
         repo: Path to repository.
-        
+
     Returns:
         Path to config file if found, otherwise None.
     """
@@ -124,14 +125,14 @@ def find_config(repo: Path) -> Path | None:
             "    could not validate config plugins/extensions."
             f"    Please check {repo}"
         )
-        click.secho(msg, **CLICK_WARNING_KWARGS)    
+        click.secho(msg, **CLICK_WARNING_KWARGS)
     elif len(detected_configs) == 0:
         msg = (
             "Warning: no config detected in external content repo,\n"
             "    could not validate config plugins/extensions."
             f"    Please check {repo}"
         )
-        click.secho(msg, **CLICK_WARNING_KWARGS)    
+        click.secho(msg, **CLICK_WARNING_KWARGS)
     return None
 
 
@@ -144,10 +145,10 @@ def find_plugins(config_file: Path) -> tuple[set[str], set[str]]:
 
 def get_sphinx_plugins(config_file: Path) -> set[str]:
     """Find the sphinx plugins in the config file.
-    
+
     Args:
         config_file: Path to the config yaml file.
-    
+
     Returns:
         Sphinx plugin names as a set.
     """
@@ -179,10 +180,10 @@ def get_sphinx_plugins(config_file: Path) -> set[str]:
 
 def get_myst_extensions(config_file: Path) -> set[str]:
     """Find the myst extensions in the config file.
-    
+
     Args:
         config_file: Path to the config yaml file.
-    
+
     Returns:
         myst extension names as a set.
     """
@@ -190,7 +191,7 @@ def get_myst_extensions(config_file: Path) -> set[str]:
 
     myst_extensions = set()
     if config.get("parse") is None:
-        pass # "parse" entry is not required.
+        pass  # "parse" entry is not required.
     elif not isinstance(config.get("parse"), dict):
         msg = (
             "Malformed 'parse' entry in config (expected sub-entries),\n"
