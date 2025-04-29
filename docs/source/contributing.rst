@@ -64,9 +64,11 @@ You want to make some kind of change to the code base
 #.  make sure the existing documentation can still by generated without
     warnings by running ``cd docs && sphinx-build source/ _build/``.
 #.  add your own tests (if necessary), and make sure they run when you
-    run the test suite (using the command `pytest`).
+    run the test suite (using the command ``pytest``).
 #.  make sure your additions pass the static code analysis. You can run it
-    locally with the command `ruff check`.
+    locally with the command ``ruff check``.
+#.  make sure your code is formatted correctly. You can run the formatter
+    locally with the command ``ruff format``.
 #.  update or expand the documentation; Please add `Google Style Python
     docstrings <https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html>`__.
 #.  `push <http://rogerdudler.github.io/git-guide/>`__ your feature
