@@ -6,11 +6,15 @@ Formatted as described on [https://keepachangelog.com](https://keepachangelog.co
 
 ## Unreleased
 
-## Added
+## 0.2.1 - 2025-05-02
 
-- An admonition will automatically be added on top of external content pages.
-  - The admonition location can be configured (either at top of page or in the right margin).
-  - The color of the admonition can be configured as well.
+### Added
+
+- admonitions which will automatically be added at the top of external content pages ([#96](https://github.com/TeachBooks/TeachBooks/pull/96)).
+  - The admonition location can be configured (either at top of page or in the right margin) ([#98](https://github.com/TeachBooks/TeachBooks/pull/98)).
+  - The color of the admonition can be configured ([#98](https://github.com/TeachBooks/TeachBooks/pull/98)).
+- Automatically generated API docs to the package documentation ([#89](https://github.com/TeachBooks/TeachBooks/pull/89)).
+- 
 
 ## 0.2.0 - 2025-04-07
 
