@@ -104,14 +104,14 @@ The creation of the development environment should be something like this:
     pip show teachbooks      # confirm local installation is used
 
 Using option ``pip install -e`` is editable mode, which updates the
-``teachbooks`` module in the venv as it is edited. Note that this step
+``teachbooks`` module in the ``venv`` as it is edited. Note that this step
 can take a long time on Windows; the reason is most likely due to malware
 scanners on organization-owned/managed computers. To resolve this you
 could (temporarily) disable the "Realtime malware protection" on your machine.
 If that is not possible, stop and start the installation process several times.
 As you can probably already guess, the most effective solution for this
 (and perhaps many of your other open source software problems) is to switch
-to Linux. to avoid this). In general, the `Setuptools manual
+to Linux. In general, the `Setuptools manual
 <https://setuptools.pypa.io/en/latest/userguide/development_mode.html>`__
 can be a useful reference in case you run into issues here.
 
