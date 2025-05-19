@@ -1,4 +1,5 @@
 """Functionality to read write and compare .bib files."""
+
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -13,9 +14,10 @@ BIB_ENTRY_RE = re.compile(r"@(\w+){([\w:-]+)")
 @dataclass
 class BibEntry:
     """Contains all information of a bib file entry."""
+
     entrytype: str
     citekey: str
-    content: dict[str,str]
+    content: dict[str, str]
 
 
 def read_bibfile(file: Path) -> list[BibEntry]:
@@ -23,7 +25,7 @@ def read_bibfile(file: Path) -> list[BibEntry]:
 
     Args:
         file: Path to the .bib file.
-    
+
     Returns:
         List of .bib file entries.
     """
@@ -48,15 +50,13 @@ def read_bibfile(file: Path) -> list[BibEntry]:
             i_eq = line.find("=")  # index of = sign; splits key and value
             if i_eq != -1:
                 key = line[:i_eq].strip()
-                val = line[i_eq+1:]
+                val = line[i_eq + 1 :]
                 leading_br = val.find("{")
-                trailing_br = len(val)-val[::-1].find("}")
-                content[key] = val[leading_br+1:trailing_br-1]
-        
+                trailing_br = len(val) - val[::-1].find("}")
+                content[key] = val[leading_br + 1 : trailing_br - 1]
+
         if len(content) > 0:
-            bib_entries.append(
-                BibEntry(entrytype, citekey, content)
-            )
+            bib_entries.append(BibEntry(entrytype, citekey, content))
         else:
             msg = f"Malformed entry ({citekey}) found in .bib file: {file}"
             click.secho(msg)
@@ -73,9 +73,9 @@ def bib_union(bibs: list[BibEntry], additional_bibs: list[BibEntry]):
 
     Args:
         bibs: Main list of bib entries.
-        additional_bibs: List of additional bib entries you want to add to 
+        additional_bibs: List of additional bib entries you want to add to
             the main list.
-    
+
     Returns:
         Joined list of .bib file entries.
     """
@@ -115,20 +115,18 @@ def write_bibfile(file: Path, bibs: list[BibEntry]) -> None:
     """Write a list of BibEntries to a new file."""
     with open(file, "w") as f:
         for bib in bibs:
-            content_strs = [
-                f"  {key} = {{{val}}}" for key, val in bib.content.items()
-            ]
+            content_strs = [f"  {key} = {{{val}}}" for key, val in bib.content.items()]
             entry = (
-                f"@{bib.entrytype}{{{bib.citekey},\n" +\
-                ",\n".join(content_strs) +\
-                ",\n}\n\n"
+                f"@{bib.entrytype}{{{bib.citekey},\n"
+                + ",\n".join(content_strs)
+                + ",\n}\n\n"
             )
             f.write(entry)
 
 
 def merge_bibs(bibfile: Path, repos: list[Path]) -> list[BibEntry]:
     """Merge the book's .bib file with all external bibs.
-    
+
     Will return an empty list if no reference.bib files are present anywhere.
     """
     book_bib = read_bibfile(bibfile) if bibfile.exists() else []
@@ -138,7 +136,7 @@ def merge_bibs(bibfile: Path, repos: list[Path]) -> list[BibEntry]:
         if repo_bibfile is not None:
             extra_bibs = read_bibfile(repo_bibfile)
             book_bib = bib_union(book_bib, extra_bibs)
-    
+
     return book_bib
 
 
@@ -150,7 +148,7 @@ def find_bibfile(repo: Path) -> Path | None:
 
     # main dir might not be named "book"
     possible_bibs = list(repo.glob("*/references.bib"))
-    if len(possible_bibs) == 0: # bib file might be in subdir
+    if len(possible_bibs) == 0:  # bib file might be in subdir
         possible_bibs = list(repo.glob("*/*/references.bib"))
     if len(possible_bibs) == 1:
         return possible_bibs[0]

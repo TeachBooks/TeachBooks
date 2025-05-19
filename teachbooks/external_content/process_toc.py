@@ -1,4 +1,5 @@
 """Read and process table of contents files."""
+
 import os.path
 import stat
 import subprocess
@@ -27,13 +28,10 @@ LOCAL_TOC_HEADER = (
 
 
 def process_external_toc_entries(
-    src: Path,
-    dest: Path,
-    book_root: Path,
-    error_invalid_license: bool = True
+    src: Path, dest: Path, book_root: Path, error_invalid_license: bool = True
 ) -> Path:
     """Parse external (git) ToC entries, checkout repos & write new ToC to file.
-    
+
     Args:
         src: Path to the source table-of-contents yaml file.
         dest: Path to the destination table-of-contents yaml file.
@@ -59,9 +57,7 @@ def process_external_toc_entries(
     cloned_repo_log = book_root / GIT_PATH / "cloned_repos.txt"
     if cloned_repo_log.exists():
         cloned_repos = read_cloned_repos(cloned_repo_log)
-        validate_licenses(
-            cloned_repos, book_root / GIT_PATH, error_invalid_license
-        )
+        validate_licenses(cloned_repos, book_root / GIT_PATH, error_invalid_license)
         check_requirements(book_root.parent / "requirements.txt", cloned_repos)
         check_plugins(book_root / "_config.yml", cloned_repos)
 
@@ -71,7 +67,7 @@ def process_external_toc_entries(
 
         write_toc_yaml(toc, dest, header=LOCAL_TOC_HEADER)
         return dest
-    
+
     if toc != src_toc:
         msg = (
             "Table of contents has external git content, "
@@ -87,8 +83,8 @@ def read_cloned_repos(log: Path) -> list[Path]:
     with log.open("r") as f:
         cloned_repos_str = [repo.strip("\n\r") for repo in f.readlines()]
     return [
-        Path(repo) if Path(repo).is_absolute() else 
-        log.parent / repo for repo in cloned_repos_str
+        Path(repo) if Path(repo).is_absolute() else log.parent / repo
+        for repo in cloned_repos_str
     ]
 
 
@@ -97,7 +93,7 @@ def get_content_path(url: str) -> str:
 
     Args:
         url: URL path to the external content
-    
+
     Returns:
         repo path to the external content
     """
@@ -127,9 +123,7 @@ def write_toc_yaml(
 
 
 def external_to_local(
-    mapping: dict[str, Any],
-    external_path: str | Path,
-    root: str | Path
+    mapping: dict[str, Any], external_path: str | Path, root: str | Path
 ) -> dict[str, Any]:
     """Modify mapping with the "external" key.
 
@@ -139,7 +133,7 @@ def external_to_local(
         mapping: map to modify.
         external_path: path where to store external components.
         root: express paths to external components with respect to root.
-    
+
     Returns:
         map with fields adjusted in order to refer to local resources.
     """
@@ -166,10 +160,17 @@ def external_to_local(
     else:
         # clone with branch_name. Check for environment var (for testing)
         if "NO_GIT_CLONE" not in os.environ:
-            subprocess.run([
-                "git", "clone", "--single-branch", "-b",  branch_tag_name, clone_url,
-                repository_dir
-            ])
+            subprocess.run(
+                [
+                    "git",
+                    "clone",
+                    "--single-branch",
+                    "-b",
+                    branch_tag_name,
+                    clone_url,
+                    repository_dir,
+                ]
+            )
         with cloned_repo_file.open("a") as f:
             f.write(str(repository_dir) + "\n")
 
@@ -187,9 +188,9 @@ def chmod_git_files(foo, file, err):
     Solution from: https://stackoverflow.com/a/76356125
     """
     if (
-        os.name == "nt" and
-        Path(file).suffix in [".idx", ".pack", ".rev"] and
-        err[0].__name__ == "PermissionError"
+        os.name == "nt"
+        and Path(file).suffix in [".idx", ".pack", ".rev"]
+        and err[0].__name__ == "PermissionError"
     ):
         os.chmod(file, stat.S_IWRITE)
         foo(file)

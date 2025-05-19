@@ -1,4 +1,5 @@
 """Find and validate external content license files."""
+
 from pathlib import Path
 
 import click
@@ -35,9 +36,9 @@ def validate_licenses(cloned_repos: list[Path], git_path: Path, error: bool):
 def find_license(repo_toplevel: str | Path) -> str | None:
     """Try to detect which license is being used by a repo."""
     if (Path(repo_toplevel) / "LICENSE").exists():
-        license_file = (Path(repo_toplevel) / "LICENSE")
+        license_file = Path(repo_toplevel) / "LICENSE"
     elif (Path(repo_toplevel) / "LICENSE.md").exists():
-        license_file = (Path(repo_toplevel) / "LICENSE.md")
+        license_file = Path(repo_toplevel) / "LICENSE.md"
     else:
         msg = (
             f"No license file found in git repository at {repo_toplevel}.\n"
@@ -55,5 +56,5 @@ def find_license(repo_toplevel: str | Path) -> str | None:
         if license_text.lower().strip(" \n\r") in stripped_license:
             detected_license = LICENSE_MAPPING[license_text]
             break
-    
+
     return detected_license

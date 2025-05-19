@@ -10,8 +10,8 @@ WORK_DIR = Path(__file__).parent / ".teachbooks"
 PATH_TESTDATA = Path(__file__).parent / "testbook"
 
 ADMONITION_HTML = (
-    "<div class=\"attribution admonition\">"
-    "<p class=\"admonition-title\">Attribution</p>"
+    '<div class="attribution admonition">'
+    '<p class="admonition-title">Attribution</p>'
     "<p>This page originates from"
 )
 
@@ -25,10 +25,10 @@ def cli():
 
 
 def strip_whitespace(text: str) -> str:
-    text = text.replace(" ","")
+    text = text.replace(" ", "")
     text = text.replace("\n", "")
     text = text.replace("\r", "")
-    return text.replace("\t","")
+    return text.replace("\t", "")
 
 
 def test_build(cli: CliRunner, tmp_path: Path, monkeypatch):
@@ -58,19 +58,34 @@ def test_build(cli: CliRunner, tmp_path: Path, monkeypatch):
     indexfile = bookdir / "_build" / "html" / "index.html"
     _gitdir = bookdir / "_git"
     notebook_page = (
-        bookdir / "_build" / "html" / "_git" /
-        "github.com_EXCITED-CO2_workshop_tutorial" / "v1.0.0" / "book" /
-        "ARCO-ERA5.html"
+        bookdir
+        / "_build"
+        / "html"
+        / "_git"
+        / "github.com_EXCITED-CO2_workshop_tutorial"
+        / "v1.0.0"
+        / "book"
+        / "ARCO-ERA5.html"
     )
     rst_page = (
-        bookdir / "_build" / "html" / "_git" /
-        "github.com_EXCITED-CO2_workshop_tutorial" / "v1.0.0" / "book" /
-        "extra_file.html"
+        bookdir
+        / "_build"
+        / "html"
+        / "_git"
+        / "github.com_EXCITED-CO2_workshop_tutorial"
+        / "v1.0.0"
+        / "book"
+        / "extra_file.html"
     )
     md_page = (
-        bookdir / "_build" / "html" / "_git" /
-        "github.com_TeachBooks_HOS-workbook" / "main" / "book" /
-        "intro.html"
+        bookdir
+        / "_build"
+        / "html"
+        / "_git"
+        / "github.com_TeachBooks_HOS-workbook"
+        / "main"
+        / "book"
+        / "intro.html"
     )
 
     for path in (indexfile, _gitdir, notebook_page, rst_page, md_page):
@@ -81,8 +96,9 @@ def test_build(cli: CliRunner, tmp_path: Path, monkeypatch):
         page_text = strip_whitespace(page_text)
         assert strip_whitespace(ADMONITION_HTML) in page_text
 
-    _ = cli.invoke(commands.clean,
-                   ['--external',
-                   bookdir.as_posix()],)
+    _ = cli.invoke(
+        commands.clean,
+        ["--external", bookdir.as_posix()],
+    )
     assert not indexfile.exists()
     assert not _gitdir.exists()

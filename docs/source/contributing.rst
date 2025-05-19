@@ -64,9 +64,11 @@ You want to make some kind of change to the code base
 #.  make sure the existing documentation can still by generated without
     warnings by running ``cd docs && sphinx-build source/ _build/``.
 #.  add your own tests (if necessary), and make sure they run when you
-    run the test suite (using the command `pytest`).
+    run the test suite (using the command ``pytest``).
 #.  make sure your additions pass the static code analysis. You can run it
-    locally with the command `ruff check`.
+    locally with the command ``ruff check``.
+#.  make sure your code is formatted correctly. You can run the formatter
+    locally with the command ``ruff format``.
 #.  update or expand the documentation; Please add `Google Style Python
     docstrings <https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html>`__.
 #.  `push <http://rogerdudler.github.io/git-guide/>`__ your feature
@@ -83,8 +85,8 @@ your pull request.
 
 .. _dev-environment-setup:
 
-Setting up a development environment
-------------------------------------
+Set up a development environment
+--------------------------------
 
 As the package and its dependencies are installed using ``pip`` in the Deploy
 Book Workflow (the GitHub Action for building books), it is best to do the
@@ -102,30 +104,47 @@ The creation of the development environment should be something like this:
     pip show teachbooks      # confirm local installation is used
 
 Using option ``pip install -e`` is editable mode, which updates the
-``teachbooks`` module in the venv as it is edited. Note that this step
-can take a long time on Windows; the reason is most likely due to malware
-scanners on organization-owned/managed computers. To resolve this you
-could (temporarily) disable the "Realtime malware protection" on your machine.
-If that is not possible, stop and start the installation process several times.
-As you can probably already guess, the most effective solution for this
-(and perhaps many of your other open source software problems) is to switch
-to Linux. to avoid this). In general, the `Setuptools manual
-<https://setuptools.pypa.io/en/latest/userguide/development_mode.html>`__
-can be a useful reference in case you run into issues here.
+``teachbooks`` module in the ``venv`` as it is edited.
 
-The instructions above will create a venv in the root directory of the
-package repository and improvements to the source code will typically
-be tested by building a book. For example, testing on an existing book
-with source code in ``./book/`` located outside of the teachbooks repo
-will require using the relative path to the venv
-``PATH_TO_TEACHBOOKS_REPO``:
+--------------------
+
+**Windows Users**
+
+The installation of the package using editable mode can take a
+long time on Windows. This is recognizable via the command line interface
+when the package installation process appears to be stuck while installing the
+teachbooks package. The reason is most likely due to malware
+scanners on organization-owned/managed computers. To resolve this there
+are several options:
+
+1. Disable (temporarily) the "Realtime malware protection" on your machine.
+2. Stop and start the installation process several times.
+3. Delete your environment and create it from scratch again.
+
+In general, the `Setuptools manual
+<https://setuptools.pypa.io/en/latest/userguide/development_mode.html>`__
+can be a useful reference in case you run into issues here. Otherwise,
+as you can probably already guess, the most effective solution for this
+(and perhaps many of your other open source software problems) is to switch
+to a Linux OS. 
+
+Use a development environment
+-----------------------------
+
+The instructions above will create a ``venv`` in the root directory of the
+package repository, however, it may also be important to test unreleased
+improvements to the source code by building a book in another repository.
+
+To test the package on an book with source code in ``./book/`` stored
+*outside* of the teachbooks repo will require using the relative path
+to the venv (``PATH_TO_TEACHBOOKS_REPO``):
 
 .. code-block:: shell
 
     source PATH_TO_TEACHBOOKS_REPO/venv/bin/activate
     pip install -r requirements.txt
     teachbooks build book/
-    
+
 Alternatively, one could use one of the test books in ``./tests/``.
 In fact, this is where tests should be added if making a new
 contribution to the package.
@@ -163,8 +182,8 @@ This section is for maintainers of the package.
     release <https://github.com/TeachBooks/TeachBooks/releases/new>`__
 
     -  Use version as title and tag version.
-    -  As description use intro text from README.md (to give context) and
-       changes from CHANGELOG.md
+    -  As description use intro text from ``README.md`` (to give context) and
+       changes from ``CHANGELOG.md``
 
 #.  Verify
 
@@ -183,20 +202,20 @@ This section is for maintainers of the package.
 Releases and Versioning
 -----------------------
 
-Semantic numbering is used: `vA.B.C`, where patches advance `C` and minor
-releases advance `B`. `Releases in the GitHub Repository
+Semantic numbering is used: ``vA.B.C``, where patches advance ``C`` and minor
+releases advance ``B``. `Releases in the GitHub Repository
 <https://github.com/TeachBooks/TeachBooks/releases>`__ deploy automatically
-to [PyPI](https://pypi.org/project/teachbooks/) once a tag is created and
-the `pyproject.toml` file is updated with the new version number. Minor
-releases will be merged into the `stable` branch (including those below
-`v1.0.0`); patches may be incorporated in `develop` or `stable`.
+to `PyPI <https://pypi.org/project/teachbooks/>`__ once a tag is created and
+the ``pyproject.toml`` file is updated with the new version number. Minor
+releases will be merged into the ``stable`` branch (including those below
+``v1.0.0``); patches may be incorporated in ``develop`` or ``stable``.
 
 As described above, a Pull Request should be created when making a
 contribution. A draft Pull Request may be set up between the ``develop`` and
 ``stable`` branches to preview updates for the next minor or major release.
 
 If a release must be available on PyPI but it is not desired for it to be
-available as the primary release, use the numbering `vA.B.Cbn`, where `n`
+available as the primary release, use the numbering ``vA.B.Cbn``, where ``n``
 is an increasing number starting from 1. The specific version can be installed
-via pip using `pip install teachbooks==A.B.Cbn`. A tag defining this type of
+via pip using ``pip install teachbooks==A.B.Cbn``. A tag defining this type of
 release may be used on any branch.

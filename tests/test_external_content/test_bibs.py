@@ -6,9 +6,15 @@ from teachbooks.external_content.bib import merge_bibs, read_bibfile, write_bibf
 from tests.test_external_content import BOOK_ROOT, CLONED_REPOS
 
 TEST_BIBFILE = (
-    Path(__file__).parent / "testbook" / "book" / "_git" / 
-    "gitlab.tudelft.nl_interactivetextbooks-citg_risk-and-reliability" / "main" /
-    "book" / "_bibliography" / "references.bib"
+    Path(__file__).parent
+    / "testbook"
+    / "book"
+    / "_git"
+    / "gitlab.tudelft.nl_interactivetextbooks-citg_risk-and-reliability"
+    / "main"
+    / "book"
+    / "_bibliography"
+    / "references.bib"
 )
 
 
@@ -19,12 +25,12 @@ def merged_bibs():
 
 def test_bib_merge(merged_bibs):
     """Ensure test data reference files are merged correctly."""
-    assert len(merged_bibs) == 7 # total unique citekeys
+    assert len(merged_bibs) == 7  # total unique citekeys
 
     expected_entries = [
-        "baecher2003", # duplicate
-        "adk2022", # from risk-and-reliability
-        "usace14", # from HOS-workbook
+        "baecher2003",  # duplicate
+        "adk2022",  # from risk-and-reliability
+        "usace14",  # from HOS-workbook
         "jason_moore",  # from excited workshop and main book
     ]
     citekeys = [bib.citekey for bib in merged_bibs]

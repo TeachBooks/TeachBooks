@@ -21,45 +21,37 @@ def cli():
 
 def test_build(cli: CliRunner):
     book = PATH_BOOKS.joinpath("01")
-    build_result = cli.invoke(commands.build,
-                              book.as_posix())
+    build_result = cli.invoke(commands.build, book.as_posix())
     assert build_result.exit_code == 0, build_result.output
     html = book.joinpath("_build", "html")
     assert html.joinpath("index.html").exists()
-    _ = cli.invoke(commands.clean,
-                   book.as_posix())
+    _ = cli.invoke(commands.clean, book.as_posix())
     assert not html.joinpath("index.html").exists()
 
 
 def test_build_release(cli: CliRunner):
     book = PATH_BOOKS.joinpath("01")
-    build_result = cli.invoke(commands.build,
-                              ["--release",
-                              book.as_posix()])
+    build_result = cli.invoke(commands.build, ["--release", book.as_posix()])
     assert build_result.exit_code == 0, build_result.output
     html = book.joinpath("_build", "html")
     assert html.joinpath("index.html").exists()
-    _ = cli.invoke(commands.clean,
-                   book.as_posix())
+    _ = cli.invoke(commands.clean, book.as_posix())
     assert not html.joinpath("index.html").exists()
 
 
 def test_build_publish(cli: CliRunner):
     book = PATH_BOOKS.joinpath("01")
-    build_result = cli.invoke(commands.build,
-                              ["--publish",
-                              book.as_posix()])
+    build_result = cli.invoke(commands.build, ["--publish", book.as_posix()])
     assert build_result.exit_code == 0, build_result.output
     html = book.joinpath("_build", "html")
     assert html.joinpath("index.html").exists()
-    _ = cli.invoke(commands.clean,
-                   book.as_posix())
+    _ = cli.invoke(commands.clean, book.as_posix())
     assert not html.joinpath("index.html").exists()
 
 
 def test_build_release_apa(cli: CliRunner):
     """Confirm _ext is copied into .teachbooks dir.
-    
+
     Note that this does not test proper build, which
     must be done manually in a GitHub repo using the
     deploy-book-workflow with BRANCHES_TO_PREPROCESS.
@@ -70,7 +62,7 @@ def test_build_release_apa(cli: CliRunner):
 
     html = book / "_build" / "html"
     assert (html / "index.html").exists()
-    
+
     ext_dir = book / ".teachbooks" / "release" / "_ext"
     assert (ext_dir / "apastyle.py").exists()
     assert (ext_dir / "bracket_citation_style.py").exists()
@@ -93,8 +85,7 @@ def test_build_release_apa(cli: CliRunner):
 
 def test_build_external_content(cli: CliRunner):
     book = PATH_BOOKS.joinpath("03", "book")
-    build_result = cli.invoke(commands.build,
-                              book.as_posix())
+    build_result = cli.invoke(commands.build, book.as_posix())
     assert build_result.exit_code == 0, build_result.output
     assert (book / "_git").exists()
     html = book.joinpath("_build", "html")
@@ -107,9 +98,7 @@ def test_build_external_content(cli: CliRunner):
 
 def test_build_release_external_content(cli: CliRunner):
     book = PATH_BOOKS.joinpath("03", "book")
-    build_result = cli.invoke(commands.build,
-                              ["--release",
-                              book.as_posix()])
+    build_result = cli.invoke(commands.build, ["--release", book.as_posix()])
     assert build_result.exit_code == 0, build_result.output
     assert book.joinpath("_git").exists()
     html = book.joinpath("_build", "html")

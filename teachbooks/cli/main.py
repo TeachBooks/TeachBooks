@@ -1,4 +1,5 @@
 """Main CLI module."""
+
 import shutil
 from pathlib import Path
 
@@ -16,10 +17,13 @@ def main():
     """TeachBooks command line tools."""
     pass
 
-@main.command(context_settings=dict(
-    ignore_unknown_options=True,
-    allow_extra_args=True,
-))
+
+@main.command(
+    context_settings=dict(
+        ignore_unknown_options=True,
+        allow_extra_args=True,
+    )
+)
 @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
 @click.option("--release", is_flag=True, help="Build book with release strategy")
 @click.option(
@@ -34,9 +38,11 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
     from teachbooks.release import copy_ext, make_release
 
     if publish:
-        click.secho("Warning: --publish is deprecated, use --release instead",
-                    fg="yellow",
-                    err=True)
+        click.secho(
+            "Warning: --publish is deprecated, use --release instead",
+            fg="yellow",
+            err=True,
+        )
 
     strategy = "release" if release or publish else "draft"
     echo_info(f"running build with strategy '{strategy}'")
@@ -70,7 +76,7 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
 
         # Calculate and report build size
         build_dir = path_src_folder / "_build"
-        total_size = sum(f.stat().st_size for f in build_dir.rglob('*') if f.is_file())
+        total_size = sum(f.stat().st_size for f in build_dir.rglob("*") if f.is_file())
         size_mb = total_size / (1024 * 1024)
         echo_info(f"Build complete. Total size: {size_mb:.2f}MB")
 
@@ -79,9 +85,8 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
 
 @main.command()
 @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
-@click.option('--external', is_flag=True,
-              help="Empty _git/ directory.")
-def clean(path_source, external: bool=False):
+@click.option("--external", is_flag=True, help="Empty _git/ directory.")
+def clean(path_source, external: bool = False):
     """Stop teachbooks server and run Jupyter Book clean command."""
     from jupyter_book.cli.main import clean as jupyter_book_clean
 
@@ -123,11 +128,11 @@ def clean(path_source, external: bool=False):
 @main.group(invoke_without_command=True)
 # @click.argument("path-source", type=click.Path(exists=True, file_okay=True))
 # @click.option("--test", is_flag=True, help="Build book with release strategy")
-@click.option('-v', '--verbose', count=True)
+@click.option("-v", "--verbose", count=True)
 @click.pass_context
 def serve(ctx, verbose):
     """Start a web server to interact with the book locally.
-    
+
     If serve dir path not provided, default is `./book/_build/html`.
     Checks to see if server is already running.
     """
@@ -138,12 +143,11 @@ def serve(ctx, verbose):
         echo_info("serve command invoked.")
 
     if ctx.invoked_subcommand is None:
-
         try:
             server = Server.load(Path(SERVER_WORK_DIR))
             if verbose > 0:
                 echo_info(" server already exists")
-            
+
             stdout_summary(server)
         except:  # noqa: E722 TODO: handle more gracefully.
             if verbose > 0:
@@ -153,33 +157,30 @@ def serve(ctx, verbose):
 
             if not serve_dir.exists():
                 echo_info(
-                    click.style("default directory not found: ", fg="yellow") + 
-                    f"{serve_dir}"
+                    click.style("default directory not found: ", fg="yellow")
+                    + f"{serve_dir}"
                 )
 
                 serve_dir = Path(".")
                 print(
-                    '            '
-                    + click.style(
-                        "serving current directory: ",
-                        fg="yellow"
-                    )
+                    "            "
+                    + click.style("serving current directory: ", fg="yellow")
                     + f"{serve_dir}"
                 )
                 print(
-                    '            '
+                    "            "
                     + click.style(
                         "specify a directory with: 'teachbooks serve path <path>'",
-                        fg="yellow"
+                        fg="yellow",
                     )
                 )
-                
+
             serve_path(serve_dir, verbose)
 
+
 @serve.command()
-@click.option('-v', '--verbose', count=True)
-@click.argument("path-source",
-                type=click.Path(exists=True, file_okay=True))
+@click.option("-v", "--verbose", count=True)
+@click.argument("path-source", type=click.Path(exists=True, file_okay=True))
 def path(path_source, verbose, no_build=False):
     """Specify relative path of directory to serve."""
     from teachbooks import BUILD_DIR, SERVER_WORK_DIR
@@ -196,14 +197,11 @@ def path(path_source, verbose, no_build=False):
     try:
         server = Server.load(Path(SERVER_WORK_DIR))
         if server.servedir == serve_dir:
-            print('            '
-                  +"  ---> already serving this directory.")
+            print("            " + "  ---> already serving this directory.")
             stdout_summary(server)
         else:
-            print('            '
-                  +"  ---> already serving a different directory.")
-            print('            '
-                  +"  ---> updating server directory...")
+            print("            " + "  ---> already serving a different directory.")
+            print("            " + "  ---> updating server directory...")
             server.stop()
             serve_path(serve_dir, verbose)
     except:  # noqa: E722 TODO: handle more gracefully.
@@ -211,11 +209,13 @@ def path(path_source, verbose, no_build=False):
             echo_info("no server found, creating a new one.")
         serve_path(serve_dir, verbose)
 
+
 @serve.command()
 def stop():
     """Stop the webserver."""
     from teachbooks import SERVER_WORK_DIR
     from teachbooks.serve import Server
+
     try:
         server = Server.load(Path(SERVER_WORK_DIR))
         server.stop()
@@ -229,32 +229,36 @@ def serve_path(servedir: str, verbose: int) -> None:
     from teachbooks import SERVER_WORK_DIR
     from teachbooks.serve import Server
 
-    server = Server(servedir=Path(servedir),
-                    workdir=Path(SERVER_WORK_DIR),
-                    stdout=verbose)
+    server = Server(
+        servedir=Path(servedir), workdir=Path(SERVER_WORK_DIR), stdout=verbose
+    )
     server.start(options=["--all"])
     stdout_summary(server)
+
 
 def check_server():
     """Check if webserver is running and print status."""
     from teachbooks import SERVER_WORK_DIR
     from teachbooks.serve import Server
+
     try:
         server = Server.load(Path(SERVER_WORK_DIR))
         stdout_summary(server)
     except:  # noqa: E722 TODO: handle more gracefully
         echo_info("Use `teachbooks serve` to start a local server.")
-        
+
 
 def echo_info(message: str) -> None:
     """Wrapper for writing to stdout."""
     prefix = click.style("TeachBooks: ", fg="cyan", bold=True)
     click.echo(prefix + message)
 
+
 def stdout_summary(server) -> None:
     """Print summary of server status."""
     echo_info(click.style(f"server running on: {server.url}", fg="green"))
-    print('            '
-          +click.style(f"serving directory: {server.servedir}", fg="green"))
-    print("            "
-          +"To stop server, run: 'teachbooks serve stop'")
+    print(
+        "            "
+        + click.style(f"serving directory: {server.servedir}", fg="green")
+    )
+    print("            " + "To stop server, run: 'teachbooks serve stop'")
