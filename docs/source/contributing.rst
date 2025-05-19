@@ -110,10 +110,10 @@ Using option ``pip install -e`` is editable mode, which updates the
 
 **Windows Users**
 
-Note that the installation of the package using editable mode can take a
-long time on Windows; this is recognizable via the command line interface
-when the package installation process appearing to be stuck while installing
-teachbooks. The reason is most likely due to malware
+The installation of the package using editable mode can take a
+long time on Windows. This is recognizable via the command line interface
+when the package installation process appears to be stuck while installing the
+teachbooks package. The reason is most likely due to malware
 scanners on organization-owned/managed computers. To resolve this there
 are several options:
 
@@ -126,7 +126,7 @@ In general, the `Setuptools manual
 can be a useful reference in case you run into issues here. Otherwise,
 as you can probably already guess, the most effective solution for this
 (and perhaps many of your other open source software problems) is to switch
-to Linux. 
+to a Linux OS. 
 
 Use a development environment
 -----------------------------
@@ -140,7 +140,7 @@ To test the package on an book with source code in ``./book/`` stored
 to the venv (``PATH_TO_TEACHBOOKS_REPO``):
 
 .. code-block:: shell
-*
+
     source PATH_TO_TEACHBOOKS_REPO/venv/bin/activate
     pip install -r requirements.txt
     teachbooks build book/
