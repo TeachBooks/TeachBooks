@@ -6,8 +6,6 @@ Formatted as described on [https://keepachangelog.com](https://keepachangelog.co
 
 ## Unreleased
 
-- code formatter with Ruff ([#99](https://github.com/TeachBooks/TeachBooks/pull/99/files)).
-
 ## 0.2.1 - 2025-05-02
 
 ### Added
