@@ -85,8 +85,8 @@ your pull request.
 
 .. _dev-environment-setup:
 
-Setting up a development environment
-------------------------------------
+Set up a development environment
+--------------------------------
 
 As the package and its dependencies are installed using ``pip`` in the Deploy
 Book Workflow (the GitHub Action for building books), it is best to do the
@@ -104,30 +104,47 @@ The creation of the development environment should be something like this:
     pip show teachbooks      # confirm local installation is used
 
 Using option ``pip install -e`` is editable mode, which updates the
-``teachbooks`` module in the ``venv`` as it is edited. Note that this step
-can take a long time on Windows; the reason is most likely due to malware
-scanners on organization-owned/managed computers. To resolve this you
-could (temporarily) disable the "Realtime malware protection" on your machine.
-If that is not possible, stop and start the installation process several times.
-As you can probably already guess, the most effective solution for this
-(and perhaps many of your other open source software problems) is to switch
-to Linux. In general, the `Setuptools manual
-<https://setuptools.pypa.io/en/latest/userguide/development_mode.html>`__
-can be a useful reference in case you run into issues here.
+``teachbooks`` module in the ``venv`` as it is edited.
 
-The instructions above will create a venv in the root directory of the
-package repository and improvements to the source code will typically
-be tested by building a book. For example, testing on an existing book
-with source code in ``./book/`` located outside of the teachbooks repo
-will require using the relative path to the venv
-``PATH_TO_TEACHBOOKS_REPO``:
+--------------------
+
+**Windows Users**
+
+Note that the installation of the package using editable mode can take a
+long time on Windows; this is recognizable via the command line interface
+when the package installation process appearing to be stuck while installing
+teachbooks. The reason is most likely due to malware
+scanners on organization-owned/managed computers. To resolve this there
+are several options:
+
+1. Disable (temporarily) the "Realtime malware protection" on your machine.
+2. Stop and start the installation process several times.
+3. Delete your environment and create it from scratch again.
+
+In general, the `Setuptools manual
+<https://setuptools.pypa.io/en/latest/userguide/development_mode.html>`__
+can be a useful reference in case you run into issues here. Otherwise,
+as you can probably already guess, the most effective solution for this
+(and perhaps many of your other open source software problems) is to switch
+to Linux. 
+
+Use a development environment
+-----------------------------
+
+The instructions above will create a ``venv`` in the root directory of the
+package repository, however, it may also be important to test unreleased
+improvements to the source code by building a book in another repository.
+
+To test the package on an book with source code in ``./book/`` stored
+*outside* of the teachbooks repo will require using the relative path
+to the venv (``PATH_TO_TEACHBOOKS_REPO``):
 
 .. code-block:: shell
-
+*
     source PATH_TO_TEACHBOOKS_REPO/venv/bin/activate
     pip install -r requirements.txt
     teachbooks build book/
-    
+
 Alternatively, one could use one of the test books in ``./tests/``.
 In fact, this is where tests should be added if making a new
 contribution to the package.
