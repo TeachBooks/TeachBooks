@@ -29,7 +29,7 @@ def read_bibfile(file: Path) -> list[BibEntry]:
     Returns:
         List of .bib file entries.
     """
-    with file.open("r") as f:
+    with file.open("r",encoding='utf-8') as f:
         lines = f.readlines()
 
     entries: list[str] = []
