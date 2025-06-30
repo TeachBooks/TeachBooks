@@ -29,7 +29,7 @@ def read_bibfile(file: Path) -> list[BibEntry]:
     Returns:
         List of .bib file entries.
     """
-    with file.open("r") as f:
+    with file.open("r", encoding="latin-1") as f:
         lines = f.readlines()
 
     entries: list[str] = []
@@ -113,7 +113,7 @@ def find(citekey: str, bibs: list[BibEntry]) -> BibEntry:
 
 def write_bibfile(file: Path, bibs: list[BibEntry]) -> None:
     """Write a list of BibEntries to a new file."""
-    with open(file, "w") as f:
+    with open(file, mode="w", encoding="latin-1") as f:
         for bib in bibs:
             content_strs = [f"  {key} = {{{val}}}" for key, val in bib.content.items()]
             entry = (
