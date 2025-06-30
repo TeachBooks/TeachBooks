@@ -6,6 +6,10 @@ Formatted as described on [https://keepachangelog.com](https://keepachangelog.co
 
 ## Unreleased
 
+### Fixed
+
+- Invalid characters in .bib files could cause the external content parser to fail ([#105](https://github.com/TeachBooks/TeachBooks/pull/105)).
+
 ## 0.2.1 - 2025-05-02
 
 ### Added
