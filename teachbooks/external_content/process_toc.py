@@ -185,7 +185,7 @@ def external_to_local(
             mapping_local[k] = modify_field(
                 v, "external", external_to_local, external_path=external_path, root=root
             )
-    
+
     return mapping_local
 
 
