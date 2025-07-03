@@ -181,7 +181,7 @@ def external_to_local(
     mapping_local["file"] = os.path.join(rel_path, content_file).replace("\\", "/")
 
     for k, v in list(mapping_local.items()):
-        if isinstance(v, (dict, list)):
+        if isinstance(v, dict | list):
             mapping_local[k] = modify_field(
                 v, "external", external_to_local, external_path=external_path, root=root
             )
