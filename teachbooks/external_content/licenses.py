@@ -39,6 +39,8 @@ def find_license(repo_toplevel: str | Path) -> str | None:
         license_file = Path(repo_toplevel) / "LICENSE"
     elif (Path(repo_toplevel) / "LICENSE.md").exists():
         license_file = Path(repo_toplevel) / "LICENSE.md"
+    elif (Path(repo_toplevel) / "LICENSE.txt").exists():
+        license_file = Path(repo_toplevel) / "LICENSE.txt"
     else:
         msg = (
             f"No license file found in git repository at {repo_toplevel}.\n"
