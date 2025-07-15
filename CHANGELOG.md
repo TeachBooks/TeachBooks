@@ -6,6 +6,13 @@ Formatted as described on [https://keepachangelog.com](https://keepachangelog.co
 
 ## Unreleased
 
+## 0.2.2 - 2025-07-15
+
+### Fixed
+
+- Nested `external:` entries in the table of content are now parsed correctly ([#108](https://github.com/TeachBooks/TeachBooks/pull/108)).
+- `LICENSE.txt` and `LICENSE.rst` files are now also checked when cloning external content ([#110](https://github.com/TeachBooks/TeachBooks/pull/110)).
+
 ## 0.2.1 - 2025-05-02
 
 ### Added
