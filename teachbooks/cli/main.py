@@ -48,7 +48,9 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
     echo_info(f"running build with strategy '{strategy}'")
     path_src_folder = Path(path_source).absolute()
     if release or publish:
-        path_conf, path_toc = make_release(path_src_folder)
+        path_conf, path_toc, workdir = make_release(path_src_folder)
+        # Use the processed workdir as the build source
+        build_source = workdir
         path_ext = path_src_folder / "_ext"
         if path_ext.exists():
             mg = "copying _ext/ directory to support APA in release [TEMPORARY FEATURE]"
@@ -57,6 +59,8 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
     else:
         path_conf = path_src_folder / "_config.yml"
         path_toc = path_src_folder / "_toc.yml"
+        # Use the original source folder for draft builds
+        build_source = path_src_folder
 
     # Parse out external git entries from ToC
     path_toc = process_external_toc_entries(
@@ -64,7 +68,7 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
     )
 
     if not process_only:
-        all_args = [str(path_src_folder)]
+        all_args = [str(build_source)]
         if path_conf and path_conf.exists():
             all_args.extend(["--config", str(path_conf)])
         if path_toc and path_toc.exists():
@@ -75,7 +79,7 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
         jupyter_book_build.main(args=all_args, standalone_mode=False)
 
         # Calculate and report build size
-        build_dir = path_src_folder / "_build"
+        build_dir = build_source / "_build"
         total_size = sum(f.stat().st_size for f in build_dir.rglob("*") if f.is_file())
         size_mb = total_size / (1024 * 1024)
         echo_info(f"Build complete. Total size: {size_mb:.2f}MB")
