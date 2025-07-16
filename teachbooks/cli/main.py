@@ -47,6 +47,15 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
     strategy = "release" if release or publish else "draft"
     echo_info(f"running build with strategy '{strategy}'")
     path_src_folder = Path(path_source).absolute()
+    
+    # Parse out external git entries from ToC first, before release processing
+    # This ensures external files are downloaded and available for cleaning
+    path_conf = path_src_folder / "_config.yml"
+    path_toc = path_src_folder / "_toc.yml"
+    path_toc = process_external_toc_entries(
+        path_toc, path_toc.with_stem("_toc_with_local_paths"), book_root=path_src_folder
+    )
+    
     if release or publish:
         path_conf, path_toc, workdir = make_release(path_src_folder)
         # Use the processed workdir as the build source
@@ -57,15 +66,8 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
             echo_info(click.style(mg, fg="yellow"))
             copy_ext(path_src_folder)
     else:
-        path_conf = path_src_folder / "_config.yml"
-        path_toc = path_src_folder / "_toc.yml"
         # Use the original source folder for draft builds
         build_source = path_src_folder
-
-    # Parse out external git entries from ToC
-    path_toc = process_external_toc_entries(
-        path_toc, path_toc.with_stem("_toc_with_local_paths"), book_root=path_src_folder
-    )
 
     if not process_only:
         all_args = [str(build_source)]
