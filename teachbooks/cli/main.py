@@ -57,11 +57,8 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
     )
     
     if release or publish:
-        # Copy the processed ToC to the source directory so make_release can use it
-        import shutil
-        shutil.copy2(path_toc_processed, path_toc)
-        
-        path_conf, path_toc_release, workdir = make_release(path_src_folder)
+        # Pass the processed ToC to make_release without overwriting the original
+        path_conf, path_toc_release, workdir = make_release(path_src_folder, path_toc_processed)
         # Use the processed workdir as the build source
         build_source = workdir
         # Use the release-processed ToC

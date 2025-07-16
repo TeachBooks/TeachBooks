@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 
 
-def make_release(sourcedir: Path) -> tuple[Path, Path, Path]:
+def make_release(sourcedir: Path, processed_toc: Path = None) -> tuple[Path, Path, Path]:
     """Pre-process files in a Jupyter Book directory."""
     # Make hidden directory that will contain the cleaned-up files
     workdir = sourcedir.joinpath(".teachbooks", "release")
@@ -14,8 +14,11 @@ def make_release(sourcedir: Path) -> tuple[Path, Path, Path]:
         os.makedirs(workdir)
 
     # Process config files
-    for file in ["_config.yml", "_toc.yml"]:
-        clean_yaml(sourcedir.joinpath(file), workdir.joinpath(file))
+    clean_yaml(sourcedir.joinpath("_config.yml"), workdir.joinpath("_config.yml"))
+    
+    # For ToC, use processed version if provided, otherwise use original
+    toc_source = processed_toc if processed_toc else sourcedir.joinpath("_toc.yml")
+    clean_yaml(toc_source, workdir.joinpath("_toc.yml"))
 
     # Process all files in the source directory
     for root, _, files in os.walk(sourcedir):
