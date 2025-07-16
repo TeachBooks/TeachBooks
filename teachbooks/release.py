@@ -137,10 +137,10 @@ def clean_ipynb(path_source: str | Path, path_output: str | Path) -> None:
     """Removes marked sections from a Jupyter Notebook file.
 
     A marked section can be:
-        - ``% START REMOVE-FROM-PUBLISH``
-        - ``% END REMOVE-FROM-PUBLISH``
-        - ``% START REMOVE-FROM-RELEASE``
-        - ``% END REMOVE-FROM-RELEASE``
+        - ``# START REMOVE-FROM-PUBLISH`` / ``# END REMOVE-FROM-PUBLISH`` (for code cells)
+        - ``# START REMOVE-FROM-RELEASE`` / ``# END REMOVE-FROM-RELEASE`` (for code cells)
+        - ``% START REMOVE-FROM-PUBLISH`` / ``% END REMOVE-FROM-PUBLISH`` (for markdown cells)
+        - ``% START REMOVE-FROM-RELEASE`` / ``% END REMOVE-FROM-RELEASE`` (for markdown cells)
 
     Does not require a specific indentation and can be used an
     unlimited number of times in the ``*.ipynb`` file. Commonly
@@ -158,8 +158,8 @@ def clean_ipynb(path_source: str | Path, path_output: str | Path) -> None:
             # Join source lines into a single string for processing
             source_text = ''.join(cell['source']) if isinstance(cell['source'], list) else cell['source']
             
-            # Use regex to remove marked sections
-            re_remove = r'% START REMOVE-FROM-(?:PUBLISH|RELEASE).*?% END REMOVE-FROM-(?:PUBLISH|RELEASE)'
+            # Use regex to remove marked sections - handle both # and % comments
+            re_remove = r'[#%] START REMOVE-FROM-(?:PUBLISH|RELEASE).*?[#%] END REMOVE-FROM-(?:PUBLISH|RELEASE)'
             cleaned_text = re.sub(re_remove, '', source_text, flags=re.DOTALL)
             
             # Convert back to original format
