@@ -116,10 +116,25 @@ def write_toc_yaml(
         encoding: `_toc.yml` file character encoding
         header: Commented out header to start toc file with.
     """
+    # Ensure proper key ordering for Jupyter Book ToC format
+    # The root key should come after format but before parts
+    ordered_data = {}
+    
+    # Add keys in the desired order
+    if "format" in data:
+        ordered_data["format"] = data["format"]
+    if "root" in data:
+        ordered_data["root"] = data["root"]
+    
+    # Add all other keys except format and root
+    for key, value in data.items():
+        if key not in ["format", "root"]:
+            ordered_data[key] = value
+    
     with open(path, encoding=encoding, mode="w") as handle:
         if header is not None:
             handle.write(f"# {header}\n")
-        yaml.safe_dump(data, handle, sort_keys=False)
+        yaml.safe_dump(ordered_data, handle)
 
 
 def external_to_local(
