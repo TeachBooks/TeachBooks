@@ -17,23 +17,30 @@ def make_release(sourcedir: Path) -> tuple[Path, Path, Path]:
     for file in ["_config.yml", "_toc.yml"]:
         clean_yaml(sourcedir.joinpath(file), workdir.joinpath(file))
 
-    # Process all markdown and notebook files
+    # Process all files in the source directory
     for root, _, files in os.walk(sourcedir):
         for file in files:
-            if file.endswith(('.md', '.ipynb')):
-                source_file = Path(root) / file
-                # Calculate relative path from sourcedir
-                rel_path = source_file.relative_to(sourcedir)
-                output_file = workdir / rel_path
+            source_file = Path(root) / file
+            # Skip hidden directories and files
+            if any(part.startswith('.') for part in source_file.relative_to(sourcedir).parts):
+                continue
                 
-                # Create output directory if it doesn't exist
-                output_file.parent.mkdir(parents=True, exist_ok=True)
-                
-                # Process the file based on its extension
-                if file.endswith('.md'):
-                    clean_md(source_file, output_file)
-                elif file.endswith('.ipynb'):
-                    clean_ipynb(source_file, output_file)
+            # Calculate relative path from sourcedir
+            rel_path = source_file.relative_to(sourcedir)
+            output_file = workdir / rel_path
+            
+            # Create output directory if it doesn't exist
+            output_file.parent.mkdir(parents=True, exist_ok=True)
+            
+            # Process the file based on its extension
+            if file.endswith('.md'):
+                clean_md(source_file, output_file)
+            elif file.endswith('.ipynb'):
+                clean_ipynb(source_file, output_file)
+            else:
+                # Copy all other files (images, CSS, etc.) as-is
+                import shutil
+                shutil.copy2(source_file, output_file)
 
     return workdir.joinpath("_config.yml"), workdir.joinpath("_toc.yml"), workdir
 
