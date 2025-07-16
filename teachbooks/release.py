@@ -27,6 +27,10 @@ def make_release(sourcedir: Path, processed_toc: Path = None) -> tuple[Path, Pat
             # Skip hidden directories and files
             if any(part.startswith('.') for part in source_file.relative_to(sourcedir).parts):
                 continue
+            
+            # Skip config files that are already processed above
+            if file in ['_config.yml', '_toc.yml'] and source_file.parent == sourcedir:
+                continue
                 
             # Calculate relative path from sourcedir
             rel_path = source_file.relative_to(sourcedir)
