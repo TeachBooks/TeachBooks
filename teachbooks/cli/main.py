@@ -84,6 +84,14 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
         size_mb = total_size / (1024 * 1024)
         echo_info(f"Build complete. Total size: {size_mb:.2f}MB")
 
+        # For release builds, copy _build back to original location for compatibility
+        if (release or publish) and build_source != path_src_folder:
+            original_build_dir = path_src_folder / "_build"
+            if original_build_dir.exists():
+                shutil.rmtree(original_build_dir)
+            shutil.copytree(build_dir, original_build_dir)
+            echo_info(f"Copied build output to {original_build_dir} for compatibility")
+
         check_server()
 
 
