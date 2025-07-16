@@ -52,22 +52,29 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
     # This ensures external files are downloaded and available for cleaning
     path_conf = path_src_folder / "_config.yml"
     path_toc = path_src_folder / "_toc.yml"
-    path_toc = process_external_toc_entries(
+    path_toc_processed = process_external_toc_entries(
         path_toc, path_toc.with_stem("_toc_with_local_paths"), book_root=path_src_folder
     )
     
     if release or publish:
-        path_conf, path_toc, workdir = make_release(path_src_folder)
+        # Copy the processed ToC to the source directory so make_release can use it
+        import shutil
+        shutil.copy2(path_toc_processed, path_toc)
+        
+        path_conf, path_toc_release, workdir = make_release(path_src_folder)
         # Use the processed workdir as the build source
         build_source = workdir
+        # Use the release-processed ToC
+        path_toc = path_toc_release
         path_ext = path_src_folder / "_ext"
         if path_ext.exists():
             mg = "copying _ext/ directory to support APA in release [TEMPORARY FEATURE]"
             echo_info(click.style(mg, fg="yellow"))
             copy_ext(path_src_folder)
     else:
-        # Use the original source folder for draft builds
+        # Use the original source folder for draft builds and processed ToC
         build_source = path_src_folder
+        path_toc = path_toc_processed
 
     if not process_only:
         all_args = [str(build_source)]
