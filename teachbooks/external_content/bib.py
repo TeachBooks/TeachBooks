@@ -8,7 +8,7 @@ import click
 
 from teachbooks.external_content.config import CLICK_WARNING_KWARGS
 
-BIB_ENTRY_RE = re.compile(r"@(\w+){([\w:-]+)")
+BIB_ENTRY_RE = re.compile(r"@([\w ]+){([\w:-]+)")
 
 
 @dataclass
@@ -31,14 +31,15 @@ def read_bibfile(file: Path) -> list[BibEntry]:
     """
     with file.open("r", encoding="latin-1") as f:
         lines = f.readlines()
+    # strip empty lines
+    lines = [line for line in lines if len(line.strip()) > 0]
 
     entries: list[str] = []
     for line in lines:
-        if len(line.strip()) > 0:
-            matches = BIB_ENTRY_RE.match(line)
-            if matches:
-                entries.append("")
-            entries[-1] += line
+        matches = BIB_ENTRY_RE.match(line.strip())
+        if matches:
+            entries.append("")
+        entries[-1] += line
 
     bib_entries: list[BibEntry] = []
     for entry in entries:
@@ -50,10 +51,16 @@ def read_bibfile(file: Path) -> list[BibEntry]:
             i_eq = line.find("=")  # index of = sign; splits key and value
             if i_eq != -1:
                 key = line[:i_eq].strip()
-                val = line[i_eq + 1 :]
-                leading_br = val.find("{")
-                trailing_br = len(val) - val[::-1].find("}")
-                content[key] = val[leading_br + 1 : trailing_br - 1]
+                val = line[i_eq + 1 :].strip() # value starts after = sign.
+                val[:-1] # drop trailing comma
+
+                # apparently brackets around the value are optional;
+                if val.startswith("{") and val.endswith("}"):
+                    val = val[1:-1]  # strip brackets
+
+                content[key] = val
+            else:
+                content[key] += " " + line.strip()
 
         if len(content) > 0:
             bib_entries.append(BibEntry(entrytype, citekey, content))
