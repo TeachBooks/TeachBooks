@@ -20,6 +20,9 @@ class BibEntry:
     content: dict[str, str]
 
 
+def count_brackets(line: str):
+    return max(line.count("{"), 0) - max(line.count("}"), 0)
+
 def read_bibfile(file: Path) -> list[BibEntry]:
     """Read bib file into list of BibEntry objects.
 
@@ -35,39 +38,46 @@ def read_bibfile(file: Path) -> list[BibEntry]:
     lines = [line for line in lines if len(line.strip()) > 0]
 
     entries: list[str] = []
+    bracket_count = 0
     for line in lines:
-        matches = BIB_ENTRY_RE.match(line.strip())
-        if matches:
+        if BIB_ENTRY_RE.match(line.strip()):
             entries.append("")
-        entries[-1] += line
+            bracket_count = count_brackets(line)
+        if bracket_count > 0:
+            entries[-1] += line
+        bracket_count += count_brackets(line)
 
     bib_entries: list[BibEntry] = []
     for entry in entries:
         e = entry.strip().splitlines()
         entrytype, citekey = BIB_ENTRY_RE.findall(e.pop(0))[0]
 
-        content = {}
+        content: dict[str, str] = {}
         for line in e:
             i_eq = line.find("=")  # index of = sign; splits key and value
             if i_eq != -1:
                 key = line[:i_eq].strip()
                 val = line[i_eq + 1 :].strip() # value starts after = sign.
-                val[:-1] # drop trailing comma
-
-                # apparently brackets around the value are optional;
-                if val.startswith("{") and val.endswith("}"):
-                    val = val[1:-1]  # strip brackets
-
+                val.removeprefix("{")
                 content[key] = val
+            elif line.strip() == "}":
+                pass
             else:
                 content[key] += " " + line.strip()
-
+        
+        # Strip brackets and trailing commas from finished entries
+        for key in content:
+            val = content[key].strip()
+            if val.endswith(","):
+                val = val[:-1]
+            if val.startswith("{") and val.endswith("}"):
+                val = val[1:-1]
+            content[key] = val
         if len(content) > 0:
             bib_entries.append(BibEntry(entrytype, citekey, content))
         else:
             msg = f"Malformed entry ({citekey}) found in .bib file: {file}"
             click.secho(msg)
-
     return bib_entries
 
 
