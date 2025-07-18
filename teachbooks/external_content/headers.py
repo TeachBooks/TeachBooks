@@ -6,13 +6,28 @@ from pathlib import Path
 
 def format_header(cfg: dict, base_url: str, version: str) -> str:
     """Generate the admonition header based on the user's config."""
-    admonition = (
-        "```{" + cfg["attribution_color"] + "} Attribution\n"
-        ":class: attribution\n"
-        f"This page originates from {base_url},"
-        f" version: {version}\n"
-        "```\n"
-    )
+    # Check if language is set to Dutch in the configuration
+    language = cfg.get("language", "en")
+    
+    if language == "nl":
+        # Dutch attribution text
+        admonition = (
+            "```{" + cfg["attribution_color"] + "} Bronvermelding\n"
+            ":class: attribution\n"
+            f"Deze pagina is afkomstig van {base_url},"
+            f" versie: {version}\n"
+            "```\n"
+        )
+    else:
+        # Default English attribution text
+        admonition = (
+            "```{" + cfg["attribution_color"] + "} Attribution\n"
+            ":class: attribution\n"
+            f"This page originates from {base_url},"
+            f" version: {version}\n"
+            "```\n"
+        )
+    
     if cfg["attribution_location"] == "top":
         return admonition
 
