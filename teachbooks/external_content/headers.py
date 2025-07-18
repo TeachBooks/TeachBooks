@@ -8,7 +8,7 @@ def format_header(cfg: dict, base_url: str, version: str) -> str:
     """Generate the admonition header based on the user's config."""
     # Check if language is set to Dutch in the configuration
     language = cfg.get("language", "en")
-    
+
     if language == "nl":
         # Dutch attribution text
         admonition = (
@@ -27,7 +27,7 @@ def format_header(cfg: dict, base_url: str, version: str) -> str:
             f" version: {version}\n"
             "```\n"
         )
-    
+
     if cfg["attribution_location"] == "top":
         return admonition
 
