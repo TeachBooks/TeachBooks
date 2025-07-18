@@ -6,6 +6,12 @@ Formatted as described on [https://keepachangelog.com](https://keepachangelog.co
 
 ## Unreleased
 
+## 0.2.3 - 2025-07-18
+
+### Fixed
+
+- Attribution headers are not included in Dutch if the languague setting from the Sphinx configuration is set to `nl` ([#114](https://github.com/TeachBooks/TeachBooks/pull/114))
+
 ## 0.2.2 - 2025-07-15
 
 ### Fixed
