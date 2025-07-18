@@ -62,7 +62,8 @@ def process_external_toc_entries(
         check_plugins(book_root / "_config.yml", cloned_repos)
 
         merged_bibs = merge_bibs(book_root / "references.bib", cloned_repos)
-        write_bibfile(dest.parent / "references.bib", merged_bibs)
+        if len(merged_bibs) > 0:  # only write a file when there are bibtex entries
+            write_bibfile(dest.parent / "references.bib", merged_bibs)
         # TODO: don't overwrite original references.bib file
 
         write_toc_yaml(toc, dest, header=LOCAL_TOC_HEADER)
