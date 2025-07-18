@@ -9,6 +9,17 @@ Formatted as described on [https://keepachangelog.com](https://keepachangelog.co
 ### Fixed
 
 - Invalid characters in .bib files could cause the external content parser to fail ([#105](https://github.com/TeachBooks/TeachBooks/pull/105)).
+- Quirky formatted .bib files would cause build failure ([#105](https://github.com/TeachBooks/TeachBooks/pull/105)).
+- Non entry content in .bib files is now skipped ([#105](https://github.com/TeachBooks/TeachBooks/pull/105)).
+- If there are no bib entries in external content or the main references file, no empty references.bib file is written ([#105](https://github.com/TeachBooks/TeachBooks/pull/105)).
+
+
+## 0.2.2 - 2025-07-15
+
+### Fixed
+
+- Nested `external:` entries in the table of content are now parsed correctly ([#108](https://github.com/TeachBooks/TeachBooks/pull/108)).
+- `LICENSE.txt` and `LICENSE.rst` files are now also checked when cloning external content ([#110](https://github.com/TeachBooks/TeachBooks/pull/110)).
 
 ## 0.2.1 - 2025-05-02
 
