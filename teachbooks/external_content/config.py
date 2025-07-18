@@ -41,7 +41,11 @@ def get_teachbooks_config(config_file: Path) -> dict[str, str]:
             cfg["attribution_location"] = loc
     
     # Extract language from Sphinx configuration
-    if "sphinx" in config and "config" in config["sphinx"] and "language" in config["sphinx"]["config"]:
+    if (
+        "sphinx" in config
+        and "config" in config["sphinx"]
+        and "language" in config["sphinx"]["config"]
+    ):
         cfg["language"] = config["sphinx"]["config"]["language"]
     
     return cfg
