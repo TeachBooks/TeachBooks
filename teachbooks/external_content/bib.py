@@ -21,7 +21,7 @@ class BibEntry:
 
 
 def count_brackets(line: str):
-    return max(line.count("{"), 0) - max(line.count("}"), 0)
+    return line.count("{") - line.count("}")
 
 def read_bibfile(file: Path) -> list[BibEntry]:
     """Read bib file into list of BibEntry objects.
@@ -38,14 +38,15 @@ def read_bibfile(file: Path) -> list[BibEntry]:
     lines = [line for line in lines if len(line.strip()) > 0]
 
     entries: list[str] = []
-    bracket_count = 0
+    bracket_count = 0  # track { nesting to skip non-entry content.
     for line in lines:
         if BIB_ENTRY_RE.match(line.strip()):
-            entries.append("")
+            entries.append(line)
             bracket_count = count_brackets(line)
-        if bracket_count > 0:
-            entries[-1] += line
-        bracket_count += count_brackets(line)
+        else:
+            if bracket_count > 0:
+                entries[-1] += line
+            bracket_count += count_brackets(line)
 
     bib_entries: list[BibEntry] = []
     for entry in entries:
