@@ -21,7 +21,9 @@ class BibEntry:
 
 
 def count_brackets(line: str):
+    """Returns change in curly bracket nesting level on a line of text."""
     return line.count("{") - line.count("}")
+
 
 def read_bibfile(file: Path) -> list[BibEntry]:
     """Read bib file into list of BibEntry objects.
@@ -58,14 +60,14 @@ def read_bibfile(file: Path) -> list[BibEntry]:
             i_eq = line.find("=")  # index of = sign; splits key and value
             if i_eq != -1:
                 key = line[:i_eq].strip()
-                val = line[i_eq + 1 :].strip() # value starts after = sign.
+                val = line[i_eq + 1 :].strip()  # value starts after = sign.
                 val.removeprefix("{")
                 content[key] = val
             elif line.strip() == "}":
                 pass
             else:
                 content[key] += " " + line.strip()
-        
+
         # Strip brackets and trailing commas from finished entries
         for key in content:
             val = content[key].strip()
