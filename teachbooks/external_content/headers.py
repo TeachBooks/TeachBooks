@@ -12,7 +12,7 @@ def format_header(cfg: dict, base_url: str, version: str) -> str:
     if language == "nl":
         # Dutch attribution text
         admonition = (
-            "```{" + cfg["attribution_color"] + "} Bronvermelding\n"
+            f"```{{{cfg['attribution_color']}}} Bronvermelding\n"
             ":class: attribution\n"
             f"Deze pagina is afkomstig van {base_url},"
             f" versie: {version}\n"
