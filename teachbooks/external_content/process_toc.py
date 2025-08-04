@@ -174,7 +174,7 @@ def external_to_local(
         with cloned_repo_file.open("a") as f:
             f.write(str(repository_dir) + "\n")
 
-        add_origin_notes(Path(repository_dir), cfg, clone_url, version=branch_tag_name)
+        add_origin_notes(Path(repository_dir), cfg, repo_url, version=branch_tag_name)
 
     content_file = get_content_path(external_url)
     rel_path = os.path.relpath(repository_dir, root)
