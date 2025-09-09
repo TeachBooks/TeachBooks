@@ -39,6 +39,10 @@ def get_teachbooks_config(config_file: Path) -> dict[str, str]:
                 )
                 raise ValueError(msg)
             cfg["attribution_location"] = loc
+
+    # Extract language from Sphinx configuration
+    cfg["language"] = config.get("sphinx", {}).get("config", {}).get("language", "en")
+
     return cfg
 
 

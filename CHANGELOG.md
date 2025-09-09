@@ -13,6 +13,11 @@ Formatted as described on [https://keepachangelog.com](https://keepachangelog.co
 - Non entry content in .bib files is now skipped ([#105](https://github.com/TeachBooks/TeachBooks/pull/105)).
 - If there are no bib entries in external content or the main references file, no empty references.bib file is written ([#105](https://github.com/TeachBooks/TeachBooks/pull/105)).
 
+## 0.2.3 - 2025-07-18
+
+### Fixed
+
+- Attribution headers are not included in Dutch if the languague setting from the Sphinx configuration is set to `nl` ([#114](https://github.com/TeachBooks/TeachBooks/pull/114))
 
 ## 0.2.2 - 2025-07-15
 
