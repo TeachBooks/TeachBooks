@@ -8,7 +8,7 @@ import click
 
 from teachbooks.external_content.config import CLICK_WARNING_KWARGS
 
-BIB_ENTRY_RE = re.compile(r"@(\w+){([\w:-]+)")
+BIB_ENTRY_RE = re.compile(r"@([\w ]+){([\w:-]+)")
 
 
 @dataclass
@@ -20,6 +20,11 @@ class BibEntry:
     content: dict[str, str]
 
 
+def count_brackets(line: str):
+    """Returns change in curly bracket nesting level on a line of text."""
+    return line.count("{") - line.count("}")
+
+
 def read_bibfile(file: Path) -> list[BibEntry]:
     """Read bib file into list of BibEntry objects.
 
@@ -29,38 +34,53 @@ def read_bibfile(file: Path) -> list[BibEntry]:
     Returns:
         List of .bib file entries.
     """
-    with file.open("r") as f:
+    with file.open("r", encoding="latin-1") as f:
         lines = f.readlines()
+    # strip empty lines
+    lines = [line for line in lines if len(line.strip()) > 0]
 
     entries: list[str] = []
+    bracket_count = 0  # track { nesting to skip non-entry content.
     for line in lines:
-        if len(line.strip()) > 0:
-            matches = BIB_ENTRY_RE.match(line)
-            if matches:
-                entries.append("")
-            entries[-1] += line
+        if BIB_ENTRY_RE.match(line.strip()):
+            entries.append(line)
+            bracket_count = count_brackets(line)
+        else:
+            if bracket_count > 0:
+                entries[-1] += line
+            bracket_count += count_brackets(line)
 
     bib_entries: list[BibEntry] = []
     for entry in entries:
         e = entry.strip().splitlines()
         entrytype, citekey = BIB_ENTRY_RE.findall(e.pop(0))[0]
 
-        content = {}
+        content: dict[str, str] = {}
         for line in e:
             i_eq = line.find("=")  # index of = sign; splits key and value
             if i_eq != -1:
                 key = line[:i_eq].strip()
-                val = line[i_eq + 1 :]
-                leading_br = val.find("{")
-                trailing_br = len(val) - val[::-1].find("}")
-                content[key] = val[leading_br + 1 : trailing_br - 1]
+                val = line[i_eq + 1 :].strip()  # value starts after = sign.
+                val.removeprefix("{")
+                content[key] = val
+            elif line.strip() == "}":
+                pass
+            else:
+                content[key] += " " + line.strip()
 
+        # Strip brackets and trailing commas from finished entries
+        for key in content:
+            val = content[key].strip()
+            if val.endswith(","):
+                val = val[:-1]
+            if val.startswith("{") and val.endswith("}"):
+                val = val[1:-1]
+            content[key] = val
         if len(content) > 0:
             bib_entries.append(BibEntry(entrytype, citekey, content))
         else:
             msg = f"Malformed entry ({citekey}) found in .bib file: {file}"
             click.secho(msg)
-
     return bib_entries
 
 
@@ -113,7 +133,7 @@ def find(citekey: str, bibs: list[BibEntry]) -> BibEntry:
 
 def write_bibfile(file: Path, bibs: list[BibEntry]) -> None:
     """Write a list of BibEntries to a new file."""
-    with open(file, "w") as f:
+    with open(file, mode="w", encoding="latin-1") as f:
         for bib in bibs:
             content_strs = [f"  {key} = {{{val}}}" for key, val in bib.content.items()]
             entry = (

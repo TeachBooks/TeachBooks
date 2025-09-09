@@ -25,7 +25,7 @@ def merged_bibs():
 
 def test_bib_merge(merged_bibs):
     """Ensure test data reference files are merged correctly."""
-    assert len(merged_bibs) == 7  # total unique citekeys
+    assert len(merged_bibs) == 8  # total unique citekeys
 
     expected_entries = [
         "baecher2003",  # duplicate
