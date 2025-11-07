@@ -15,11 +15,7 @@ classifiers = [
 dependencies = [
   "jupyter-book ~= 1.0",
   "click",
-  "psutil",
-  "numpy",
-  "matplotlib",
-  "scipy",
-  "pandas"
+  "psutil"
 ]
 
 [project.scripts]
