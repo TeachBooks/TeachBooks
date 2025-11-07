@@ -6,18 +6,20 @@ Formatted as described on [https://keepachangelog.com](https://keepachangelog.co
 
 ## Unreleased
 
+## 0.2.3 - 2025-11-07
+
+### Changed
+
+- Remove unused dependencies from pyproject.toml ([#121](https://github.com/TeachBooks/TeachBooks/pull/121)).
+
 ### Fixed
 
 - Invalid characters in .bib files could cause the external content parser to fail ([#105](https://github.com/TeachBooks/TeachBooks/pull/105)).
 - Quirky formatted .bib files would cause build failure ([#105](https://github.com/TeachBooks/TeachBooks/pull/105)).
 - Non entry content in .bib files is now skipped ([#105](https://github.com/TeachBooks/TeachBooks/pull/105)).
 - If there are no bib entries in external content or the main references file, no empty references.bib file is written ([#105](https://github.com/TeachBooks/TeachBooks/pull/105)).
-
-## 0.2.3 - 2025-07-18
-
-### Fixed
-
-- Attribution headers are not included in Dutch if the languague setting from the Sphinx configuration is set to `nl` ([#114](https://github.com/TeachBooks/TeachBooks/pull/114))
+- Attribution headers are not included in Dutch if the languague setting from the Sphinx configuration is set to `nl` ([#114](https://github.com/TeachBooks/TeachBooks/pull/114)).
+- Removed .git suffix from attribution header URLs ([#119](https://github.com/TeachBooks/TeachBooks/pull/119)).
 
 ## 0.2.2 - 2025-07-15
 
