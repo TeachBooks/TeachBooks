@@ -58,7 +58,7 @@ def add_header_admonitions(repo: Path, header: str):
     """
     md_files = repo.glob("**/*.md")
     for md_file in md_files:
-        prepend(md_file, header)
+        add_md_admonition(md_file, header)
 
     nb_files = repo.glob("**/*.ipynb")
     for nb_file in nb_files:
@@ -93,12 +93,20 @@ def prepend(file: Path, text: str):
         new_content = text + original_content
     file.write_text(new_content, encoding="utf-8")
 
+def add_md_admonition(file: Path, header: str):
+    """Add an admonition containing `text` to the top of markdown file `file`."""
+    start_original_content = "<!-- Start original content -->"
+    header += f"\n\n{start_original_content}\n\n"
+    prepend(file, header)
+
 def add_rst_admonition(file: Path, header: str):
     """Add an admonition top of reST file.
 
     To do this we make use of the `include` directive and write the admonition
     as a separate markdown file which will be parsed by myst.
     """
+    start_original_content = ".. Start original content"
+    header += f"\n\n{start_original_content}\n\n"
     admon_file = file.parent / f"_ad-{file.stem}.md"
     admon_file.write_text(header, encoding="utf-8")
 
