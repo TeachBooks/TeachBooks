@@ -95,8 +95,8 @@ def prepend(file: Path, text: str):
 
 def add_md_admonition(file: Path, header: str):
     """Add an admonition containing `text` to the top of markdown file `file`."""
-    start_original_content = "<!-- Start original content -->"
-    header += f"\n\n{start_original_content}\n\n"
+    end_of_header_comment = "<!-- End of inserted Teachbooks header -->"
+    header += f"\n\n{end_of_header_comment}\n\n"
     prepend(file, header)
 
 def add_rst_admonition(file: Path, header: str):
@@ -105,8 +105,8 @@ def add_rst_admonition(file: Path, header: str):
     To do this we make use of the `include` directive and write the admonition
     as a separate markdown file which will be parsed by myst.
     """
-    start_original_content = ".. Start original content"
-    header += f"\n\n{start_original_content}\n\n"
+    end_of_header_comment = ".. End of inserted Teachbooks header"
+    header += f"\n\n{end_of_header_comment}\n\n"
     admon_file = file.parent / f"_ad-{file.stem}.md"
     admon_file.write_text(header, encoding="utf-8")
 
