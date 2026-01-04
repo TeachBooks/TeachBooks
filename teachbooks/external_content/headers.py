@@ -72,8 +72,26 @@ def add_header_admonitions(repo: Path, header: str):
 def prepend(file: Path, text: str):
     """Prepend string `text` to plaintext file `file`."""
     original_content = file.read_text(encoding="utf-8")
-    file.write_text(text + original_content, encoding="utf-8")
+    lines = original_content.splitlines()
+    # Check if original_content contains a YAML top-matter metadata
+    if lines[0] == "---":
+        # Find the position of the closing `---`
+        for i in range(1, len(lines)):
+            if lines[i] == "---":
+                # Insert after this line
+                insert_pos = i + 1
+                break
+        else:
+            insert_pos = 0  # No closing `---` found, treat as no YAML front matter
 
+        # Reconstruct the content with the new text inserted after the YAML front matter
+        yaml_content = "\n".join(lines[:insert_pos]) + "\n"
+        rest_content = "\n".join(lines[insert_pos:])
+
+        new_content = yaml_content + text + rest_content
+    else:
+        new_content = text + original_content
+    file.write_text(new_content, encoding="utf-8")
 
 def add_rst_admonition(file: Path, header: str):
     """Add an admonition top of reST file.
