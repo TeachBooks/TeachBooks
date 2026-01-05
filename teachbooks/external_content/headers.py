@@ -58,7 +58,7 @@ def add_header_admonitions(repo: Path, header: str):
     """
     md_files = repo.glob("**/*.md")
     for md_file in md_files:
-        prepend(md_file, header)
+        add_md_admonition(md_file, header)
 
     nb_files = repo.glob("**/*.ipynb")
     for nb_file in nb_files:
@@ -72,7 +72,34 @@ def add_header_admonitions(repo: Path, header: str):
 def prepend(file: Path, text: str):
     """Prepend string `text` to plaintext file `file`."""
     original_content = file.read_text(encoding="utf-8")
-    file.write_text(text + original_content, encoding="utf-8")
+    lines = original_content.splitlines()
+    # Check if original_content contains a YAML top-matter metadata
+    if len(lines) > 0 and lines[0] == "---":
+        # Find the position of the closing `---`
+        for i in range(1, len(lines)):
+            if lines[i] == "---":
+                # Insert after this line
+                insert_pos = i + 1
+                break
+        else:
+            insert_pos = 0  # No closing `---` found, treat as no YAML front matter
+
+        # Reconstruct the content with the new text inserted after the YAML front matter
+        yaml_content = "\n".join(lines[:insert_pos]) + "\n"
+        rest_content = "\n".join(lines[insert_pos:])
+
+        new_content = yaml_content + text + rest_content
+    else:
+        new_content = text + original_content
+    file.write_text(new_content, encoding="utf-8")
+
+
+def add_md_admonition(file: Path, header: str):
+    """Add an admonition containing `text` to the top of markdown file `file`."""
+    start_of_header_comment = "<!-- Start of inserted Teachbooks header -->"
+    end_of_header_comment = "<!-- End of inserted Teachbooks header -->"
+    header = f"{start_of_header_comment}\n\n{header}\n\n{end_of_header_comment}\n\n"
+    prepend(file, header)
 
 
 def add_rst_admonition(file: Path, header: str):
@@ -81,6 +108,9 @@ def add_rst_admonition(file: Path, header: str):
     To do this we make use of the `include` directive and write the admonition
     as a separate markdown file which will be parsed by myst.
     """
+    start_of_header_comment = ".. Start of inserted Teachbooks header"
+    end_of_header_comment = ".. End of inserted Teachbooks header"
+    header = f"{start_of_header_comment}\n\n{header}\n\n{end_of_header_comment}\n\n"
     admon_file = file.parent / f"_ad-{file.stem}.md"
     admon_file.write_text(header, encoding="utf-8")
 

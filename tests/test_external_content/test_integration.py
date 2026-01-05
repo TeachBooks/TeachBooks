@@ -1,4 +1,5 @@
 import shutil
+import traceback
 from pathlib import Path
 
 import pytest
@@ -53,6 +54,9 @@ def test_build(cli: CliRunner, tmp_path: Path, monkeypatch):
         bookdir.as_posix(),
         env={"NO_GIT_CLONE": ""},
     )
+
+    if build_result.exit_code == 1:
+        traceback.print_tb(build_result.exc_info[2])
     assert build_result.exit_code == 0, build_result.output
 
     indexfile = bookdir / "_build" / "html" / "index.html"
