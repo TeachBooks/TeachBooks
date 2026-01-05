@@ -74,7 +74,7 @@ def prepend(file: Path, text: str):
     original_content = file.read_text(encoding="utf-8")
     lines = original_content.splitlines()
     # Check if original_content contains a YAML top-matter metadata
-    if lines[0] == "---":
+    if len(lines) > 0 and lines[0] == "---":
         # Find the position of the closing `---`
         for i in range(1, len(lines)):
             if lines[i] == "---":
