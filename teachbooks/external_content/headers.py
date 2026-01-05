@@ -93,12 +93,14 @@ def prepend(file: Path, text: str):
         new_content = text + original_content
     file.write_text(new_content, encoding="utf-8")
 
+
 def add_md_admonition(file: Path, header: str):
     """Add an admonition containing `text` to the top of markdown file `file`."""
     start_of_header_comment = "<!-- Start of inserted Teachbooks header -->"
     end_of_header_comment = "<!-- End of inserted Teachbooks header -->"
     header = f"{start_of_header_comment}\n\n{header}\n\n{end_of_header_comment}\n\n"
     prepend(file, header)
+
 
 def add_rst_admonition(file: Path, header: str):
     """Add an admonition top of reST file.
