@@ -18,7 +18,10 @@ dependencies = [
   "psutil",
   # sphinx-book-theme version 1.2.0 is the latest version that does not break
   # the primary and secondary navbar, see https://github.com/TeachBooks/TeachBooks/issues/134
-  "sphinx-book-theme == 1.2.0" 
+  # python version 3.11 is minimally needed.
+  "sphinx-book-theme == 1.2.0; python_version >= '3.11'",
+  # if python version < 3.11, take previous version
+  "sphinx-book-theme == 1.1.4; python_version < '3.11'"
 ]
 
 [project.scripts]
