@@ -6,6 +6,12 @@ Formatted as described on [https://keepachangelog.com](https://keepachangelog.co
 
 ## Unreleased
 
+## 0.2.5 - 2026-07-23
+
+### Fixed
+
+- Pin sphinx-book-theme to v1.2.0 ([#134](https://github.com/TeachBooks/TeachBooks/issues/134)).
+
 ## 0.2.4 - 2026-01-05
 
 ### Fixed
