@@ -47,24 +47,34 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
     strategy = "release" if release or publish else "draft"
     echo_info(f"running build with strategy '{strategy}'")
     path_src_folder = Path(path_source).absolute()
+    
+    # Parse out external git entries from ToC first, before release processing
+    # This ensures external files are downloaded and available for cleaning
+    path_conf = path_src_folder / "_config.yml"
+    path_toc = path_src_folder / "_toc.yml"
+    path_toc_processed = process_external_toc_entries(
+        path_toc, path_toc.with_stem("_toc_with_local_paths"), book_root=path_src_folder
+    )
+    
     if release or publish:
-        path_conf, path_toc = make_release(path_src_folder)
+        # Pass the processed ToC to make_release without overwriting the original
+        path_conf, path_toc_release, workdir = make_release(path_src_folder, path_toc_processed)
+        # Use the processed workdir as the build source
+        build_source = workdir
+        # Use the release-processed ToC
+        path_toc = path_toc_release
         path_ext = path_src_folder / "_ext"
         if path_ext.exists():
             mg = "copying _ext/ directory to support APA in release [TEMPORARY FEATURE]"
             echo_info(click.style(mg, fg="yellow"))
             copy_ext(path_src_folder)
     else:
-        path_conf = path_src_folder / "_config.yml"
-        path_toc = path_src_folder / "_toc.yml"
-
-    # Parse out external git entries from ToC
-    path_toc = process_external_toc_entries(
-        path_toc, path_toc.with_stem("_toc_with_local_paths"), book_root=path_src_folder
-    )
+        # Use the original source folder for draft builds and processed ToC
+        build_source = path_src_folder
+        path_toc = path_toc_processed
 
     if not process_only:
-        all_args = [str(path_src_folder)]
+        all_args = [str(build_source)]
         if path_conf and path_conf.exists():
             all_args.extend(["--config", str(path_conf)])
         if path_toc and path_toc.exists():
@@ -75,10 +85,18 @@ def build(ctx, path_source: str, publish: bool, release: bool, process_only: boo
         jupyter_book_build.main(args=all_args, standalone_mode=False)
 
         # Calculate and report build size
-        build_dir = path_src_folder / "_build"
+        build_dir = build_source / "_build"
         total_size = sum(f.stat().st_size for f in build_dir.rglob("*") if f.is_file())
         size_mb = total_size / (1024 * 1024)
         echo_info(f"Build complete. Total size: {size_mb:.2f}MB")
+
+        # For release builds, copy _build back to original location for compatibility
+        if (release or publish) and build_source != path_src_folder:
+            original_build_dir = path_src_folder / "_build"
+            if original_build_dir.exists():
+                shutil.rmtree(original_build_dir)
+            shutil.copytree(build_dir, original_build_dir)
+            echo_info(f"Copied build output to {original_build_dir} for compatibility")
 
         check_server()
 
