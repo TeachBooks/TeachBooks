@@ -2,7 +2,6 @@
 
 import re
 
-import six
 from pybtex.plugin import find_plugin
 from pybtex.richtext import Symbol, Text
 from pybtex.style.formatting import BaseStyle, toplevel
@@ -23,21 +22,12 @@ from pybtex.style.template import (
 
 firstlast = find_plugin('pybtex.style.names', 'lastfirst')()
 
-if six.PY2:
-    def format_pages(text):
-        dash_re = re.compile(r'-+')
-        pages = Text(Symbol('ndash')).join(
-            re.split(dash_re, six.text_type(text)))
-        if re.search('[-‒–—―]', six.text_type(text)):
-            return Text("pp.", Symbol('nbsp'), pages)
-        return Text("p.", Symbol('nbsp'), pages)
-else:
-    def format_pages(text):
-        dash_re = re.compile(r'-+')
-        pages = Text(Symbol('ndash')).join(text.split(dash_re))
-        if re.search('[-‒–—―]', str(text)):
-            return Text("pp.", Symbol('nbsp'), pages)
-        return Text("p.", Symbol('nbsp'), pages)
+def format_pages(text):
+    dash_re = re.compile(r'-+')
+    pages = Text(Symbol('ndash')).join(text.split(dash_re))
+    if re.search('[-‒–—―]', str(text)):
+        return Text("pp.", Symbol('nbsp'), pages)
+    return Text("p.", Symbol('nbsp'), pages)
 
 
 pages = field('pages', apply_func=format_pages)
