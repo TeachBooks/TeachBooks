@@ -6,6 +6,10 @@ Formatted as described on [https://keepachangelog.com](https://keepachangelog.co
 
 ## Unreleased
 
+## 0.2.6 - 2026-11-03
+
+- Remove python-2 support from the package ([#137](https://github.com/TeachBooks/TeachBooks/pull/137)
+
 ## 0.2.5 - 2026-07-23
 
 ### Fixed
